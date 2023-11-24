@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 93, 176, 74)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -77,49 +77,85 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
+      
+      body: Column(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右に寄せる
+            children: [
+              _buildNameButton(),
+              _buildSettingButton(),
+            ],
+          ),
+        ],
+      )
+    );
+  }
+
+  @override
+  Widget _buildNameButton() {
+    return Container(
+      margin: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
+      child: ElevatedButton(
+        onPressed: () {
+          // ボタンが押されたときの処理を追加
+        },
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.all(16.0), // ボタン内の余白を設定
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0), // ボタンの角を丸める
+          ),
+        ),
+        child: Row(
+          children: [
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              '4',
+              style: TextStyle(
+                fontSize: 32.0,
+              )
+            ),
+            SizedBox(width: 8.0), // 間隔を挿入
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '2つ名',
+                  style: TextStyle(
+                    fontSize: 12.0,
+                  ),
+                ),
+                Text(
+                  'UserName',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  @override
+  Widget _buildSettingButton() {
+    return Container(
+      margin: EdgeInsets.only(right: 16.0, top: 16.0, bottom: 16.0),
+      decoration: BoxDecoration(
+        color: Colors.grey, // 背景色を灰色に設定
+        borderRadius: BorderRadius.circular(8.0), // 角を丸くする
+      ),
+      child: IconButton(
+        icon: Icon(Icons.settings, color: Colors.white), // アイコンの色を白に設定
+        onPressed: () {
+          // ボタンが押されたときの処理を追加
+        },
+      ),
+    );
+  }
+
 }
+
