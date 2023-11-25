@@ -87,8 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               _buildNameButton(),
               _buildSettingButton(),
+              _buildSettingButton()
             ],
           ),
+          _buildSettingButton(),
+          _buildNameButton(),
+
         ],
       )
     );
