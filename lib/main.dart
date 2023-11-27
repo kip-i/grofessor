@@ -89,9 +89,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Cube(
           onSceneCreated: (Scene scene) {
             scene.world.add(Object(
-              fileName: 'assets/models/v4.obj',
-              scale: Vector3(10.0, 10.0, 10.0),
-              rotation: Vector3(270.0, 180.0, 0.0),
+              fileName: 'assets/models/cube.obj',
+              // scale: Vector3(10.0, 10.0, 10.0),
+              // rotation: Vector3(270.0, 180.0, 0.0),
             ));
           },
         )
