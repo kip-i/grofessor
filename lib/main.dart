@@ -78,57 +78,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      // body: Center(
-      //   child: Cube(
-      //     onSceneCreated: (Scene scene) {
-      //       scene.world.add(Object(
-      //         fileName: 'assets/models/cube.obj',
-      //         // scale: Vector3(10.0, 10.0, 10.0),
-      //         // rotation: Vector3(270.0, 180.0, 0.0),
-      //       ));
-      //     },
-      //   )
-      // )
-      body: Column(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Stack(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右に寄せる
-            children: [
-              _buildNameButton(),
-              _buildSettingButton(),
-            ],
-          ),
           Container(
             width: 400,
-            height: 600,
+            height: 700,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/backgrounds/b0.png'),
                 fit: BoxFit.cover,
               )
+            )
+          ),
+          Positioned(
+            top: 32.0,
+            left: 16.0,
+            child: _buildNameButton(),
+          ),
+          Positioned(
+            top: 32.0,
+            right: 16.0,
+            child: _buildSettingButton(),
+          ),
+          Positioned.fill(
+            top: 100,
+            child: Cube(
+              onSceneCreated: (Scene scene) {
+                scene.world.add(Object(
+                  fileName: 'assets/models/cube.obj',
+                  // scale: Vector3(10.0, 10.0, 10.0),
+                  // rotation: Vector3(270.0, 180.0, 0.0),
+                ));
+              },
             ),
-            child:
-              Cube(
-                onSceneCreated: (Scene scene) {
-                  scene.world.add(Object(
-                    fileName: 'assets/models/cube.obj',
-                    // scale: Vector3(10.0, 10.0, 10.0),
-                    // rotation: Vector3(270.0, 180.0, 0.0),
-                  ));
-                },
-              ),
           )
-          //_buildDisplayModel(),
-          
         ],
       )
     );
