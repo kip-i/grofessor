@@ -111,7 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 400,
             height: 600,
             decoration: BoxDecoration(
-              color: Colors.grey, // 背景色を灰色に設定
+              image: DecorationImage(
+                image: AssetImage('assets/backgrounds/b0.png'),
+                fit: BoxFit.cover,
+              )
             ),
             child:
               Cube(
