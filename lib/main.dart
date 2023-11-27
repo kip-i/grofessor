@@ -85,36 +85,49 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      body: Center(
-        child: Cube(
-          onSceneCreated: (Scene scene) {
-            scene.world.add(Object(
-              fileName: 'assets/models/cube.obj',
-              // scale: Vector3(10.0, 10.0, 10.0),
-              // rotation: Vector3(270.0, 180.0, 0.0),
-            ));
-          },
-        )
-      )
-      // body: Column(
-      //   // Center is a layout widget. It takes a single child and positions it
-      //   // in the middle of the parent.
-      //   children: [
-      //     Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右に寄せる
-      //       children: [
-      //         _buildNameButton(),
-      //         _buildSettingButton(),
-      //       ],
-      //     ),
-      //     //_buildDisplayModel(),
-      //     Cube(
-      //       onSceneCreated: (Scene scene) {
-      //         scene.world.add(Object(fileName: 'assets/models/FinalBaseMesh.obj'));
-      //       },
-      //     ),
-      //   ],
+      // body: Center(
+      //   child: Cube(
+      //     onSceneCreated: (Scene scene) {
+      //       scene.world.add(Object(
+      //         fileName: 'assets/models/cube.obj',
+      //         // scale: Vector3(10.0, 10.0, 10.0),
+      //         // rotation: Vector3(270.0, 180.0, 0.0),
+      //       ));
+      //     },
+      //   )
       // )
+      body: Column(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右に寄せる
+            children: [
+              _buildNameButton(),
+              _buildSettingButton(),
+            ],
+          ),
+          Container(
+            width: 400,
+            height: 600,
+            decoration: BoxDecoration(
+              color: Colors.grey, // 背景色を灰色に設定
+            ),
+            child:
+              Cube(
+                onSceneCreated: (Scene scene) {
+                  scene.world.add(Object(
+                    fileName: 'assets/models/cube.obj',
+                    // scale: Vector3(10.0, 10.0, 10.0),
+                    // rotation: Vector3(270.0, 180.0, 0.0),
+                  ));
+                },
+              ),
+          )
+          //_buildDisplayModel(),
+          
+        ],
+      )
     );
   }
 
