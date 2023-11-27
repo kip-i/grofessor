@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:flutter_cube/flutter_cube.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'grofessor',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -62,7 +63,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  bool _isOnTable = false;
 
   void _incrementCounter() {
     setState(() {
@@ -71,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      //_counter++;
     });
   }
 
@@ -84,20 +85,32 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      
-      body: Column(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右に寄せる
-            children: [
-              _buildNameButton(),
-              _buildSettingButton(),
-            ],
-          ),
-        ],
+      body: Center(
+        child: Cube(
+          onSceneCreated: (Scene scene) {
+            scene.world.add(Object(fileName: 'assets/models/v4.obj'));
+          },
+        )
       )
+      // body: Column(
+      //   // Center is a layout widget. It takes a single child and positions it
+      //   // in the middle of the parent.
+      //   children: [
+      //     Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右に寄せる
+      //       children: [
+      //         _buildNameButton(),
+      //         _buildSettingButton(),
+      //       ],
+      //     ),
+      //     //_buildDisplayModel(),
+      //     Cube(
+      //       onSceneCreated: (Scene scene) {
+      //         scene.world.add(Object(fileName: 'assets/models/FinalBaseMesh.obj'));
+      //       },
+      //     ),
+      //   ],
+      // )
     );
   }
 
@@ -163,6 +176,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  // @override
+  // Widget _buildDisplayModel() {
+  //   return Container(child: Cube(
+  //     onSceneCreated: (Scene scene) {
+  //       scene.world.add(Object(fileName: 'assets/models/v4.obj'));
+  //     },
+  //   ));
+  // }
 
 }
 
