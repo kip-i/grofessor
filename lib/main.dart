@@ -103,15 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Positioned.fill(
             top: 100,
-            child: Cube(
-              onSceneCreated: (Scene scene) {
-                scene.world.add(Object(
-                  fileName: 'assets/models/cube.obj',
-                  // scale: Vector3(10.0, 10.0, 10.0),
-                  // rotation: Vector3(270.0, 180.0, 0.0),
-                ));
-              },
-            ),
+            child: _build3DModel(),
           )
         ],
       )
@@ -181,14 +173,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  // @override
-  // Widget _buildDisplayModel() {
-  //   return Container(child: Cube(
-  //     onSceneCreated: (Scene scene) {
-  //       scene.world.add(Object(fileName: 'assets/models/v4.obj'));
-  //     },
-  //   ));
-  // }
-
+  @override
+  Widget _build3DModel() {
+    return Container(child: Cube(
+        onSceneCreated: (Scene scene) {
+          scene.world.add(Object(
+            fileName: 'assets/models/cube.obj',
+            // scale: Vector3(10.0, 10.0, 10.0),
+            // rotation: Vector3(270.0, 180.0, 0.0),
+          ));
+        },
+      ),
+    );
+  }
 }
 
