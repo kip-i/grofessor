@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 700,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/backgrounds/b1.png'),
+                image: AssetImage('assets/backgrounds/b0.png'),
                 fit: BoxFit.cover,
               )
             )
@@ -101,10 +101,16 @@ class _MyHomePageState extends State<MyHomePage> {
             right: 16.0,
             child: _buildSettingButton(),
           ),
+          Positioned(
+            top: 160.0,
+            left: 16.0,
+            child: _buildExperienceBar(),
+          ),
           Positioned.fill(
             top: 100,
             child: _build3DModel(),
-          )
+          ),
+          
         ],
       )
     );
@@ -234,6 +240,26 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
     );
+  }
+
+  @override
+  Widget _buildExperienceBar(){
+    return Container(
+      width: 180.0,
+      height: 13.0,
+      margin: EdgeInsets.only(left: 16.0),
+      child: Card(
+        elevation: 4.0, // 影の深さ
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0), // カードの角を丸める
+        ),
+        child: LinearProgressIndicator(
+            value: 0.5,
+            backgroundColor: Colors.grey[300], // プログレスバーの背景色
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue), // プログレスバーの色
+          ),
+        ),
+      );
   }
 }
 
