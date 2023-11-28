@@ -8,6 +8,7 @@ import 'setting_button.dart';
 import 'experience_bar.dart';
 import 'model_3d.dart';
 import 'measurements_start.dart';
+import 'time_slider.dart';
 
 class HomeDefault extends StatefulWidget {
   const HomeDefault({super.key});
@@ -55,14 +56,20 @@ class _HomeDefaultState extends State<HomeDefault> {
           ),
           Positioned(
             top: 600,
-            //中央寄せ
             left: MediaQuery.of(context).size.width / 2 - 70,
             child: Container(
               child: MeasurementsStart()
             )
           ),
+          Positioned(
+            top: 460,
+            left: 32,
+            child: Container(
+              child: TimeSlider()
+            )
+          ),
           Positioned.fill(
-            top: 100,
+            // top: 100,
             child: model_3d(),
           ),
         ],
