@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../const/color.dart';
+
 class MeasurementsStart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class MeasurementsStart extends StatelessWidget {
           // ボタンが押された時の処理を追加
         },
         style: ElevatedButton.styleFrom(
-          primary: Colors.blue, // ボタンの背景色
+          primary: accentColor, // ボタンの背景色
           onPrimary: Colors.white, // テキストの色
           padding: EdgeInsets.all(16.0), // ボタンの内側の余白
           shape: RoundedRectangleBorder(
