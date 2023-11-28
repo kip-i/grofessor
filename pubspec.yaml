@@ -75,6 +75,7 @@ flutter:
 
     # 背景
     - assets/backgrounds/b0.png
+    - assets/backgrounds/b1.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

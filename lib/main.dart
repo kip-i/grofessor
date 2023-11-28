@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 700,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/backgrounds/b0.png'),
+                image: AssetImage('assets/backgrounds/b1.png'),
                 fit: BoxFit.cover,
               )
             )
@@ -119,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Color.fromARGB(255, 164,108,00),
           width: 4.0,
         ), 
+        borderRadius: BorderRadius.circular(8.0), // 角を丸くする
       ),
       child: ElevatedButton(
         onPressed: () {
@@ -128,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
           primary: Color.fromARGB(255,00,75,63), // ボタンの背景色を白に設定
           padding: EdgeInsets.all(8.0), // ボタン内の余白を設定
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0), // ボタンの角を丸める
+            borderRadius: BorderRadius.circular(4.0), // ボタンの角を丸める
           ),
         ),
         child: Row(
@@ -203,6 +204,14 @@ class _MyHomePageState extends State<MyHomePage> {
       decoration: BoxDecoration(
         color: Colors.grey, // 背景色を灰色に設定
         borderRadius: BorderRadius.circular(8.0), // 角を丸くする
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 4,
+            offset: Offset(0, 2), // シャドウの方向（下に2ポイントずれ）
+          ),
+        ],
       ),
       child: IconButton(
         icon: Icon(Icons.settings, color: Colors.white), // アイコンの色を白に設定
