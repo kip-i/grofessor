@@ -31,7 +31,7 @@ void main() async {
 
 // 数字を返す
 Future <int> getData() async {
-  return 1;
+  return 0;
 }
 
 class MyApp extends StatelessWidget {
