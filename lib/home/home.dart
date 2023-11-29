@@ -39,6 +39,10 @@ class _HomeDefaultState extends State<HomeDefault> {
               )
             )
           ),
+          Positioned.fill(
+            // top: 100,
+            child: Model3D(),
+          ),
           Positioned(
             top: 32.0,
             left: 16.0,
@@ -61,17 +65,9 @@ class _HomeDefaultState extends State<HomeDefault> {
               child: MeasurementsStart()
             )
           ),
-          Positioned(
-            top: 460,
-            left: 32,
-            child: Container(
-              child: TimeSlider()
-            )
-          ),
-          Positioned.fill(
-            // top: 100,
-            child: model_3d(),
-          ),
+          
+          
+          Positioned(top: 460, left: 32, child: Container(child: TimeSlider())),
         ],
       )
     );
@@ -130,7 +126,7 @@ class _HomeDuringTime extends State<HomeDuringTime> {
             child: Container(child: MeasurementsStart())),
           Positioned.fill(
             top: 100,
-            child: model_3d(),
+            child: Model3D(),
           ),
         ],
       )

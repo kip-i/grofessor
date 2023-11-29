@@ -69,6 +69,7 @@ flutter:
   assets:
     # モデル
     - assets/models/v4.obj
+    - assets/models/v4.mtl
     - assets/models/cube.obj
     - assets/models/cube.mtl
     - assets/models/flutter.png
