@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_cube/flutter_cube.dart';
 
+import 'auth_service.dart';
+
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String _userName = '';
   bool _isSelected1 = false;
   bool _isSelected2 = false;
+  String _msg = '';
 
   @override
   Widget build(BuildContext context) {
@@ -151,18 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
           SizedBox(height: 40.0),
           ElevatedButton(
             onPressed: _userName=='' || (!_isSelected1 && !_isSelected2) ? null : () async {
-              try {
-                String _email = _userName+'@example.com';
-                String _password = 'password';
-                final User? user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                            email: _email,
-                            password: _password
-                          )).user;
-                if (user != null)
-                  print("ユーザ登録しました ${user.email} , ${user.uid}");
-              } catch (e) {
-                print("ユーザ登録に失敗しました ${e}");
-              }
+              _msg = await AuthService().addUser(_userName);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
@@ -173,62 +165,6 @@ class _RegisterPageState extends State<RegisterPage> {
           SizedBox(height: 20.0),
         ] 
       ),
-      //       SizedBox(height: 16.0),
-      //       // Row(
-      //       //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //         // children: [
-      //           // Text('アバター1'),
-              
-      //           // SizedBox(
-      //           //   width: 100,
-      //           //   height: 100,
-      //           //   child: Cube(
-      //           //     onSceneCreated: (Scene scene) {
-      //           //       scene.world.add(Object(
-      //           //         fileName: 'assets/models/v4.obj',
-      //           //       ));
-      //           //     },
-      //           //   ),
-      //           // ),
-      //           // SizedBox(
-      //           //   width: 100,
-      //           //   height: 100,
-      //           //   child: Cube(
-      //           //     onSceneCreated: (Scene scene) {
-      //           //       scene.world.add(Object(
-      //           //         fileName: 'assets/models/cube.obj',
-      //           //       ));
-      //           //     },
-      //           //   ),
-      //           // ),
-      //           // Text('アバター2'),
-      //         // ],
-      //       // ),
-      //       SizedBox(height: 16.0),
-      //       ElevatedButton(
-      //         onPressed: () async {
-      //           try {
-      //             String _email = _userName+'@example.com';
-      //             String _password = 'password';
-      //             final User? user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      //                         email: _email,
-      //                         password: _password
-      //                       )).user;
-      //             if (user != null)
-      //               print("ユーザ登録しました ${user.email} , ${user.uid}");
-      //           } catch (e) {
-      //             print("ユーザ登録に失敗しました ${e}");
-      //           }
-      //         },
-      //         style: ElevatedButton.styleFrom(
-      //           backgroundColor: Colors.green,
-      //           foregroundColor: Colors.white
-      //         ),
-      //         child: const Text('作成'),
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }
