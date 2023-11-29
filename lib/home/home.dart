@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_cube/flutter_cube.dart';
 
-import '../firebase_options.dart';
 import 'name_button.dart';
 import 'setting_button.dart';
 import 'experience_bar.dart';
