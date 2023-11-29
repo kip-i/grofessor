@@ -52,3 +52,6 @@ lib/firebase_options.dart
 lib/firebase_options.zip
 macos/firebase_app_id_file.json
 macos/Runner/GoogleService-Info.plist
+
+
+.vscode/
