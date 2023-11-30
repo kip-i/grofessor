@@ -90,14 +90,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       width: 150,
                       height: 150,
                       decoration: BoxDecoration(
-                        color: _isSelected1 ? Colors.green : Colors.white, // 背景色を灰色に設定
+                        color: _isSelected1 ? Colors.green : null,
+                        borderRadius: BorderRadius.circular(20),
                       ),
                       child: Cube(
                         onSceneCreated: (Scene scene) {
                           scene.world.add(Object(
                             fileName: 'assets/models/v4.obj',
-                            scale: Vector3(5.0, 5.0, 5.0),
+                            scale: Vector3(15.0, 15.0, 15.0),
                             rotation: Vector3(270.0, 180.0, 0.0),
+                            position: Vector3(-1.0, -3.5, 0.0),
                           ));
                         },
                       ),
@@ -128,19 +130,22 @@ class _RegisterPageState extends State<RegisterPage> {
                       width: 150,
                       height: 150,
                       decoration: BoxDecoration(
-                        color: _isSelected2 ? Colors.green : Colors.white, // 背景色を灰色に設定
+                        color: _isSelected2 ? Colors.green : null,
+                        borderRadius: BorderRadius.circular(20),
                       ),
                       child: Cube(
                         onSceneCreated: (Scene scene) {
                           scene.world.add(Object(
                             fileName: 'assets/models/v4.obj',
-                            scale: Vector3(5.0, 5.0, 5.0),
+                            scale: Vector3(15.0, 15.0, 15.0),
                             rotation: Vector3(270.0, 180.0, 0.0),
+                            position: Vector3(-1.0, -3.5, 0.0),
                           ));
                         },
                       ),
                     ),
                   ),
+                  SizedBox(height: 10.0),
                   Text(
                     'アバター2',
                     style: TextStyle(
