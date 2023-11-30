@@ -8,7 +8,7 @@ class Model3D extends StatelessWidget {
       child: Cube(
         onSceneCreated: (Scene scene) {
           scene.world.add(Object(
-            fileName: 'assets/models/highv4.obj',
+            fileName: 'assets/models/v4.obj',
             scale: Vector3(8.0, 8.0, 8.0),
             rotation: Vector3(270.0, 180.0, 0.0),
             position: Vector3(-0.4, -1.5, 0.0),
