@@ -70,6 +70,8 @@ flutter:
     # モデル
     - assets/models/v4.obj
     - assets/models/v4.mtl
+    - assets/models/highrezov4.obj
+    - assets/models/highrezov4.mtl
     - assets/models/cube.obj
     - assets/models/cube.mtl
     - assets/models/flutter.png
