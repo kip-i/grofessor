@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../home/home.dart';
+import 'home/home_selector.dart';
+import 'home/home_default.dart';
+import 'home/home_during_time.dart';
 
 void main() => runApp(const NavigationBarApp());
 
