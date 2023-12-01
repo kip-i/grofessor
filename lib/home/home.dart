@@ -6,6 +6,7 @@ import 'experience_bar.dart';
 import 'model_3d.dart';
 import 'measurements_start.dart';
 import 'time_slider.dart';
+import '../futter.dart';
 
 class HomeDefault extends StatefulWidget {
   const HomeDefault({super.key});
@@ -27,8 +28,8 @@ class _HomeDefaultState extends State<HomeDefault> {
       body: Stack(
         children: [
           Container(
-            width: 400,
-            height: 700,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/backgrounds/b0.png'),
@@ -37,7 +38,6 @@ class _HomeDefaultState extends State<HomeDefault> {
             )
           ),
           Positioned.fill(
-            // top: 100,
             child: Model3D(),
           ),
           Positioned(
@@ -56,15 +56,17 @@ class _HomeDefaultState extends State<HomeDefault> {
             child: ExperienceBar(),
           ),
           Positioned(
-            top: 600,
+            bottom: 130.0, 
+            left: 32, 
+            child: Container(child: TimeSlider())
+          ),
+          Positioned(
+            bottom: 32.0,
             left: MediaQuery.of(context).size.width / 2 - 70,
             child: Container(
               child: MeasurementsStart()
             )
           ),
-          
-          
-          Positioned(top: 460, left: 32, child: Container(child: TimeSlider())),
         ],
       )
     );
@@ -92,14 +94,17 @@ class _HomeDuringTime extends State<HomeDuringTime> {
       body: Stack(
         children: [
           Container(
-            width: 400,
-            height: 700,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/backgrounds/b0.png'),
                 fit: BoxFit.cover,
               )
             )
+          ),
+          Positioned.fill(
+            child: Model3D(),
           ),
           Positioned(
             top: 32.0,
@@ -117,13 +122,11 @@ class _HomeDuringTime extends State<HomeDuringTime> {
             child: ExperienceBar(),
           ),
           Positioned(
-            top: 600,
-            //中央寄せ
+            bottom: 32.0,
             left: MediaQuery.of(context).size.width / 2 - 70,
-            child: Container(child: MeasurementsStart())),
-          Positioned.fill(
-            top: 100,
-            child: Model3D(),
+            child: Container(
+              child: MeasurementsStart()
+            )
           ),
         ],
       )
