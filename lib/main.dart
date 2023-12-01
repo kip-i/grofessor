@@ -12,21 +12,27 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
+  final mobileData = await getData();
+
   runApp(
+    // MaterialApp(
+    //   home: FutureBuilder(
+    //     future: getData(),
+    //     builder: (context, snapshot){
+    //       if (snapshot.connectionState == ConnectionState.waiting){
+    //         return CircularProgressIndicator();
+    //       } else if (snapshot.hasError){
+    //         return Text('Error: ${snapshot.error}');
+    //       } else {
+    //         final mobileData = snapshot.data;
+    //         return MyApp(mobileData: mobileData ?? 0);
+    //       }
+    //     }
+    //   )
+    // )
     MaterialApp(
-      home: FutureBuilder(
-        future: getData(),
-        builder: (context, snapshot){
-          if (snapshot.connectionState == ConnectionState.waiting){
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError){
-            return Text('Error: ${snapshot.error}');
-          } else {
-            final mobileData = snapshot.data;
-            return MyApp(mobileData: mobileData ?? 0);
-          }
-        }
-      )
+      home:MyApp(mobileData: 0,)
     )
   );
 }
@@ -43,11 +49,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (mobileData == 0){
-      return HomeDefault();
-    } else {
-      return HomeDuringTime();
-    }
+    return Scaffold(
+      bottomNavigationBar: NavigationExample(),
+    );
+    // if (mobileData == 0){
+    //   return HomeDefault();
+    // } else {
+    //   return HomeDuringTime();
+    // }
       
   }
 }
