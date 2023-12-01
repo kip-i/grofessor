@@ -6,6 +6,7 @@ import 'experience_bar.dart';
 import 'model_3d.dart';
 import 'measurements_start.dart';
 import 'time_slider.dart';
+import 'instruction_bar.dart';
 import '../futter.dart';
 
 class HomeDefault extends StatefulWidget {
@@ -120,6 +121,10 @@ class _HomeDuringTime extends State<HomeDuringTime> {
             top: 160.0,
             left: 16.0,
             child: ExperienceBar(),
+          ),
+          Positioned(
+            bottom: 130.0, 
+            child: InstructionBar()
           ),
           Positioned(
             bottom: 32.0,
