@@ -69,6 +69,17 @@ flutter:
   assets:
     - assets/models/v4.obj
     - assets/models/v4.mtl
+    - assets/models/m0.obj
+    - assets/models/m0.mtl
+    - assets/models/m1.obj
+    - assets/models/m1.mtl
+    - assets/models/m2.obj
+    - assets/models/m2.mtl
+    - assets/models/w1.obj
+    - assets/models/w1.mtl
+    - assets/models/w2.obj
+    - assets/models/w2.mtl
+    # - gs://hackumeijo2023.appspot.com/m0.obj
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
