@@ -32,9 +32,10 @@ class _NavigationExampleState extends State<NavigationExample> {
 
 
   final List<Widget> _pages = <Widget>[
+    // ここを自身のウィジェットに変更したらいい
     HomeDefault(),
     HomeDuringTime(),
-    HomeDefault(),
+    HomeSelector(),
     HomeDefault(),
     HomeDefault(),
   ];

@@ -4,7 +4,7 @@ import 'firebase_options.dart';
 import 'futter.dart';
 
 
-import 'home/home.dart';
+import 'home/home_selector.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

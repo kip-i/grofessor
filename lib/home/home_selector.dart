@@ -4,7 +4,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'home_default.dart';
 import 'home_during_time.dart';
 
-class HomeSelector extends StatelessWidget {
+class HomeSelector extends StatefulWidget {
+  const HomeSelector({Key? key});
+
+  @override
+  State<HomeSelector> createState() => _HomeSelector();
+}
+
+class _HomeSelector extends State<HomeSelector> {
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -25,10 +33,12 @@ class HomeSelector extends StatelessWidget {
       },
     );
   }
-
-  // SharedPreferencesからduringの値を取得するメソッド
-  Future<bool> getDuring() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('during') ?? false;
+  getDuring() async {
+    // SharedPreferencesのインスタンスを生成
+    final prefs = await SharedPreferences.getInstance();
+    // SharedPreferencesからduringを取得
+    final during = prefs.getBool('during');
+    // duringがnullの場合はfalseを返す
+    return during ?? false;
   }
 }
