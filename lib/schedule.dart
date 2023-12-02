@@ -20,6 +20,7 @@ class YouApp extends StatelessWidget {
         ),
         body:
         
+        
          SingleChildScrollView(
           scrollDirection:Axis.vertical,
           child:FittedBox(child: MyDataTable(),)),
