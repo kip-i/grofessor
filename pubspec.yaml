@@ -46,6 +46,9 @@ dependencies:
   # https://pub.dev/packages/marquee
   marquee: ^2.2.3
 
+  # https://pub.dev/packages/shared_preferences
+  shared_preferences: ^2.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
