@@ -43,9 +43,6 @@ dependencies:
   # https://pub.dev/packages/flutter_cube/install
   flutter_cube: ^0.1.1
 
-  # https://pub.dev/packages/flutter_cube/install
-  flutter_cube: ^0.1.1
-
   # https://pub.dev/packages/marquee
   marquee: ^2.2.3
 
