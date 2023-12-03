@@ -4,6 +4,7 @@ import 'sample_state.dart';
 import 'dart:async';
 import 'package:screen_brightness/screen_brightness.dart';
 import 'test_home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SampleScreenController extends StateNotifier<SampleScreenState>
     with WidgetsBindingObserver {
@@ -27,18 +28,16 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     if (!isActive) return;
     if (state == AppLifecycleState.resumed) {
       // アプリが前面に戻ったときにタイマーを再開
-      debugPrint('resumed');
       _stopwatch.reset();
-      debugPrint(navigatorKey.currentState.toString());
       navigatorKey.currentState
           ?.pushReplacement(MaterialPageRoute(builder: (context) => Home()));
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
       // アプリがバックグラウンドに移動したときにタイマーを停止
-      debugPrint('paused');
+      saveTime(_stopwatch.elapsed.inMilliseconds);
       _stopwatch.stop();
-      _timer?.cancel();
+      _timer.cancel();
     }
   }
 
@@ -49,20 +48,28 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       state = state.copyWith(totalDuration: _stopwatch.elapsed);
     });
-    debugPrint('start');
   }
 
   void stopDuration() {
     _stopwatch.stop();
-    _timer?.cancel();
+    _timer.cancel();
     state = state.copyWith(totalDuration: _stopwatch.elapsed);
-    debugPrint('stop');
   }
 
   void resetDuration() {
     _stopwatch.reset();
-    _timer?.cancel();
+    _timer.cancel();
     state = state.copyWith(totalDuration: _stopwatch.elapsed);
-    debugPrint('reset');
+  }
+
+  Future<void> saveTime(int timeInMilliseconds) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('time', timeInMilliseconds);
+  }
+
+  Future<int> getTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? savedTime = prefs.getInt('time');
+    return savedTime ?? 0;
   }
 }

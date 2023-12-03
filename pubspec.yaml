@@ -46,6 +46,7 @@ dependencies:
   riverpod: ^2.4.9
   flutter_riverpod: ^2.4.9
   screen_brightness: ^0.2.2+1
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

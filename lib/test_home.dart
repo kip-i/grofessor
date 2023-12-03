@@ -6,16 +6,29 @@ import 'sample_screen.dart';
 class Home extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(sampleScreenProvider); // 状態を監視
+    final controller = ref.read(sampleScreenProvider.notifier); // コントローラーを取得
 
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Total Duration: ${state.totalDuration.inSeconds} seconds',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            FutureBuilder<int>(
+              future: controller.getTime(), // getTimeメソッドを呼び出す
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  if (snapshot.data == null) {
+                    return Text('Saved Time: 0 seconds');
+                  } else {
+                    return Text(
+                        'Saved Time: ${(snapshot.data! / 1000).floor()} seconds');
+                  }
+                }
+              },
             ),
             ElevatedButton(
               child: const Text('Go to TestHome'),
@@ -24,7 +37,6 @@ class Home extends ConsumerWidget {
                   context,
                   MaterialPageRoute(builder: (context) => SampleScreen()),
                 );
-                debugPrint('Go to TestHome');
               },
             ),
           ],
