@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
 import 'sample_state.dart';
 import 'dart:async';
-import 'package:screen_brightness/screen_brightness.dart';
 import 'test_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,8 +41,6 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
   }
 
   void startTimer() {
-    ScreenBrightness brightness = ScreenBrightness();
-    brightness.setScreenBrightness(0.2);
     _stopwatch.start();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       state = state.copyWith(totalDuration: _stopwatch.elapsed);

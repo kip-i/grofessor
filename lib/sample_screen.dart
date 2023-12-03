@@ -8,6 +8,8 @@ class SampleScreen extends ConsumerStatefulWidget {
 }
 
 class _SampleScreenState extends ConsumerState<SampleScreen> {
+  bool isButtonPressed = false;
+
   @override
   void initState() {
     super.initState();
@@ -22,8 +24,12 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(sampleScreenProvider); // 状態を監視
+    debugPrint('isButtonPressed: $isButtonPressed');
 
     return Scaffold(
+      backgroundColor: isButtonPressed
+          ? const Color.fromARGB(255, 113, 113, 113)
+          : Colors.white, // 背景色を変更
       appBar: AppBar(
         title: Text('Sample Screen'),
       ),
@@ -38,6 +44,7 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
             // スタートボタン
             ElevatedButton(
               onPressed: () {
+                isButtonPressed = true;
                 ref.read(sampleScreenProvider.notifier).startTimer();
               },
               child: Text(
@@ -48,6 +55,7 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
             // ストップボタン
             ElevatedButton(
               onPressed: () {
+                isButtonPressed = false;
                 ref
                     .read(sampleScreenProvider.notifier)
                     .stopDuration(); // stopDurationメソッドを呼び出し
@@ -60,6 +68,7 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
             // リセットボタン
             ElevatedButton(
               onPressed: () {
+                isButtonPressed = false;
                 ref
                     .read(sampleScreenProvider.notifier)
                     .resetDuration(); // resetDurationメソッドを呼び出し
