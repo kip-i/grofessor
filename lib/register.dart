@@ -28,6 +28,35 @@ class _RegisterPageState extends State<RegisterPage> {
     prefs.setString('backgroundId', '0');
     prefs.setString('nickNameId', '0');
 
+    prefs.setInt('gachaTicket', 0);
+    prefs.setStringList('notHaveNickNameList', ['0','1','2']);
+    prefs.setStringList('notHaveCharacterList', ['($_gender)1','($_gender)2']);
+    prefs.setStringList('notHaveBackgroundList', ['0','1','2']);
+
+    prefs.setInt('paperNum', 0);
+    prefs.setInt('sumTime', 0);
+    prefs.setInt('thisTime', 0);
+    prefs.setInt('needTime', 0);
+    prefs.setInt('achieveNum', 0);
+    prefs.setInt('meanTime', 0);
+    prefs.setInt('penalty', 0);
+
+    prefs.setStringList('haveNickNameList', []);
+    prefs.setStringList('haveCharacterList', []);
+    prefs.setStringList('haveBackgroundList', []);
+
+    prefs.setStringList('classFlag', ['0','0','0','0','0','0',
+                                      '0','0','0','0','0','0',
+                                      '0','0','0','0','0','0',
+                                      '0','0','0','0','0','0',
+                                      '0','0','0','0','0','0',
+                                      '0','0','0','0','0','0']);
+    prefs.setStringList('classTime', ['0','0','0','0',
+                                      '0','0','0','0',
+                                      '0','0','0','0',
+                                      '0','0','0','0',
+                                      '0','0','0','0',
+                                      '0','0','0','0']);
   }
 
   @override
