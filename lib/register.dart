@@ -15,6 +15,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   String _msg = '';
+  String _gender = '';
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       setState(() {
                         _isSelected1 = true;
                         _isSelected2 = false;
+                        _gender = 'm';
                       });
                       print('アバター1が選択されました');
                     },
@@ -123,6 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       setState(() {
                         _isSelected1 = false;
                         _isSelected2 = true;
+                        _gender = 'w';
                       });
                       print('アバター2が選択されました');
                     },
@@ -158,8 +161,9 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 40.0),
           ElevatedButton(
-            onPressed: _userName=='' || (!_isSelected1 && !_isSelected2) ? null : () async {
-              _msg = await AuthService().addUser(_userName);
+            onPressed: _userName=='' || _gender=='' ? null : () async {
+              _msg = await AuthService().addUser(_userName,_gender);
+              // print(_msg);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
