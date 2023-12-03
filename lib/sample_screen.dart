@@ -2,9 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'sample_provider.dart';
 
-class SampleScreen extends ConsumerWidget {
+class SampleScreen extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _SampleScreenState createState() => _SampleScreenState();
+}
+
+class _SampleScreenState extends ConsumerState<SampleScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(sampleScreenProvider.notifier).isActive = true;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(sampleScreenProvider); // 状態を監視
 
     return Scaffold(

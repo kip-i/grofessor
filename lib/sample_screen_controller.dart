@@ -8,18 +8,30 @@ import 'test_home.dart';
 class SampleScreenController extends StateNotifier<SampleScreenState>
     with WidgetsBindingObserver {
   late Timer _timer;
-  SampleScreenController() : super(const SampleScreenState()) {
+  bool isActive = false;
+  final GlobalKey<NavigatorState> navigatorKey;
+  SampleScreenController(this.navigatorKey) : super(const SampleScreenState()) {
     WidgetsBinding.instance.addObserver(this); // アプリのライフサイクルを監視
   }
 
   final Stopwatch _stopwatch = Stopwatch(); // ストップウォッチのインスタンスを作成
 
   @override
+  void dispose() {
+    isActive = false;
+    super.dispose();
+  }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!isActive) return;
     if (state == AppLifecycleState.resumed) {
       // アプリが前面に戻ったときにタイマーを再開
       debugPrint('resumed');
       _stopwatch.reset();
+      debugPrint(navigatorKey.currentState.toString());
+      navigatorKey.currentState
+          ?.pushReplacement(MaterialPageRoute(builder: (context) => Home()));
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
