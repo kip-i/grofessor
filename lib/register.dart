@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_cube/flutter_cube.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_service.dart';
 
@@ -11,11 +12,23 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   String _userName = '';
+  String _gender = '';
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   String _msg = '';
-  String _gender = '';
+
+  Future<void> _setUser() async {
+    final SharedPreferences prefs = await _prefs;
+
+    prefs.setString('userName', _userName);
+    prefs.setString('gender', _gender);
+    prefs.setString('characterId', '0');
+    prefs.setString('backgroundId', '0');
+    prefs.setString('nickNameId', '0');
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,6 +176,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ElevatedButton(
             onPressed: _userName=='' || _gender=='' ? null : () async {
               _msg = await AuthService().addUser(_userName,_gender);
+              _setUser();
               // print(_msg);
             },
             style: ElevatedButton.styleFrom(
