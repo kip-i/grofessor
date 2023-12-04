@@ -28,8 +28,6 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     if (state == AppLifecycleState.resumed) {
       // アプリが前面に戻ったときにタイマーを再開
       _stopwatch.reset();
-      navigatorKey.currentState
-          ?.pushReplacement(MaterialPageRoute(builder: (context) => Home()));
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
@@ -37,6 +35,8 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
       saveTime(_stopwatch.elapsed.inMilliseconds);
       _stopwatch.stop();
       _timer.cancel();
+      navigatorKey.currentState
+          ?.pushReplacement(MaterialPageRoute(builder: (context) => Home()));
     }
   }
 
