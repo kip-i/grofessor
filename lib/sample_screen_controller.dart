@@ -9,7 +9,7 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     with WidgetsBindingObserver {
   late Timer _timer;
   bool isActive = false;
-  bool test = false;
+  bool resultFlag = false;
   final GlobalKey<NavigatorState> navigatorKey;
   SampleScreenController(this.navigatorKey) : super(const SampleScreenState()) {
     WidgetsBinding.instance.addObserver(this); // アプリのライフサイクルを監視
@@ -37,10 +37,9 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
       setNavigationToResult();
       _stopwatch.stop();
       _timer.cancel();
-      test = await getNavigationToResult();
-      debugPrint('test: $test');
+      resultFlag = await getNavigationToResult();
       // リザルト画面に遷移するかどうかを判定
-      if (test) {
+      if (resultFlag) {
         navigatorKey.currentState
             ?.pushReplacement(MaterialPageRoute(builder: (context) => Home()));
       }
