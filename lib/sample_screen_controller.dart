@@ -9,6 +9,7 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     with WidgetsBindingObserver {
   late Timer _timer;
   bool isActive = false;
+  bool test = false;
   final GlobalKey<NavigatorState> navigatorKey;
   SampleScreenController(this.navigatorKey) : super(const SampleScreenState()) {
     WidgetsBinding.instance.addObserver(this); // アプリのライフサイクルを監視
@@ -23,7 +24,7 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (!isActive) return;
     if (state == AppLifecycleState.resumed) {
       // アプリが前面に戻ったときにタイマーを再開
@@ -33,10 +34,16 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
         state == AppLifecycleState.detached) {
       // アプリがバックグラウンドに移動したときにタイマーを停止
       saveTime(_stopwatch.elapsed.inMilliseconds);
+      setNavigationToResult();
       _stopwatch.stop();
       _timer.cancel();
-      navigatorKey.currentState
-          ?.pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+      test = await getNavigationToResult();
+      debugPrint('test: $test');
+      // リザルト画面に遷移するかどうかを判定
+      if (test) {
+        navigatorKey.currentState
+            ?.pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+      }
     }
   }
 
@@ -68,5 +75,22 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? savedTime = prefs.getInt('time');
     return savedTime ?? 0;
+  }
+
+  Future<void> setNavigationToResult() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? time = await getTime();
+    debugPrint('time: $time');
+    if (time > 0) {
+      prefs.setBool('isSetNavigationToResult', false);
+    } else {
+      prefs.setBool('isSetNavigationToResult', true);
+    }
+  }
+
+  Future<bool> getNavigationToResult() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isSetNavigationToResult = prefs.getBool('isSetNavigationToResult');
+    return isSetNavigationToResult ?? false;
   }
 }
