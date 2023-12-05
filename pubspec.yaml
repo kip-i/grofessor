@@ -42,8 +42,6 @@ dependencies:
   firebase_storage: ^11.5.2
   # https://pub.dev/packages/flutter_cube/install
   flutter_cube: ^0.1.1
-  # https://pub.dev/packages/shared_preferences/install
-  shared_preferences: ^2.2.2
 
   # https://pub.dev/packages/marquee
   marquee: ^2.2.3

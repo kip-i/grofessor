@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 
 class FirebaseService {
@@ -71,6 +72,14 @@ class FirebaseService {
           });
         });
       });
+    });
+    await _rootCollection.doc('rankings').collection('userData').doc(userId).set({
+      'userName': userName,
+      'character': '${gender}0',
+      'backgroundId': '0',
+      'paperNum': 0,
+      'sumTime': 0,
+      'meanTime': 0,
     });
   }
 
@@ -162,19 +171,61 @@ class FirebaseService {
 
 //=== 取得 ==========================================================================================================//
 
-  // ランキングを取得
-  // Future<List<Map<String, dynamic>>> getRanking() async {
-  //   final CollectionReference userCollection = _rootCollection.doc('ranking').collection('ranking');
-  //   List<Map<String, dynamic>> ranking = [];
-  //   await userCollection.orderBy('sumTime', descending: false).limit(10).get()
-  //   .then((value) {
-  //     value.docs.forEach((element) {
-  //       Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
-  //       ranking.add(data);
-  //     });
-  //   });
-  //   return ranking;
-  // }
+  // 3種類のランキングを取得
+  Future<List<List>> getRanking() async {
+    DateTime now = DateTime.now();
+    DateTime nextUpdateTime = await getRankingUpdateTime();
+    if (now.isAfter(nextUpdateTime)){
+      return await updateRanking('userId', nextUpdateTime, now)
+      .then((value) async {
+        List<List> pRanking = await getPaperNumRanking();
+        List<List> sRanking = await getSumTimeRanking();
+        List<List> mRanking = await getMeanTimeRanking();
+        return [pRanking, sRanking, mRanking];
+      });
+    } else {
+      List<List> pRanking = await getPaperNumRanking();
+      List<List> sRanking = await getSumTimeRanking();
+      List<List> mRanking = await getMeanTimeRanking();
+      return [pRanking, sRanking, mRanking];
+    }
+  }
+
+  // 論文数によるランキングを取得
+  Future<List<List>> getPaperNumRanking() async {
+    return await _rootCollection.doc('rankings').collection('rankings').doc('paperNumRanking').get()
+    .then((value) {
+      Map<String, dynamic>? data = value.data();
+      return [data?['1st'], data?['2nd'], data?['3rd'], data?['4th'], data?['5th'], data?['6th'], data?['7th'], data?['8th'], data?['9th'], data?['10th']];
+    });
+  }
+
+  // 合計時間によるランキングを取得
+  Future<List<List>> getSumTimeRanking() async {
+    return await _rootCollection.doc('rankings').collection('rankings').doc('sumTimeRanking').get()
+    .then((value) {
+      Map<String, dynamic>? data = value.data();
+      return [data?['1st'], data?['2nd'], data?['3rd'], data?['4th'], data?['5th'], data?['6th'], data?['7th'], data?['8th'], data?['9th'], data?['10th']];
+    });
+  }
+
+  // 平均時間によるランキングを取得
+  Future<List<List>> getMeanTimeRanking() async {
+    return await _rootCollection.doc('rankings').collection('rankings').doc('meanTimeRanking').get()
+    .then((value) {
+      Map<String, dynamic>? data = value.data();
+      return [data?['1st'], data?['2nd'], data?['3rd'], data?['4th'], data?['5th'], data?['6th'], data?['7th'], data?['8th'], data?['9th'], data?['10th']];
+    });
+  }
+
+  // ランキング更新時間を取得
+  Future<DateTime> getRankingUpdateTime() async {
+    return await _rootCollection.doc('rankings').collection('rankingUpdate').doc('updateTime').get()
+    .then((value) {
+      Map<String, dynamic>? data = value.data();
+      return data?['nextUpdateTime'];
+    });
+  }
 
   // 二つ名本体を取得
   Future<String> getNickName(String nickNameId) async {
@@ -315,6 +366,11 @@ class FirebaseService {
     final CollectionReference userCollection = _rootCollection.doc('users').collection(userId);
     await userCollection.doc('user').update({
       'userName': userName,
+    })
+    .then((value) async {
+      await _rootCollection.doc('rankings').collection('userData').doc(userId).update({
+        'userName': userName,
+      });
     });
   }
 
@@ -331,6 +387,11 @@ class FirebaseService {
     final CollectionReference userCollection = _rootCollection.doc('users').collection(userId);
     await userCollection.doc('user').update({
       'backgroundId': backgroundId,
+    })
+    .then((value) async {
+      await _rootCollection.doc('rankings').collection('userData').doc(userId).update({
+        'backgroundId': backgroundId,
+      });
     });
   }
 
@@ -339,6 +400,11 @@ class FirebaseService {
     final CollectionReference userCollection = _rootCollection.doc('users').collection(userId);
     await userCollection.doc('user').update({
       'character': character,
+    })
+    .then((value) async {
+      await _rootCollection.doc('rankings').collection('userData').doc(userId).update({
+        'character': character,
+      });
     });
   }
 
@@ -384,6 +450,11 @@ class FirebaseService {
             if (paperNum != 0 && paperNum % 3 == 0){
               await updateGachaTicket(userId, 1);
             }
+            await _rootCollection.doc('rankings').collection('userData').doc(userId).update({
+              'paperNum': paperNum,
+              'sumTime': sumTime,
+              'meanTime': meanTime,
+            });
           });
         });
       } else {
@@ -393,29 +464,111 @@ class FirebaseService {
           'achieveNum': achieveNum,
           'meanTime': meanTime,
           'penalty': penalty ? true : false,
+        })
+        .then((value) async {
+          await _rootCollection.doc('rankings').collection('userData').doc(userId).update({
+            'sumTime': sumTime,
+            'meanTime': meanTime,
+          });
         });
       }      
     });
   }
 
   // ランキングの更新
-  // Future<void> updateRanking(String userId, int time) async {
-  //   final CollectionReference userCollection = _rootCollection.doc('ranking').collection('ranking');
-  //   await userCollection.doc(userId).get()
-  //   .then((value) async {
-  //     if (value.exists) {
-  //       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-  //       if (data?['sumTime'] > time) {
-  //         await userCollection.doc(userId).update({
-  //           'sumTime': time,
-  //         });
-  //       }
-  //     } else {
-  //       await userCollection.doc(userId).set({
-  //         'sumTime': time,
-  //       });
-  //     }
-  //   });
-  // }
+  Future<void> updateRanking(String userId, DateTime last, DateTime now) async {
+    await updatePaperNumRanking(userId);
+    await updateSumTimeRanking(userId);
+    await updateMeanTimeRanking(userId);
+    await updateLastUpdateTime(userId, last, now);
+  }
 
+  // 論文数によるランキングの更新
+  Future<void> updatePaperNumRanking(String userId) async {
+    final CollectionReference userCollection = _rootCollection.doc('rankings').collection('userData');
+    List<List<Map<String, dynamic>?>> ranking = [[]];
+    await userCollection.orderBy('paperNum', descending: true).limit(10).get()
+    .then((value) async {
+      value.docs.forEach((element) {
+        Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
+        List<Map<String, dynamic>?> tmp = [data?['userName'], data?['character'], data?['backgroundId'], data?['paperNum']];
+        ranking.add(tmp);
+      });
+      await _rootCollection.doc('rankings').collection('rankings').doc('paperNumRanking').update({
+        '1st': ranking[0],
+        '2nd': ranking[1],
+        '3rd': ranking[2],
+        '4th': ranking[3],
+        '5th': ranking[4],
+        '6th': ranking[5],
+        '7th': ranking[6],
+        '8th': ranking[7],
+        '9th': ranking[8],
+        '10th': ranking[9],
+      });
+    });
+  }
+
+  // 合計時間によるランキングの更新
+  Future<void> updateSumTimeRanking(String userId) async {
+    final CollectionReference userCollection = _rootCollection.doc('rankings').collection('userData');
+    List<List<Map<String, dynamic>?>> ranking = [[]];
+    await userCollection.orderBy('sumTime', descending: false).limit(10).get()
+    .then((value) async {
+      value.docs.forEach((element) {
+        Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
+        List<Map<String, dynamic>?> tmp = [data?['userName'], data?['character'], data?['backgroundId'], data?['sumTime']];
+        ranking.add(tmp);
+      });
+      await _rootCollection.doc('rankings').collection('rankings').doc('sumTimeRanking').update({
+        '1st': ranking[0],
+        '2nd': ranking[1],
+        '3rd': ranking[2],
+        '4th': ranking[3],
+        '5th': ranking[4],
+        '6th': ranking[5],
+        '7th': ranking[6],
+        '8th': ranking[7],
+        '9th': ranking[8],
+        '10th': ranking[9],
+      });
+    });
+  }
+
+  // 平均時間によるランキングの更新
+  Future<void> updateMeanTimeRanking(String userId) async {
+    final CollectionReference userCollection = _rootCollection.doc('rankings').collection('userData');
+    List<List<Map<String, dynamic>?>> ranking = [[]];
+    await userCollection.orderBy('meanTime', descending: false).limit(10).get()
+    .then((value) async {
+      value.docs.forEach((element) {
+        Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
+        List<Map<String, dynamic>?> tmp = [data?['userName'], data?['character'], data?['backgroundId'], data?['meanTime']];
+        ranking.add(tmp);
+      });
+      await _rootCollection.doc('rankings').collection('rankings').doc('meanTimeRanking').update({
+        '1st': ranking[0],
+        '2nd': ranking[1],
+        '3rd': ranking[2],
+        '4th': ranking[3],
+        '5th': ranking[4],
+        '6th': ranking[5],
+        '7th': ranking[6],
+        '8th': ranking[7],
+        '9th': ranking[8],
+        '10th': ranking[9],
+      });
+    });
+  }
+
+  // 最新更新時間の更新
+  Future<void> updateLastUpdateTime(String userId, DateTime last, DateTime now) async {
+    final CollectionReference userCollection = _rootCollection.doc('rankings').collection('rankingUpdate');
+    DateTime next = DateTime(now.year, now.month, now.day+1, last.hour, last.minute, last.second); // 1日1回更新
+    // DateTime next = DateTime(now.year, now.month, now.day, now.hour+1, last.minute, last.second); // 1時間1回更新
+    // DateTime next = DateTime(now.year, now.month, now.day, now.hour, now.minute+10, last.second); // 10分1回更新
+    await userCollection.doc('updateTime').update({
+      'nextUpdateTime': next,
+    });
+  }
 }
