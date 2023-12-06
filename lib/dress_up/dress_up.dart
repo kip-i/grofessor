@@ -17,12 +17,12 @@ class _DressUpState extends State<DressUp> {
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height /12*5,
+          height: MediaQuery.of(context).size.height * 10 / 14 - 70,
           child: SelectedDisplay(),
         ),
         Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height /12*7 - 70,
+          height: MediaQuery.of(context).size.height * 4 / 14,
           child: SelectorTab(),
         ),
       ],
