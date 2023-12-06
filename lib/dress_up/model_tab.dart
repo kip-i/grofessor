@@ -15,7 +15,7 @@ class _ModelTabState extends State<ModelTab> {
     return [
       'assets/models/m0.obj',
       'assets/models/m1.obj',
-      'assets/models/m2.obj',
+      
     ];
   }
 
@@ -26,7 +26,7 @@ class _ModelTabState extends State<ModelTab> {
         crossAxisCount: 3,
         crossAxisSpacing: 8.0,
         mainAxisSpacing: 100.0,
-        childAspectRatio: 1 / 2,
+        childAspectRatio: 1 / 1.4,
       ),
       itemCount: model_num,
       itemBuilder: (context, index) {
@@ -56,7 +56,7 @@ class _ModelTabState extends State<ModelTab> {
                             onSceneCreated: (Scene scene) {
                               scene.world.add(Object(
                                 fileName: getModelNames()[index],
-                                scale: Vector3(13.0, 13.0, 13.0),
+                                scale: Vector3(15.0, 15.0, 15.0),
                                 rotation: Vector3(270.0, 180.0, 0.0),
                                 position: Vector3(-0.9, -4.0, 0.0),
                               ));
@@ -80,7 +80,7 @@ class _ModelTabState extends State<ModelTab> {
             child: Container(
               padding: EdgeInsets.all(16),
               child: Center(
-                child: Text('No Image'),
+                child: Text('No Model'),
               ),
             ),
           );

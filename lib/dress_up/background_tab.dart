@@ -9,6 +9,7 @@ class BackgroundTab extends StatefulWidget {
 
 class _BackgroundTabState extends State<BackgroundTab> {
   int selectedIndex = 0;
+  final int background_num = 30; // background_numが変わる場合、適宜調整してください
 
   // 仮の関数：画像名のリストを返す
   List<String> getImageNames() {
@@ -36,37 +37,54 @@ class _BackgroundTabState extends State<BackgroundTab> {
         mainAxisSpacing: 8.0, // 行間のスペース
         childAspectRatio: 1 / 1.2, // アスペクト比
       ),
-      itemCount: getImageNames().length,
+      itemCount: background_num,
       itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          child: SizedBox(
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              color: selectedIndex == index ? selectedColor : null,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Expanded(
-                      child: Image.asset(
-                        getImageNames()[index],
-                        fit: BoxFit.contain, // 画像をカードに合わせて拡大・縮小
+        if (index < getImageNames().length) {
+          // インデックスがリストの範囲内の場合
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+            child: SizedBox(
+              child: Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                color: selectedIndex == index ? selectedColor : null,
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Expanded(
+                        child: Image.asset(
+                          getImageNames()[index],
+                          fit: BoxFit.contain, // 画像をカードに合わせて拡大・縮小
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
+          );
+        } else {
+          // インデックスがリストの範囲外の場合は何も表示しない
+          return Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: Center(
+                child: Text('No Image'),
+              ),
+            ),
+          );
+        }
       },
     );
   }
