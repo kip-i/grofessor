@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'selected_display.dart';
-
+import 'selector_tab.dart';
 
 class DressUp extends StatefulWidget {
   const DressUp({Key? key}) : super(key: key);
@@ -17,9 +17,14 @@ class _DressUpState extends State<DressUp> {
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 2.4,
+          height: MediaQuery.of(context).size.height /12*5,
           child: SelectedDisplay(),
-        )
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height /12*7 - 70,
+          child: SelectorTab(),
+        ),
       ],
     );
   }
