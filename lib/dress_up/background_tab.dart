@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../const/color.dart';
+
 class BackgroundTab extends StatefulWidget {
   @override
   State<BackgroundTab> createState() => _BackgroundTabState();
@@ -48,7 +50,7 @@ class _BackgroundTabState extends State<BackgroundTab> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              color: selectedIndex == index ? Colors.blue : null,
+              color: selectedIndex == index ? selectedColor : null,
               child: Container(
                 padding: EdgeInsets.all(16), // カード内のコンテンツとの間隔を調整
                 child: Column(
