@@ -34,6 +34,7 @@ class _BackgroundTabState extends State<BackgroundTab> {
         crossAxisCount: 3, // 列数
         crossAxisSpacing: 8.0, // 列間のスペース
         mainAxisSpacing: 8.0, // 行間のスペース
+        childAspectRatio: 1 / 1.2, // アスペクト比
       ),
       itemCount: getImageNames().length,
       itemBuilder: (context, index) {
