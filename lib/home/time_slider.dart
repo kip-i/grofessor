@@ -18,7 +18,7 @@ class _TimeSliderState extends State<TimeSlider> {
         borderRadius: BorderRadius.circular(8.0), // 角を丸くする
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withOpacity(0.8),
             spreadRadius: 2,
             blurRadius: 4,
             offset: Offset(0, 2), // シャドウの方向（下に2ポイントずれ）
