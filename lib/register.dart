@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cube/flutter_cube.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,6 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children:[
+          Expanded(child:SizedBox(height: 20.0)),
           Padding(
             padding: EdgeInsets.all(20),
             child: Center(
@@ -98,6 +100,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
+                // inputFormatters: [
+                //   // 最大20文字まで
+                //   LengthLimitingTextInputFormatter(20),
+                //   // 半角英数字のみ許可
+                //   FilteringTextInputFormatter.allow(
+                //     RegExp(r'[a-zA-Z0-9]'),
+                //   ),
+                // ],
                 style: TextStyle(
                   color: Colors.green,
                 ),
@@ -109,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          SizedBox(height: 50.0),
+          Expanded(child:SizedBox(height: 50.0)),
           Text(
             'アバターを選択してください',
             textAlign: TextAlign.left,
@@ -219,7 +229,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             child: const Text('作成'),
           ),
-          SizedBox(height: 20.0),
+          Expanded(child:SizedBox(height: 20.0)),
         ] 
       ),
     );
