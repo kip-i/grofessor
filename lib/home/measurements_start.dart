@@ -31,7 +31,7 @@ class MeasurementsStart extends StatelessWidget {
           children: [
           Icon(
             Icons.timer,
-            size: 45.0,
+            size: 43.0,
             color:  blackbordWhiteColor,
           ),
           Container(
