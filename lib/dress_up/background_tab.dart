@@ -13,16 +13,16 @@ class _BackgroundTabState extends State<BackgroundTab> {
   // 仮の関数：画像名のリストを返す
   List<String> getImageNames() {
     return [
-      'assets/backgrounds/b0.png',
-      'assets/backgrounds/b0.png',
-      'assets/backgrounds/b0.png',
-      'assets/backgrounds/b0.png',
-      'assets/backgrounds/b0.png',
-      'assets/backgrounds/b0.png',
-      'assets/backgrounds/b0.png',
-      'assets/backgrounds/b0.png',
-      'assets/backgrounds/b0.png',
-      'assets/backgrounds/b0.png'
+      'assets/backgrounds/fuji.png',
+      'assets/backgrounds/fuji.png',
+      'assets/backgrounds/fuji.png',
+      'assets/backgrounds/fuji.png',
+      'assets/backgrounds/fuji.png',
+      'assets/backgrounds/fuji.png',
+      'assets/backgrounds/fuji.png',
+      'assets/backgrounds/fuji.png',
+      'assets/backgrounds/fuji.png',
+      'assets/backgrounds/fuji.png'
     ];
   }
 
@@ -45,7 +45,6 @@ class _BackgroundTabState extends State<BackgroundTab> {
             });
           },
           child: SizedBox(
-            height: 1800,
             child: Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
@@ -53,14 +52,13 @@ class _BackgroundTabState extends State<BackgroundTab> {
               ),
               color: selectedIndex == index ? selectedColor : null,
               child: Container(
-                padding: EdgeInsets.all(16), // カード内のコンテンツとの間隔を調整
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Expanded(
                       child: Image.asset(
                         getImageNames()[index],
-                        fit: BoxFit.cover, // 画像をカードに合わせて拡大・縮小
+                        fit: BoxFit.contain, // 画像をカードに合わせて拡大・縮小
                       ),
                     ),
                   ],
