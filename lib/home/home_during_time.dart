@@ -39,11 +39,11 @@ class _HomeDuringTime extends State<HomeDuringTime> {
           left: 16.0,
           child: NameButton(),
         ),
-        Positioned(
-          top: 32.0,
-          right: 16.0,
-          child: SettingButton(),
-        ),
+        // Positioned(
+        //   top: 32.0,
+        //   right: 16.0,
+        //   child: SettingButton(),
+        // ),
         Positioned(
           top: 160.0,
           left: 16.0,
