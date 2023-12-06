@@ -92,6 +92,7 @@ flutter:
     # 背景
     - assets/backgrounds/b0.png
     - assets/backgrounds/b1.png
+    - assets/backgrounds/fuji.png
 
     # - gs://hackumeijo2023.appspot.com/m0.obj
   #   - images/a_dot_burr.jpeg
