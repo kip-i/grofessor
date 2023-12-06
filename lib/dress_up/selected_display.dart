@@ -20,7 +20,7 @@ class _SelectedDisplayState extends State<SelectedDisplay> {
             height: MediaQuery.of(context).size.height / 2.4,
             decoration: const BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('assets/backgrounds/b0.png'),
+              image: AssetImage('assets/backgrounds/fuji.png'),
               fit: BoxFit.cover,
             )),
         ),),

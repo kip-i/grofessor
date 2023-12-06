@@ -28,7 +28,7 @@ class _HomeDefaultState extends State<HomeDefault> {
             height: MediaQuery.of(context).size.height,
             decoration: const BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('assets/backgrounds/b0.png'),
+              image: AssetImage('assets/backgrounds/fuji.png'),
               fit: BoxFit.cover,
             ))),
         Positioned.fill(
