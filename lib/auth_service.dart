@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'firebase_service.dart';
 
 class AuthService {
 
-  Future<String> addUser(String userName) async {
+  Future<String> addUser(String userName, String gender) async {
     try {
       String _email = userName+'@example.com';
       String _password = 'password';
@@ -12,14 +13,21 @@ class AuthService {
                   password: _password
                 )).user;
       if (user != null){
-        print("ユーザ登録しました ${user.email} , ${user.uid}");
-        return "Success";
-      } else{
-        print("ユーザ登録に失敗しました");
+        // print("ユーザ登録しました ${user.email} , ${userId} , ${userName} , ${gender}");
+        return await FirebaseService().createUser(user.uid, userName, gender)
+        .then((value) {
+          // print("ユーザ情報を登録しました2");
+          return user.uid;
+        }).onError((error, stackTrace) {
+          // print("ユーザ情報の登録に失敗しました1 ${error}");
+          return "Error";
+        });
+      } else {
+        // print("ユーザ登録に失敗しました2");
         return "Error";
       }
     } catch (e) {
-      print("ユーザ登録に失敗しました ${e}");
+      // print("ユーザ登録に失敗しました3 ${e}");
       return "Error";
     }
   }
