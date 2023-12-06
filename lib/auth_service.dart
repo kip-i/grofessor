@@ -34,7 +34,7 @@ class AuthService {
                 )).user;
       if (user != null){
         print("ログインしました　${user.email} , ${user.uid}");
-        return "Success";
+        return user.uid;
       } else{
         print("ログインに失敗しました");
         return "Error";

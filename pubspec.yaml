@@ -40,7 +40,7 @@ dependencies:
   firebase_auth: ^4.14.1
   cloud_firestore: ^4.13.2
   firebase_storage: ^11.5.2
-  # https://pub.dev/packages/flutter_cube/install
+  # https://pub.dev/packages/flutter_cube
   flutter_cube: ^0.1.1
 
   # https://pub.dev/packages/marquee
@@ -48,6 +48,9 @@ dependencies:
 
   # https://pub.dev/packages/shared_preferences
   shared_preferences: ^2.2.2
+  
+  # https://pub.dev/packages/provider
+  provider: ^6.1.1
 
 dev_dependencies:
   flutter_test:
