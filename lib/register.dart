@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cube/flutter_cube.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_service.dart';
+import 'firebase_service.dart';
 
 
 class RegisterPage extends StatefulWidget {
@@ -11,10 +14,55 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   String _userName = '';
+  String _gender = '';
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   String _msg = '';
+  List<String> _ranking = [];
+
+  Future<void> _setUser() async {
+    final SharedPreferences prefs = await _prefs;
+
+    prefs.setString('userName', _userName);
+    prefs.setString('gender', _gender);
+    prefs.setString('characterId', '0');
+    prefs.setString('backgroundId', '0');
+    prefs.setString('nickNameId', '0');
+
+    prefs.setInt('gachaTicket', 0);
+    prefs.setStringList('notHaveNickNameList', ['0','1','2']);
+    prefs.setStringList('notHaveCharacterList', ['($_gender)1','($_gender)2']);
+    prefs.setStringList('notHaveBackgroundList', ['0','1','2']);
+
+    prefs.setInt('paperNum', 0);
+    prefs.setInt('sumTime', 0);
+    prefs.setInt('thisTime', 0);
+    prefs.setInt('needTime', 0);
+    prefs.setInt('achieveNum', 0);
+    prefs.setInt('meanTime', 0);
+    prefs.setInt('penalty', 0);
+
+    prefs.setStringList('haveNickNameList', []);
+    prefs.setStringList('haveCharacterList', []);
+    prefs.setStringList('haveBackgroundList', []);
+
+    prefs.setStringList('classFlag', ['0','0','0','0','0','0',
+                                      '0','0','0','0','0','0',
+                                      '0','0','0','0','0','0',
+                                      '0','0','0','0','0','0',
+                                      '0','0','0','0','0','0',
+                                      '0','0','0','0','0','0']);
+    prefs.setStringList('classTime', ['0','0','0','0',
+                                      '0','0','0','0',
+                                      '0','0','0','0',
+                                      '0','0','0','0',
+                                      '0','0','0','0',
+                                      '0','0','0','0']);
+
+    // prefs.setStringList('ranking', _ranking);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children:[
+          Expanded(child:SizedBox(height: 20.0)),
           Padding(
             padding: EdgeInsets.all(20),
             child: Center(
@@ -51,6 +100,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
+                // inputFormatters: [
+                //   // 最大20文字まで
+                //   LengthLimitingTextInputFormatter(20),
+                //   // 半角英数字のみ許可
+                //   FilteringTextInputFormatter.allow(
+                //     RegExp(r'[a-zA-Z0-9]'),
+                //   ),
+                // ],
                 style: TextStyle(
                   color: Colors.green,
                 ),
@@ -62,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          SizedBox(height: 50.0),
+          Expanded(child:SizedBox(height: 50.0)),
           Text(
             'アバターを選択してください',
             textAlign: TextAlign.left,
@@ -83,6 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       setState(() {
                         _isSelected1 = true;
                         _isSelected2 = false;
+                        _gender = 'm';
                       });
                       print('アバター1が選択されました');
                     },
@@ -123,6 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       setState(() {
                         _isSelected1 = false;
                         _isSelected2 = true;
+                        _gender = 'w';
                       });
                       print('アバター2が選択されました');
                     },
@@ -158,8 +217,11 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 40.0),
           ElevatedButton(
-            onPressed: _userName=='' || (!_isSelected1 && !_isSelected2) ? null : () async {
-              _msg = await AuthService().addUser(_userName);
+            onPressed: _userName=='' || _gender=='' ? null : () async {
+              _msg = await AuthService().addUser(_userName,_gender);
+              // _ranking = await FirebaseService().getRanking();
+              _setUser();
+              // print(_msg);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
@@ -167,7 +229,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             child: const Text('作成'),
           ),
-          SizedBox(height: 20.0),
+          Expanded(child:SizedBox(height: 20.0)),
         ] 
       ),
     );
