@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../const/color.dart';
 
 class TimeSlider extends StatefulWidget {
   @override
@@ -46,6 +47,7 @@ class _TimeSliderState extends State<TimeSlider> {
             max: 90,
             divisions: 18, // 分割数
             label: '${_value.round()}分', // スライダーの上に表示される値
+            activeColor: Color.fromARGB(255, 226, 228, 226), // 値の色
           ),
         ],
       ),
