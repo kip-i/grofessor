@@ -75,8 +75,9 @@ class FirebaseService {
     });
     await _rootCollection.doc('rankings').collection('userData').doc(userId).set({
       'userName': userName,
+      'nickNameId': '',
       'character': '${gender}0',
-      'backgroundId': '0',
+      'backgroundId': '',
       'paperNum': 0,
       'sumTime': 0,
       'meanTime': 0,
@@ -379,6 +380,11 @@ class FirebaseService {
     final CollectionReference userCollection = _rootCollection.doc('users').collection(userId);
     await userCollection.doc('user').update({
       'nickNameId': nickNameId,
+    })
+    .then((value) async{
+      await _rootCollection.doc('rankings').collection('userData').doc(userId).update({
+        'nickNameId': nickNameId,
+      });
     });
   }
 
