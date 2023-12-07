@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home/home_selector.dart';
 import 'home/home_default.dart';
 import 'home/home_during_time.dart';
+import 'dress_up/dress_up.dart';
 
 void main() => runApp(const NavigationBarApp());
 
@@ -34,7 +35,7 @@ class _NavigationExampleState extends State<NavigationExample> {
   final List<Widget> _pages = <Widget>[
     // ここを自身のウィジェットに変更したらいい
     HomeDefault(),
-    HomeDuringTime(),
+    DressUp(),
     HomeSelector(),
     HomeDefault(),
     HomeDefault(),

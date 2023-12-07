@@ -28,7 +28,7 @@ class _HomeDuringTime extends State<HomeDuringTime> {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('assets/backgrounds/b0.png'),
+              image: AssetImage('assets/backgrounds/fuji.png'),
               fit: BoxFit.cover,
             ))),
         Positioned.fill(
@@ -39,11 +39,11 @@ class _HomeDuringTime extends State<HomeDuringTime> {
           left: 16.0,
           child: NameButton(),
         ),
-        Positioned(
-          top: 32.0,
-          right: 16.0,
-          child: SettingButton(),
-        ),
+        // Positioned(
+        //   top: 32.0,
+        //   right: 16.0,
+        //   child: SettingButton(),
+        // ),
         Positioned(
           top: 160.0,
           left: 16.0,

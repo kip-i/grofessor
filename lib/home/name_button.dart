@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../const/color.dart';
+
 class NameButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -7,7 +9,7 @@ class NameButton extends StatelessWidget {
       margin: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color.fromARGB(255, 164, 108, 00),
+          color: blackbordFrameColor,
           width: 4.0,
         ),
         borderRadius: BorderRadius.circular(8.0), // 角を丸くする
@@ -17,7 +19,7 @@ class NameButton extends StatelessWidget {
           // ボタンが押されたときの処理を追加
         },
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 00, 75, 63), // ボタンの背景色を白に設定
+          primary: blackbordColor, // ボタンの背景色を白に設定
           padding: EdgeInsets.all(8.0), // ボタン内の余白を設定
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4.0), // ボタンの角を丸める
@@ -30,7 +32,7 @@ class NameButton extends StatelessWidget {
               child: Text('4',
                   style: TextStyle(
                     fontSize: 32.0,
-                    color: Colors.white,
+                    color: blackbordWhiteColor,
                   )),
             ),
             SizedBox(width: 6.0, height: 32.0, child: Container()),
@@ -38,7 +40,7 @@ class NameButton extends StatelessWidget {
                 width: 4.0,
                 height: 64.0,
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: BoxDecoration(color: blackbordWhiteColor),
                 )),
             SizedBox(width: 12.0, height: 32.0, child: Container()),
             Column(
@@ -50,7 +52,7 @@ class NameButton extends StatelessWidget {
                     '2つ名あああ',
                     style: TextStyle(
                       fontSize: 12.0,
-                      color: Colors.white,
+                      color: blackbordWhiteColor,
                     ),
                   ),
                 ),
@@ -60,7 +62,7 @@ class NameButton extends StatelessWidget {
                     height: 4.0,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: blackbordWhiteColor,
                       ),
                     )),
                 SizedBox(width: 80.0, height: 4.0, child: Container()),
@@ -70,7 +72,7 @@ class NameButton extends StatelessWidget {
                     'UserName',
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: Colors.white,
+                      color: blackbordWhiteColor,
                     ),
                   ),
                 ),
