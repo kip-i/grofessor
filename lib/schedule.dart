@@ -54,17 +54,17 @@ class _MyDataTableState extends State<MyDataTable> {
       columns: [
         DataColumn(label: Text('')),
         DataColumn(
-            label: Text('  月', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 月', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  火', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 火', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  水', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 水', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  木', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 木', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  金', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 金', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  土', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 土', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
       ],
       rows: List.generate(6, (rowIndex) {
         int startCellIndex = rowIndex * 6;
@@ -134,7 +134,7 @@ class _MyDataTableState extends State<MyDataTable> {
       
           child: Column(
             children: [
-          Container(child:const Text('限目',textAlign: TextAlign.left,
+          Container(child: Text('${rowIndex+1}限目',textAlign: TextAlign.left,
               style: TextStyle(fontSize: 25,color: Color.fromARGB(255, 10, 98, 11),),),),
               
              
