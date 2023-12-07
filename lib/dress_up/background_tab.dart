@@ -78,10 +78,12 @@ class _BackgroundTabState extends State<BackgroundTab> {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Container(
-              padding: EdgeInsets.all(16),
-              child: Center(
-                child: Text('No Image'),
-              ),
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/hatena/background_hatena.png'),
+                  fit: BoxFit.cover,
+                )
+              )
             ),
           );
         }

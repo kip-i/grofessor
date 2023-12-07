@@ -94,6 +94,10 @@ flutter:
     - assets/backgrounds/b1.png
     - assets/backgrounds/fuji.png
 
+    # はてな
+    - assets/hatena/background_hatena.png
+    - assets/hatena/model_hatena.png
+
     # - gs://hackumeijo2023.appspot.com/m0.obj
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

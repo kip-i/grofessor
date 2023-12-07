@@ -78,10 +78,12 @@ class _ModelTabState extends State<ModelTab> {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Container(
-              padding: EdgeInsets.all(16),
-              child: Center(
-                child: Text('No Model'),
-              ),
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/hatena/model_hatena.png'),
+                  fit: BoxFit.cover,
+                )
+              )
             ),
           );
         }
