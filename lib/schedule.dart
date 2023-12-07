@@ -54,17 +54,29 @@ class _MyDataTableState extends State<MyDataTable> {
       columns: [
         DataColumn(label: Text('')),
         DataColumn(
-            label: Text('  月', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text('  月',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  火', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text('  火',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  水', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text('  水',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  木', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text('  木',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  金', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text('  金',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  土', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text('  土',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
       ],
       rows: List.generate(6, (rowIndex) {
         int startCellIndex = rowIndex * 6;
@@ -77,7 +89,8 @@ class _MyDataTableState extends State<MyDataTable> {
               return DataCell(
                 InkWell(
                   onTap: () {
-                    _showTimeSettingBottomSheet(context, rowIndex, startCellIndex + 1);
+                    _showTimeSettingBottomSheet(
+                        context, rowIndex, startCellIndex + 1);
                   },
                   child: Container(
                     padding: EdgeInsets.all(8.0),
@@ -85,7 +98,9 @@ class _MyDataTableState extends State<MyDataTable> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('${rowIndex + 1}',
-                            style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 40)),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 10, 98, 11),
+                                fontSize: 40)),
                         Text(
                           _leftColumnStartTimes[rowIndex].isNotEmpty
                               ? ' ${_leftColumnStartTimes[rowIndex]}'
@@ -125,21 +140,32 @@ class _MyDataTableState extends State<MyDataTable> {
     );
   }
 
-  void _showTimeSettingBottomSheet(BuildContext context, int rowIndex, int cellIndex) {
+  void _showTimeSettingBottomSheet(
+      BuildContext context, int rowIndex, int cellIndex) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
         return Container(
-          height: MediaQuery.of(context).copyWith().size.height /2,   //スマホ画面の何分割か
-      
+          height:
+              MediaQuery.of(context).copyWith().size.height / 2, //スマホ画面の何分割か
+
           child: Column(
             children: [
-          Container(child:const Text('限目',textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 25,color: Color.fromARGB(255, 10, 98, 11),),),),
-              
-             
-             
-              Container(child:const Text("開始時刻",style: TextStyle(fontSize: 18),)),
+              Container(
+                child: const Text(
+                  '限目',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Color.fromARGB(255, 10, 98, 11),
+                  ),
+                ),
+              ),
+              Container(
+                  child: const Text(
+                "開始時刻",
+                style: TextStyle(fontSize: 18),
+              )),
               Expanded(
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.time,
@@ -147,12 +173,17 @@ class _MyDataTableState extends State<MyDataTable> {
                   onDateTimeChanged: (DateTime dateTime) {
                     setState(() {
                       TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                      _leftColumnStartTimes[rowIndex] = '${time.hour}:${time.minute}';
+                      _leftColumnStartTimes[rowIndex] =
+                          '${time.hour}:${time.minute}';
                     });
                   },
                 ),
               ),
-              Container(child:const Text("終了時刻",style: TextStyle(fontSize: 18),)),
+              Container(
+                  child: const Text(
+                "終了時刻",
+                style: TextStyle(fontSize: 18),
+              )),
               Expanded(
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.time,
@@ -160,7 +191,8 @@ class _MyDataTableState extends State<MyDataTable> {
                   onDateTimeChanged: (DateTime dateTime) {
                     setState(() {
                       TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                      _leftColumnEndTimes[rowIndex] = '${time.hour}:${time.minute}';
+                      _leftColumnEndTimes[rowIndex] =
+                          '${time.hour}:${time.minute}';
                     });
                   },
                 ),
