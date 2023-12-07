@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
 import 'sample_state.dart';
 import 'dart:async';
-import 'test_home.dart';
+import '../home/home_selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SampleScreenController extends StateNotifier<SampleScreenState>
@@ -12,6 +12,7 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
   bool resultFlag = false;
   final GlobalKey<NavigatorState> navigatorKey;
   SampleScreenController(this.navigatorKey) : super(const SampleScreenState()) {
+    WidgetsFlutterBinding.ensureInitialized();
     WidgetsBinding.instance.addObserver(this); // アプリのライフサイクルを監視
   }
 
@@ -30,11 +31,14 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
       // アプリが前面に戻ったときにタイマーを再開
       _stopwatch.reset();
       resultFlag = await getNavigationToResult();
+      debugPrint('isActive: $isActive');
+      debugPrint('resultFlag: $resultFlag');
       // リザルト画面に遷移するかどうかを判定
       if (resultFlag) {
-        navigatorKey.currentState
-            ?.pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+        navigatorKey.currentState?.pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeSelector()));
       }
+      debugPrint('navigatorKey: ${navigatorKey.currentState}');
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
@@ -79,14 +83,11 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
   Future<void> setNavigationToResult() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? time = await getTime();
-    debugPrint('time: $time');
     if (time > 0) {
       prefs.setBool('isSetNavigationToResult', true);
     } else {
       prefs.setBool('isSetNavigationToResult', false);
     }
-    debugPrint(
-        'isSetNavigationToResult: ${prefs.getBool('isSetNavigationToResult')}');
   }
 
   Future<bool> getNavigationToResult() async {

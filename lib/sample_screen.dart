@@ -24,7 +24,6 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(sampleScreenProvider); // 状態を監視
-
     return Scaffold(
       backgroundColor: isButtonPressed
           ? const Color.fromARGB(255, 113, 113, 113)
