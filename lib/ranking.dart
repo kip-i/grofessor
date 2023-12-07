@@ -94,18 +94,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class Player {
-  String name;
-  int book;
+  String userName;
+  String nickName;
+  String character;
+  String backGround;
+  int numberOfPapers;
+  int totalStudyTime;
+  int averageStudyTime;
   int rank;
 
-  Player(this.name, this.book, this.rank);
+  Player(
+      this.userName,
+      this.nickName,
+      this.character,
+      this.backGround,
+      this.numberOfPapers,
+      this.totalStudyTime,
+      this.averageStudyTime,
+      this.rank);
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
-      json['userName'],
-      json['numberOfPapers'],
-      0,
-    );
+        json['userName'],
+        json['nickName'],
+        json['character'],
+        json['background'],
+        json['numberOfPapers'],
+        json['totalStudyTime'],
+        json['averageStudyTime'],
+        0);
   }
 }
 
@@ -134,7 +151,7 @@ class _RankingState extends State<Ranking> {
     String loadData = await rootBundle.loadString('user_data/user.json');
     List<dynamic> jsonData = jsonDecode(loadData);
     players = jsonData.map((item) => Player.fromJson(item)).toList();
-    players.sort((a, b) => b.book.compareTo(a.book));
+    players.sort((a, b) => b.numberOfPapers.compareTo(a.numberOfPapers));
     for (int i = 0; i < players.length; i++) {
       players[i].rank = i + 1;
     }
@@ -167,7 +184,7 @@ class _RankingState extends State<Ranking> {
                 children: players.map((player) {
                   return ListTile(
                     title: Text(
-                      ' ${player.rank}位     ${player.book}冊     ${player.name}',
+                      ' ${player.rank}位     ${player.numberOfPapers}冊     ${player.nickName}',
                       style: TextStyle(
                         fontSize: 25,
                         fontStyle: FontStyle.italic,
