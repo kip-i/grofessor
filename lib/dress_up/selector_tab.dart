@@ -60,7 +60,6 @@ class _SelectorTabState extends State<SelectorTab>
             children: [
               ModelTab(),
               BackgroundTab(),
-              
             ],
           ),
         ),

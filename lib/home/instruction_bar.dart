@@ -13,7 +13,7 @@ class InstructionBar extends StatelessWidget {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withOpacity(0.8),
                 spreadRadius: 2,
                 blurRadius: 4,
                 offset: Offset(0, 2),

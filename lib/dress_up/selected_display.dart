@@ -17,10 +17,10 @@ class _SelectedDisplayState extends State<SelectedDisplay> {
         Positioned(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2.4,
+            height: MediaQuery.of(context).size.height * 10 / 14 - 70,
             decoration: const BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('assets/backgrounds/b0.png'),
+              image: AssetImage('assets/backgrounds/fuji.png'),
               fit: BoxFit.cover,
             )),
         ),),
