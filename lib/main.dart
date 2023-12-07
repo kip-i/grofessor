@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'schedule.dart';
 import 'futter.dart';
-
+import 'ranking.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //setState(() {
       
       //_counter++;
-    //});
+    //});s
   //}
 
   @override
@@ -64,35 +64,37 @@ class _MyHomePageState extends State<MyHomePage> {
         
         title: Text(widget.title),
       ),
-      body: Center(
-       
+      body:Center(
+        child: Column(
+          children: [
+            Container(
         child: ElevatedButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => YouApp()),
+              MaterialPageRoute(builder: (context) => Schedule()),
             );
           },
           child:Text('schedule'),
         ),
-         
-         // mainAxisAlignment: MainAxisAlignment.center,
-          //children: <Widget>[
-            //const Text(
-              //'You have pushed the button this many times:',
-            //),
-            //Text(
-              //'$_counter',
-              //style: Theme.of(context).textTheme.headlineMedium,
-            //),
-          //],
+      ), 
+      Container( 
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ranking()),
+            );
+          },
+          child:Text('ranking'),
+        ),
+      ),    
         
+      
+      
+      ],
       ),
-      //floatingActionButton: FloatingActionButton(
-        //onPressed: _incrementCounter,
-        //tooltip: 'Increment',
-        //child: const Icon(Icons.add),
-      //), 
+      ),
     );
   }
 }

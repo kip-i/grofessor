@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class YourApp extends StatelessWidget {
-  const YourApp({Key? key}) : super(key: key);
+class Schedule extends StatelessWidget {
+  const Schedule({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
