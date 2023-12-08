@@ -15,15 +15,15 @@ class FirebaseService {
     
     await userCollection.doc('user').set({
       'userName': userName,
-      'nickNameId': '',
-      'backgroundId': '',
-      'character': '${gender}0',   // gender = 'm' or 'w'
+      'nickNameId': 'n0',
+      'backgroundId': 'b0',
+      'characterId': '${gender}0',   // gender = 'm' or 'w'
     }).then((value) async{
       await userCollection.doc('gacha').set({
         'gachaTicket': 0,
-        'notHaveNickNameList': ['0', '1', '2'],
-        'notHaveCharacterList': ['m0', 'm1', 'm2', 'w0', 'w1', 'w2'],
-        'notHaveBackgroundList': ['0', '1', '2'],
+        'notHaveNickNameList': ['n1', 'n2'],
+        'notHaveCharacterList': ['${gender}1', '${gender}m2'],
+        'notHaveBackgroundList': ['b1', 'b2'],
       }).then((value) async{
         await getNeedTime(0).then((value) async {
           await userCollection.doc('achieve').set({
@@ -75,9 +75,9 @@ class FirebaseService {
     });
     await _rootCollection.doc('rankings').collection('userData').doc(userId).set({
       'userName': userName,
-      'nickNameId': '',
-      'character': '${gender}0',
-      'backgroundId': '',
+      'nickNameId': 'n0',
+      'characterId': '${gender}0',
+      'backgroundId': 'b0',
       'paperNum': 0,
       'sumTime': 0,
       'meanTime': 0,
@@ -90,7 +90,7 @@ class FirebaseService {
     await userCollection.doc('nickName').get()
     .then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> haveList = data?['haveList'];
+      List<String> haveList = data?['haveList'] as List<String>;
       haveList.add(nickNameId);
       await userCollection.doc('nickName').update({
         'haveList': haveList,
@@ -104,7 +104,7 @@ class FirebaseService {
     await userCollection.doc('character').get()
     .then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> haveList = data?['haveList'];
+      List<String> haveList = data?['haveList'] as List<String>;
       haveList.add(characterId);
       await userCollection.doc('character').update({
         'haveList': haveList,
@@ -118,7 +118,7 @@ class FirebaseService {
     await userCollection.doc('background').get()
     .then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> haveList = data?['haveList'];
+      List<String> haveList = data?['haveList'] as List<String>;
       haveList.add(backgroundId);
       await userCollection.doc('background').update({
         'haveList': haveList,
@@ -134,7 +134,7 @@ class FirebaseService {
     await userCollection.doc('gacha').get()
     .then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveNickNameList'];
+      List<String> notHaveList = data?['notHaveNickNameList'] as List<String>;
       notHaveList.remove(nickNameId);
       await userCollection.doc('gacha').update({
         'notHaveNickNameList': notHaveList,
@@ -148,7 +148,7 @@ class FirebaseService {
     await userCollection.doc('gacha').get()
     .then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveCharacterList'];
+      List<String> notHaveList = data?['notHaveCharacterList'] as List<String>;
       notHaveList.remove(characterId);
       await userCollection.doc('gacha').update({
         'notHaveCharacterList': notHaveList,
@@ -162,7 +162,7 @@ class FirebaseService {
     await userCollection.doc('gacha').get()
     .then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveBackgroundList'];
+      List<String> notHaveList = data?['notHaveBackgroundList'] as List<String>;
       notHaveList.remove(backgroundId);
       await userCollection.doc('gacha').update({
         'notHaveBackgroundList': notHaveList,
@@ -173,7 +173,7 @@ class FirebaseService {
 //=== 取得 ==========================================================================================================//
 
   // 3種類のランキングを取得
-  Future<List<List>> getRanking() async {
+  Future<List<List<dynamic>>> getRanking() async {
     DateTime now = DateTime.now();
     DateTime nextUpdateTime = await getRankingUpdateTime();
     if (now.isAfter(nextUpdateTime)){
@@ -193,7 +193,7 @@ class FirebaseService {
   }
 
   // 論文数によるランキングを取得
-  Future<List<List>> getPaperNumRanking() async {
+  Future<List<List<dynamic>>> getPaperNumRanking() async {
     return await _rootCollection.doc('rankings').collection('rankings').doc('paperNumRanking').get()
     .then((value) {
       Map<String, dynamic>? data = value.data();
@@ -202,7 +202,7 @@ class FirebaseService {
   }
 
   // 合計時間によるランキングを取得
-  Future<List<List>> getSumTimeRanking() async {
+  Future<List<List<dynamic>>> getSumTimeRanking() async {
     return await _rootCollection.doc('rankings').collection('rankings').doc('sumTimeRanking').get()
     .then((value) {
       Map<String, dynamic>? data = value.data();
@@ -211,7 +211,7 @@ class FirebaseService {
   }
 
   // 平均時間によるランキングを取得
-  Future<List<List>> getMeanTimeRanking() async {
+  Future<List<List<dynamic>>> getMeanTimeRanking() async {
     return await _rootCollection.doc('rankings').collection('rankings').doc('meanTimeRanking').get()
     .then((value) {
       Map<String, dynamic>? data = value.data();
@@ -239,10 +239,8 @@ class FirebaseService {
   }
 
   // 3DモデルのURLを取得
-  Future<String> getCharacter(String character) async {
-    String gender = character[0];
-    String characterId = character[1];
-    return await _rootCollection.doc('characters').collection(gender).doc(characterId).get()
+  Future<String> getCharacter(String characterId) async {
+    return await _rootCollection.doc('characters').collection(characterId[0]).doc(characterId[1]).get()
     .then((value) {
       Map<String, dynamic>? data = value.data();
       return data?['characterPath'];
@@ -277,7 +275,7 @@ class FirebaseService {
     return await userCollection.doc('nickName').get()
     .then((value) {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      return data?['haveList'];
+      return data?['haveList'] as List<String>;
     });
     // return ['error'];
   }
@@ -288,7 +286,7 @@ class FirebaseService {
     return await userCollection.doc('character').get()
     .then((value) {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      return data?['haveList'];
+      return data?['haveList'] as List<String>;
     });
     // return ['error'];
   }
@@ -299,7 +297,7 @@ class FirebaseService {
     return await userCollection.doc('background').get()
     .then((value) {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      return data?['haveList'];
+      return data?['haveList'] as List<String>;
     });
     // return ['error'];
   }
@@ -310,7 +308,7 @@ class FirebaseService {
     return await userCollection.doc('schedule').collection('class').doc('class').get()
     .then((value) {
       Map<String, dynamic>? data = value.data();
-      return [data?['monday'], data?['tuesday'], data?['wednesday'], data?['thursday'], data?['friday'], data?['saturday']];
+      return [data?['monday'] as List<bool>, data?['tuesday'] as List<bool>, data?['wednesday'] as List<bool>, data?['thursday'] as List<bool>, data?['friday'] as List<bool>, data?['saturday'] as List<bool>];
     });
     // return [[false]];
   }
@@ -321,7 +319,7 @@ class FirebaseService {
     return await userCollection.doc('schedule').collection('class').doc('time').get()
     .then((value) {
       Map<String, dynamic>? data = value.data();
-      return [data?['1st'], data?['2nd'], data?['3rd'], data?['4th'], data?['5th'], data?['6th']];
+      return [data?['1st'] as List<int>, data?['2nd'] as List<int>, data?['3rd'] as List<int>, data?['4th'] as List<int>, data?['5th'] as List<int>, data?['6th'] as List<int>];
     });
     // return [[-1]];
   }
@@ -402,14 +400,14 @@ class FirebaseService {
   }
 
   // 選択3DモデルIDの更新
-  Future<void> updateCharacter(String userId, String character) async {
+  Future<void> updateCharacter(String userId, String characterId) async {
     final CollectionReference userCollection = _rootCollection.doc('users').collection(userId);
     await userCollection.doc('user').update({
-      'character': character,
+      'characterId': characterId,
     })
     .then((value) async {
       await _rootCollection.doc('rankings').collection('userData').doc(userId).update({
-        'character': character,
+        'characterId': characterId,
       });
     });
   }
@@ -497,7 +495,7 @@ class FirebaseService {
     .then((value) async {
       value.docs.forEach((element) {
         Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
-        List<Map<String, dynamic>?> tmp = [data?['userName'], data?['character'], data?['backgroundId'], data?['paperNum']];
+        List<Map<String, dynamic>?> tmp = [data?['userName'], data?['characterId'], data?['backgroundId'], data?['paperNum']];
         ranking.add(tmp);
       });
       await _rootCollection.doc('rankings').collection('rankings').doc('paperNumRanking').update({
@@ -523,7 +521,7 @@ class FirebaseService {
     .then((value) async {
       value.docs.forEach((element) {
         Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
-        List<Map<String, dynamic>?> tmp = [data?['userName'], data?['character'], data?['backgroundId'], data?['sumTime']];
+        List<Map<String, dynamic>?> tmp = [data?['userName'], data?['characterId'], data?['backgroundId'], data?['sumTime']];
         ranking.add(tmp);
       });
       await _rootCollection.doc('rankings').collection('rankings').doc('sumTimeRanking').update({
@@ -549,7 +547,7 @@ class FirebaseService {
     .then((value) async {
       value.docs.forEach((element) {
         Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
-        List<Map<String, dynamic>?> tmp = [data?['userName'], data?['character'], data?['backgroundId'], data?['meanTime']];
+        List<Map<String, dynamic>?> tmp = [data?['userName'], data?['characterId'], data?['backgroundId'], data?['meanTime']];
         ranking.add(tmp);
       });
       await _rootCollection.doc('rankings').collection('rankings').doc('meanTimeRanking').update({
