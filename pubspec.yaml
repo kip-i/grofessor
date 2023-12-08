@@ -95,6 +95,9 @@ flutter:
     # 背景
     - assets/backgrounds/b0.png
     - assets/backgrounds/b1.png
+    - assets/backgrounds/b2.png
+    - assets/backgrounds/b3.png
+    - assets/backgrounds/b4.png
     - assets/backgrounds/fuji.png
 
     # はてな
