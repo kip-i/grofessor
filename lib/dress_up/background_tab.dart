@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:grofessor/state.dart';
+import 'package:provider/provider.dart';
+
 import '../const/color.dart';
 
 class BackgroundTab extends StatefulWidget {
@@ -9,26 +12,13 @@ class BackgroundTab extends StatefulWidget {
 
 class _BackgroundTabState extends State<BackgroundTab> {
   int selectedIndex = 0;
-  final int background_num = 30; // background_numが変わる場合、適宜調整してください
+  final int background_num = 5; // background_numが変わる場合、適宜調整してください
 
-  // 仮の関数：画像名のリストを返す
-  List<String> getImageNames() {
-    return [
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png'
-    ];
-  }
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context);
+    dataProvider.getBackgroundId();
     return GridView.builder(
       shrinkWrap: true, // スクロール可能にする
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -39,13 +29,15 @@ class _BackgroundTabState extends State<BackgroundTab> {
       ),
       itemCount: background_num,
       itemBuilder: (context, index) {
-        if (index < getImageNames().length) {
+        if (index < dataProvider.haveBackgroundIdList.length) {
           // インデックスがリストの範囲内の場合
           return GestureDetector(
             onTap: () {
               setState(() {
                 selectedIndex = index;
               });
+              dataProvider.setBackgroundId(dataProvider.haveBackgroundIdList[index]);
+              print(dataProvider.backgroundId);
             },
             child: SizedBox(
               child: Card(
@@ -60,7 +52,7 @@ class _BackgroundTabState extends State<BackgroundTab> {
                     children: <Widget>[
                       Expanded(
                         child: Image.asset(
-                          getImageNames()[index],
+                          'assets/backgrounds/'+dataProvider.haveBackgroundIdList[index] +'.png',
                           fit: BoxFit.contain, // 画像をカードに合わせて拡大・縮小
                         ),
                       ),
