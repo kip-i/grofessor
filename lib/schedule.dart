@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+
+import 'state.dart';
 
 class Schedule extends StatelessWidget {
   const Schedule({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -32,6 +36,8 @@ class Schedule extends StatelessWidget {
   }
 }
 
+
+
 class MyDataTable extends StatefulWidget {
   @override
   _MyDataTableState createState() => _MyDataTableState();
@@ -48,6 +54,9 @@ class _MyDataTableState extends State<MyDataTable> {
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context);
+    dataProvider.getClassFlagList();
+    print('画面生成'+dataProvider.classFlagList.toString());
     return DataTable(
       dataRowMaxHeight: 190.0,
       decoration: BoxDecoration(color: Color.fromARGB(255, 195, 199, 195)),
@@ -109,11 +118,13 @@ class _MyDataTableState extends State<MyDataTable> {
                 Transform.scale(
                   scale: 2.0,
                   child: Checkbox(
-                    value: _isSelected[index],
+                   // value: _isSelected[index],
+                   value:dataProvider.classFlagList[rowIndex][cellIndex-1],
                     onChanged: (bool? value) {
-                      setState(() {
-                        _isSelected[index] = value!;
-                      });
+                     // setState(() {
+                       // _isSelected[index] = value!;
+                      //});
+                      dataProvider.setClassFlagList(rowIndex, cellIndex-1);
                     },
                   ),
                 ),
@@ -161,7 +172,8 @@ class _MyDataTableState extends State<MyDataTable> {
                     setState(() {
                       TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
                       _leftColumnEndTimes[rowIndex] = '${time.hour}:${time.minute}';
-                    });
+                    }
+);
                   },
                 ),
               ),

@@ -45,8 +45,10 @@ class DataProvider extends ChangeNotifier {
   List<String> haveBackgroundIdList = [];
   List<String> haveBackgroundPathList = [];
 
-  List<List<bool>> classFlagList = [];
-  List<List<int>> classTimeList = [];
+  List<List<bool>> classFlagList = [[false,false,false,false,false,false],[false,false,false,false,false,false],
+                                    [false,false,false,false,false,false],[false,false,false,false,false,false],
+                                    [false,false,false,false,false,false],[false,false,false,false,false,false],];
+  List<List<int>> classTimeList = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],];
 
   List<List<String>> paperNumRanking = [];
   List<List<String>> sumTimeRanking = [];
@@ -234,9 +236,18 @@ class DataProvider extends ChangeNotifier {
   void getClassFlagList() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = prefs.getStringList('classFlagList') ?? [];
+    classFlagList = [];
     for (int i=0; i<tmp.length; i+=6){
       classFlagList.add(tmp.sublist(i,i+6).map((e) => e=='1' ? true : false).toList());
     }
+    if(classFlagList==[]){
+      classFlagList = [[false,false,false,false,false,false],[false,false,false,false,false,false],
+                                    [false,false,false,false,false,false],[false,false,false,false,false,false],
+                                    [false,false,false,false,false,false],[false,false,false,false,false,false],];
+    List<String> tmp = classFlagList.map((e) => e.map((e) => e ? '1' : '0').toList()).toList().expand((e) => e).toList();
+      prefs.setStringList('classFlagList',tmp);
+    }
+
     notifyListeners(); // Add this line
   }
 

@@ -3,6 +3,7 @@ import 'home/home_selector.dart';
 import 'home/home_default.dart';
 import 'home/home_during_time.dart';
 import 'dress_up/dress_up.dart';
+import 'schedule.dart';
 
 void main() => runApp(const NavigationBarApp());
 
@@ -34,7 +35,7 @@ class _NavigationExampleState extends State<NavigationExample> {
 
   final List<Widget> _pages = <Widget>[
     // ここを自身のウィジェットに変更したらいい
-    HomeDefault(),
+    Schedule(),//時間割
     DressUp(),
     HomeSelector(),
     HomeDefault(),
