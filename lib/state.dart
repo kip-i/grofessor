@@ -789,8 +789,27 @@ class DataProvider extends ChangeNotifier {
     prefs.setStringList('classFlagList',tmp);
   }
 
-  void setClassTimeList(List<int> _classTimeList, int row) async{
-    classTimeList[row] = _classTimeList;
+  // void setClassTimeList(List<int> _classTimeList, int row) async{
+  //   classTimeList[row] = _classTimeList;
+  //   notifyListeners();
+
+  //   final prefs = await SharedPreferences.getInstance();
+  //   List<String> tmp = classTimeList.map((e) => e.map((e) => e.toString()).toList()).toList().expand((e) => e).toList();
+  //   prefs.setStringList('classTimeList',tmp);
+  // }
+  void setClassStartTimeList(List<int> _classTimeList, int row) async{
+    classTimeList[row][0] = _classTimeList[0];
+    classTimeList[row][1] = _classTimeList[1];
+    notifyListeners();
+
+    final prefs = await SharedPreferences.getInstance();
+    List<String> tmp = classTimeList.map((e) => e.map((e) => e.toString()).toList()).toList().expand((e) => e).toList();
+    prefs.setStringList('classTimeList',tmp);
+  }
+
+  void setClassFinishTimeList(List<int> _classTimeList, int row) async{
+    classTimeList[row][2] = _classTimeList[0];
+    classTimeList[row][3] = _classTimeList[1];
     notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
