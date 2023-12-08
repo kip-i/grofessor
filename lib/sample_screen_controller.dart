@@ -4,6 +4,7 @@ import 'sample_state.dart';
 import 'dart:async';
 import '../home/home_selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'main.dart';
 
 class SampleScreenController extends StateNotifier<SampleScreenState>
     with WidgetsBindingObserver {
@@ -31,14 +32,11 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
       // アプリが前面に戻ったときにタイマーを再開
       _stopwatch.reset();
       resultFlag = await getNavigationToResult();
-      debugPrint('isActive: $isActive');
-      debugPrint('resultFlag: $resultFlag');
       // リザルト画面に遷移するかどうかを判定
       if (resultFlag) {
-        navigatorKey.currentState?.pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeSelector()));
+        navigatorKey.currentState
+            ?.pushReplacement(MaterialPageRoute(builder: (context) => MyApp()));
       }
-      debugPrint('navigatorKey.currentState: ${navigatorKey.currentState}');
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {

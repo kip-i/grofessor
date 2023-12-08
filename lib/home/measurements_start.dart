@@ -23,6 +23,7 @@ class MeasurementsStart extends ConsumerWidget {
       //   border: Border(bottom: BorderSide(color: blackbordFrameColor, width: 4.0)),),
       child: ElevatedButton(
           onPressed: () {
+            controller.startTimer();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => SampleScreen()),

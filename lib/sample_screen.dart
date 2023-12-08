@@ -40,16 +40,16 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             // スタートボタン
-            ElevatedButton(
-              onPressed: () {
-                isButtonPressed = true;
-                ref.read(sampleScreenProvider.notifier).startTimer();
-              },
-              child: Text(
-                ' Start',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     isButtonPressed = true;
+            //     ref.read(sampleScreenProvider.notifier).startTimer();
+            //   },
+            //   child: Text(
+            //     ' Start',
+            //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            //   ),
+            // ),
             // ストップボタン
             ElevatedButton(
               onPressed: () {
