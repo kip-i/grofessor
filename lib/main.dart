@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
+import 'sample_screen_controller.dart';
+import 'sample_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:grofessor/state.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'firebase_options.dart';
-import 'futter.dart';
-import 'home/home_selector.dart';
 import 'register.dart';
 import 'auth_service.dart';
+import 'firebase_options.dart';
+import 'futter.dart';
+import 'sample_state.dart';
+
+final sampleScreenControllerProvider =
+    riverpod.StateNotifierProvider<SampleScreenController, SampleScreenState>(
+        (ref) => SampleScreenController(MyApp().navigatorKey));
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,58 +27,55 @@ void main() async {
   await dataProvider.getUserId();
 
   runApp(
-    // MaterialApp(
-    //   home: FutureBuilder(
-    //     future: getData(),
-    //     builder: (context, snapshot){
-    //       if (snapshot.connectionState == ConnectionState.waiting){
-    //         return CircularProgressIndicator();
-    //       } else if (snapshot.hasError){
-    //         return Text('Error: ${snapshot.error}');
-    //       } else {
-    //         final mobileData = snapshot.data;
-    //         return MyApp(mobileData: mobileData ?? 0);
-    //       }
-    //     }
-    //   )
-    // )
-      ChangeNotifierProvider.value(
-        value: dataProvider, // 既存のAuthProviderインスタンスを提供
-        child: MyApp(),
-      ),
+    ChangeNotifierProvider.value(
+      value: dataProvider,
+      child: riverpod.ProviderScope(child: MyApp()),
+    ),
   );
 }
 
-// 数字を返す
-// Future <int> getData() async {
-//   return 0;
-// }
-
 class MyApp extends StatelessWidget {
-// class MyApp extends ConsumerWidget{
-  // final int mobileData;
-  // final String login;
-
-  // const MyApp({Key? key, required this.mobileData}) : super(key: key);
-  // const MyApp({Key? key, required this.login}) : super(key: key);
-  const MyApp({Key? key}) : super(key: key);
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final int mobileData = 0;
 
   @override
   Widget build(BuildContext context) {
-    
-    return MaterialApp(
-      home: Consumer<DataProvider>(
-        builder: (context, dataProvider, child) {
-          print('画面生成'+dataProvider.login.toString());
-          // print('画面生成'+Provider.of<DataProvider>(context, listen: true).isLogin.toString());
-          // return Provider.of<DataProvider>(context, listen: true).login
-          return dataProvider.login
-              ? Scaffold(
-                  bottomNavigationBar: NavigationExample(),
-                )
-              : RegisterPage();
-        },
+    return riverpod.ProviderScope(
+      overrides: [
+        sampleScreenProvider.overrideWith(
+          (ref) => SampleScreenController(navigatorKey),
+        ),
+      ],
+      child: MaterialApp(
+        navigatorKey: navigatorKey,
+        home: Consumer<DataProvider>(
+          builder: (context, dataProvider, child) {
+            print('画面生成 ${dataProvider.login.toString()}');
+            // print('画面生成'+Provider.of<DataProvider>(context, listen: true).isLogin.toString());
+            // return Provider.of<DataProvider>(context, listen: true).login
+            return dataProvider.login
+                ? const Scaffold(
+                    bottomNavigationBar: NavigationExample(),
+                  )
+                : RegisterPage();
+          },
+        ),
       ),
     );
   }
 }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     navigatorKey: navigatorKey,
+  //     home: Scaffold(
+  //       bottomNavigationBar: NavigationExample(),
+  //     ),
+  //   );
+  // }
+
+  // if (mobileData == 0){
+  //   return HomeDefault();
+  // } else {
+  //   return HomeDuringTime();
+  // }
