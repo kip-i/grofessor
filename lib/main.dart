@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'sample_screen_controller.dart';
 import 'sample_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:grofessor/state.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'register.dart';
+import 'auth_service.dart';
 import 'firebase_options.dart';
 import 'futter.dart';
 import 'sample_state.dart';
 
 final sampleScreenControllerProvider =
-    StateNotifierProvider<SampleScreenController, SampleScreenState>(
+    riverpod.StateNotifierProvider<SampleScreenController, SampleScreenState>(
         (ref) => SampleScreenController(MyApp().navigatorKey));
 
 void main() async {
@@ -18,32 +23,15 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final mobileData = await getData();
+  DataProvider dataProvider = DataProvider();
+  await dataProvider.getUserId();
 
-  // runApp(
-  //   MaterialApp(
-  //     home: FutureBuilder(
-  //       future: getData(),
-  //       builder: (context, snapshot){
-  //         if (snapshot.connectionState == ConnectionState.waiting){
-  //           return CircularProgressIndicator();
-  //         } else if (snapshot.hasError){
-  //           return Text('Error: ${snapshot.error}');
-  //         } else {
-  //           final mobileData = snapshot.data;
-  //           return MyApp(mobileData: mobileData ?? 0);
-  //         }
-  //       }
-  //     )
-  //   )
-  // );
-
-  runApp(ProviderScope(child: MyApp()));
-}
-
-// 数字を返す
-Future<int> getData() async {
-  return 0;
+  runApp(
+    ChangeNotifierProvider.value(
+      value: dataProvider,
+      child: riverpod.ProviderScope(child: MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -52,7 +40,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
+    return riverpod.ProviderScope(
       overrides: [
         sampleScreenProvider.overrideWith(
           (ref) => SampleScreenController(navigatorKey),
@@ -60,13 +48,22 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
-        home: Scaffold(
-          bottomNavigationBar: NavigationExample(),
+        home: Consumer<DataProvider>(
+          builder: (context, dataProvider, child) {
+            print('画面生成 ${dataProvider.login.toString()}');
+            // print('画面生成'+Provider.of<DataProvider>(context, listen: true).isLogin.toString());
+            // return Provider.of<DataProvider>(context, listen: true).login
+            return dataProvider.login
+                ? const Scaffold(
+                    bottomNavigationBar: NavigationExample(),
+                  )
+                : RegisterPage();
+          },
         ),
       ),
     );
   }
-
+}
   // @override
   // Widget build(BuildContext context) {
   //   return MaterialApp(
@@ -82,4 +79,3 @@ class MyApp extends StatelessWidget {
   // } else {
   //   return HomeDuringTime();
   // }
-}

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cube/flutter_cube.dart';
+import 'package:grofessor/state.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_service.dart';
@@ -14,7 +16,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   String _userName = '';
   String _gender = '';
   bool _isSelected1 = false;
@@ -22,51 +23,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String _msg = '';
   List<String> _ranking = [];
 
-  Future<void> _setUser() async {
-    final SharedPreferences prefs = await _prefs;
-
-    prefs.setString('userName', _userName);
-    prefs.setString('gender', _gender);
-    prefs.setString('characterId', '0');
-    prefs.setString('backgroundId', '0');
-    prefs.setString('nickNameId', '0');
-
-    prefs.setInt('gachaTicket', 0);
-    prefs.setStringList('notHaveNickNameList', ['0','1','2']);
-    prefs.setStringList('notHaveCharacterList', ['($_gender)1','($_gender)2']);
-    prefs.setStringList('notHaveBackgroundList', ['0','1','2']);
-
-    prefs.setInt('paperNum', 0);
-    prefs.setInt('sumTime', 0);
-    prefs.setInt('thisTime', 0);
-    prefs.setInt('needTime', 0);
-    prefs.setInt('achieveNum', 0);
-    prefs.setInt('meanTime', 0);
-    prefs.setInt('penalty', 0);
-
-    prefs.setStringList('haveNickNameList', []);
-    prefs.setStringList('haveCharacterList', []);
-    prefs.setStringList('haveBackgroundList', []);
-
-    prefs.setStringList('classFlag', ['0','0','0','0','0','0',
-                                      '0','0','0','0','0','0',
-                                      '0','0','0','0','0','0',
-                                      '0','0','0','0','0','0',
-                                      '0','0','0','0','0','0',
-                                      '0','0','0','0','0','0']);
-    prefs.setStringList('classTime', ['0','0','0','0',
-                                      '0','0','0','0',
-                                      '0','0','0','0',
-                                      '0','0','0','0',
-                                      '0','0','0','0',
-                                      '0','0','0','0']);
-
-    // prefs.setStringList('ranking', _ranking);
-  }
 
   @override
   Widget build(BuildContext context) {
-
+    final dataProvider = Provider.of<DataProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Grofessor'),
@@ -100,14 +60,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                // inputFormatters: [
-                //   // 最大20文字まで
-                //   LengthLimitingTextInputFormatter(20),
-                //   // 半角英数字のみ許可
-                //   FilteringTextInputFormatter.allow(
-                //     RegExp(r'[a-zA-Z0-9]'),
-                //   ),
-                // ],
+                inputFormatters: [
+                  // 最大20文字まで
+                  LengthLimitingTextInputFormatter(20),
+                  // 半角英数字のみ許可
+                  // FilteringTextInputFormatter.allow(
+                  //   RegExp(r'[a-zA-Z0-9]'),
+                  // ),
+                ],
                 style: TextStyle(
                   color: Colors.green,
                 ),
@@ -218,9 +178,11 @@ class _RegisterPageState extends State<RegisterPage> {
           SizedBox(height: 40.0),
           ElevatedButton(
             onPressed: _userName=='' || _gender=='' ? null : () async {
-              _msg = await AuthService().addUser(_userName,_gender);
+              // _msg = await AuthService().addUser(_userName,_gender);
               // _ranking = await FirebaseService().getRanking();
-              _setUser();
+              await dataProvider.setUser(_userName, _gender);
+              // DataProvider().setUser();
+              // dataProvider.getUserId();
               // print(_msg);
             },
             style: ElevatedButton.styleFrom(
