@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'home/home_selector.dart';
+import 'home/home_default.dart';
+import 'home/home_during_time.dart';
+import 'dress_up/dress_up.dart';
+import '../ranking.dart';
 
 void main() => runApp(const NavigationBarApp());
 
@@ -25,14 +30,27 @@ class NavigationExample extends StatefulWidget {
 }
 
 class _NavigationExampleState extends State<NavigationExample> {
-  int currentPageIndex = 0;
+  int _currentPageIndex = 0;
+
+  final List<Widget> _pages = <Widget>[
+    // ここを自身のウィジェットに変更したらいい
+    HomeDefault(),
+    DressUp(),
+    HomeSelector(),
+    HomeDefault(),
+    Ranking(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
+      body: IndexedStack(
+        index: _currentPageIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: Container(
-        color:Color.fromARGB(255, 226, 228, 226), // フッター部分の背景色を変更
+        color: Color.fromARGB(255, 226, 228, 226), // フッター部分の背景色を変更
         padding: EdgeInsets.symmetric(vertical: 8.0),
         child: BottomAppBar(
           color: Colors.transparent,
@@ -43,34 +61,8 @@ class _NavigationExampleState extends State<NavigationExample> {
               5,
               (index) => _buildIconButton(
                 index,
-                index == currentPageIndex,
+                index == _currentPageIndex,
               ),
-            ),
-          ),
-        ),
-      ),
-      /*body: <Widget>[
-        _buildPage('時間割', theme, Colors.black),
-        _buildPage('着せ替え', theme, Colors.black),
-        _buildPage('ホーム', theme, Colors.black),
-        _buildPage('ガチャ', theme, Colors.black),
-        _buildPage('ランキング', theme, Colors.black),
-      ][currentPageIndex],*/
-    );
-  }
-
-  Widget _buildPage(String label, ThemeData theme, Color textColor) {
-    return Card(
-      shadowColor: Colors.transparent,
-      margin: const EdgeInsets.all(8.0),
-      child: SizedBox.expand(
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -111,13 +103,15 @@ class _NavigationExampleState extends State<NavigationExample> {
       child: InkWell(
         onTap: () {
           setState(() {
-            currentPageIndex = index;
+            _currentPageIndex = index;
           });
         },
         borderRadius: BorderRadius.circular(10.0),
         child: Container(
           decoration: BoxDecoration(
-            color: isSelected ?Color.fromARGB(255, 191, 193, 192) : Colors.transparent,
+            color: isSelected
+                ? Color.fromARGB(255, 191, 193, 192)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Column(
@@ -127,13 +121,17 @@ class _NavigationExampleState extends State<NavigationExample> {
               Icon(
                 icon,
                 size: isSelected ? 32.0 : 24.0,
-                color: isSelected ? const Color(0xFF00753F) : Color.fromARGB(255, 80, 81, 80),
+                color: isSelected
+                    ? const Color(0xFF00753F)
+                    : Color.fromARGB(255, 80, 81, 80),
               ),
               SizedBox(height: 4.0),
               Text(
                 label,
                 style: TextStyle(
-                  color: isSelected ? const Color(0xFF00753F) : Color.fromARGB(255, 80, 81, 80),
+                  color: isSelected
+                      ? const Color(0xFF00753F)
+                      : Color.fromARGB(255, 80, 81, 80),
                   fontSize: 12.5,
                 ),
                 textAlign: TextAlign.center,
