@@ -284,72 +284,101 @@ class DataProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void getClassFlagList() async {
+  void getClassList() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = prefs.getStringList('classFlagList') ?? [];
+    List<String> tmp2 = prefs.getStringList('classTimeList') ?? [];
     classFlagList = [];
+    classTimeList = [];
+    
     for (int i=0; i<tmp.length; i+=6){
       classFlagList.add(tmp.sublist(i,i+6).map((e) => e=='1' ? true : false).toList());
     }
-    notifyListeners(); // Add this line
-  }
-
-  void getClassTimeList() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> tmp = prefs.getStringList('classTimeList') ?? [];
-    classTimeList = [];
     for (int i=0; i<tmp.length; i+=4){
-      classTimeList.add(tmp.sublist(i,i+4).map((e) => int.parse(e)).toList());
+      classTimeList.add(tmp2.sublist(i,i+4).map((e) => int.parse(e)).toList());
     }
     notifyListeners(); // Add this line
   }
 
-  void getPaperNumRanking() async {
+  // void getClassFlagList() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   List<String> tmp = prefs.getStringList('classFlagList') ?? [];
+  //   classFlagList = [];
+  //   for (int i=0; i<tmp.length; i+=6){
+  //     classFlagList.add(tmp.sublist(i,i+6).map((e) => e=='1' ? true : false).toList());
+  //   }
+  //   notifyListeners(); // Add this line
+  // }
+
+  // void getClassTimeList() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   List<String> tmp = prefs.getStringList('classTimeList') ?? [];
+  //   classTimeList = [];
+  //   for (int i=0; i<tmp.length; i+=4){
+  //     classTimeList.add(tmp.sublist(i,i+4).map((e) => int.parse(e)).toList());
+  //   }
+  //   notifyListeners(); // Add this line
+  // }
+
+  void getRanking() async {
     final prefs = await SharedPreferences.getInstance();
     paperNumRanking = [];
-    for (int i=0; i<10; i++){
-      paperNumRanking.add(prefs.getStringList('paperNumRanking${i+1}') ?? []);
-    }
-    notifyListeners(); // Add this line
-  }
-
-  void getSumTimeRanking() async {
-    final prefs = await SharedPreferences.getInstance();
     sumTimeRanking = [];
-    for (int i=0; i<10; i++){
-      sumTimeRanking.add(prefs.getStringList('sumTimeRanking${i+1}') ?? []);
-    }
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking1st') ?? []);
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking2nd') ?? []);
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking3rd') ?? []);
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking4th') ?? []);
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking5th') ?? []);
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking6th') ?? []);
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking7th') ?? []);
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking8th') ?? []);
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking9th') ?? []);
-    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking10th') ?? []);
-    notifyListeners(); // Add this line
-  }
-
-  void getMeanTimeRanking() async {
-    final prefs = await SharedPreferences.getInstance();
     meanTimeRanking = [];
     for (int i=0; i<10; i++){
+      paperNumRanking.add(prefs.getStringList('paperNumRanking${i+1}') ?? []);
+      sumTimeRanking.add(prefs.getStringList('sumTimeRanking${i+1}') ?? []);
       meanTimeRanking.add(prefs.getStringList('meanTimeRanking${i+1}') ?? []);
     }
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking1st') ?? []);
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking2nd') ?? []);
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking3rd') ?? []);
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking4th') ?? []);
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking5th') ?? []);
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking6th') ?? []);
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking7th') ?? []);
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking8th') ?? []);
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking9th') ?? []);
-    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking10th') ?? []);
     notifyListeners(); // Add this line
   }
+
+  // void getPaperNumRanking() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   paperNumRanking = [];
+  //   for (int i=0; i<10; i++){
+  //     paperNumRanking.add(prefs.getStringList('paperNumRanking${i+1}') ?? []);
+  //   }
+  //   notifyListeners(); // Add this line
+  // }
+
+  // void getSumTimeRanking() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   sumTimeRanking = [];
+  //   for (int i=0; i<10; i++){
+  //     sumTimeRanking.add(prefs.getStringList('sumTimeRanking${i+1}') ?? []);
+  //   }
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking1st') ?? []);
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking2nd') ?? []);
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking3rd') ?? []);
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking4th') ?? []);
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking5th') ?? []);
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking6th') ?? []);
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking7th') ?? []);
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking8th') ?? []);
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking9th') ?? []);
+  //   // sumTimeRanking.add(prefs.getStringList('sumTimeRanking10th') ?? []);
+  //   notifyListeners(); // Add this line
+  // }
+
+  // void getMeanTimeRanking() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   meanTimeRanking = [];
+  //   for (int i=0; i<10; i++){
+  //     meanTimeRanking.add(prefs.getStringList('meanTimeRanking${i+1}') ?? []);
+  //   }
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking1st') ?? []);
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking2nd') ?? []);
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking3rd') ?? []);
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking4th') ?? []);
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking5th') ?? []);
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking6th') ?? []);
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking7th') ?? []);
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking8th') ?? []);
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking9th') ?? []);
+  //   // meanTimeRanking.add(prefs.getStringList('meanTimeRanking10th') ?? []);
+  //   notifyListeners(); // Add this line
+  // }
 
 
 
@@ -762,6 +791,8 @@ class DataProvider extends ChangeNotifier {
 
   void setClassTimeList(List<int> _classTimeList, int row) async{
     classTimeList[row] = _classTimeList;
+    notifyListeners();
+    
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = classTimeList.map((e) => e.map((e) => e.toString()).toList()).toList().expand((e) => e).toList();
     prefs.setStringList('classTimeList',tmp);
