@@ -21,7 +21,10 @@ void main() async {
 
   DataProvider dataProvider = DataProvider();
   await dataProvider.getUserId();
-
+  await dataProvider.getClassFlagList();
+  print(dataProvider.classFlagList);
+  await dataProvider.getClassTimeList();
+  print(dataProvider.classTimeList);
   runApp(
     // MaterialApp(
     //   home: FutureBuilder(

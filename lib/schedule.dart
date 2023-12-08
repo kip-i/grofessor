@@ -55,8 +55,8 @@ class _MyDataTableState extends State<MyDataTable> {
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
-    dataProvider.getClassFlagList();
-    print('画面生成'+dataProvider.classFlagList.toString());
+    //dataProvider.getClassFlagList();
+    //print('画面生成'+dataProvider.classFlagList.toString());
     return DataTable(
       dataRowMaxHeight: 190.0,
       decoration: BoxDecoration(color: Color.fromARGB(255, 195, 199, 195)),
@@ -86,7 +86,7 @@ class _MyDataTableState extends State<MyDataTable> {
               return DataCell(
                 InkWell(
                   onTap: () {
-                    _showTimeSettingBottomSheet(context, rowIndex, startCellIndex + 1);
+                    _showTimeSettingBottomSheet(context, rowIndex, startCellIndex + 1,dataProvider);
                   },
                   child: Container(
                     padding: EdgeInsets.all(8.0),
@@ -96,14 +96,18 @@ class _MyDataTableState extends State<MyDataTable> {
                         Text('${rowIndex + 1}',
                             style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 40)),
                         Text(
-                          _leftColumnStartTimes[rowIndex].isNotEmpty
-                              ? ' ${_leftColumnStartTimes[rowIndex]}'
+                       //   _leftColumnStartTimes[rowIndex].isNotEmpty
+                       dataProvider.classTimeList != []
+                             // ? ' ${_leftColumnStartTimes[rowIndex]}'
+                              ? ' ${dataProvider.classTimeList[rowIndex][0]}時${dataProvider.classTimeList[rowIndex][1]}分'
                               : '開始時刻',
                           style: TextStyle(fontSize: 25),
                         ),
                         Text(
-                          _leftColumnEndTimes[rowIndex].isNotEmpty
-                              ? '~ ${_leftColumnEndTimes[rowIndex]}'
+                          //_leftColumnEndTimes[rowIndex].isNotEmpty
+                          dataProvider.classTimeList != []
+                             // ? '~ ${_leftColumnEndTimes[rowIndex]}'
+                              ? '~ ${dataProvider.classTimeList[rowIndex][2]}時${dataProvider.classTimeList[rowIndex][3]}分'
                               : '終了時刻',
                           style: TextStyle(fontSize: 25),
                         ),
@@ -136,7 +140,8 @@ class _MyDataTableState extends State<MyDataTable> {
     );
   }
 
-  void _showTimeSettingBottomSheet(BuildContext context, int rowIndex, int cellIndex) {
+  void _showTimeSettingBottomSheet(BuildContext context, int rowIndex, int cellIndex,DataProvider dataProvider) {
+   //final dataProvider = Provider.of<DataProvider>(context);
     showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
@@ -156,10 +161,12 @@ class _MyDataTableState extends State<MyDataTable> {
                   mode: CupertinoDatePickerMode.time,
                   initialDateTime: DateTime.now(),
                   onDateTimeChanged: (DateTime dateTime) {
-                    setState(() {
-                      TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                      _leftColumnStartTimes[rowIndex] = '${time.hour}:${time.minute}';
-                    });
+                   // setState(() {
+                     // TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                      //_leftColumnStartTimes[rowIndex] = '${time.hour}:${time.minute}';
+                    //});
+                   TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                   dataProvider.setClassStartTimeList([time.hour, time.minute],rowIndex);
                   },
                 ),
               ),
@@ -169,11 +176,13 @@ class _MyDataTableState extends State<MyDataTable> {
                   mode: CupertinoDatePickerMode.time,
                   initialDateTime: DateTime.now(),
                   onDateTimeChanged: (DateTime dateTime) {
-                    setState(() {
-                      TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                      _leftColumnEndTimes[rowIndex] = '${time.hour}:${time.minute}';
-                    }
-);
+                   // setState(() {
+                     // TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                      //_leftColumnEndTimes[rowIndex] = '${time.hour}:${time.minute}';
+                    //}
+                    TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                   dataProvider.setClassFinishTimeList([time.hour, time.minute],rowIndex);
+//);
                   },
                 ),
               ),

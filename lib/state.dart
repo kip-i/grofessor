@@ -14,21 +14,20 @@ class DataProvider extends ChangeNotifier {
   String userId = '';
   String userName = '';
 
-  String nickNameId = '';
+  String nickNameId = ''; // n0
   String nickName = '';
 
-  String gender = '';
-  String characterId = '';
-  String character = '';
-  String characterPath = '';
+  String gender = ''; // m or w
+  String characterId = ''; // (m or w)0
+  String characterPath = ''; // assets/models/(m or w)0.obj
 
-  String backgroundId = '';
-  String backgroundPath = '';
+  String backgroundId = ''; // b0
+  String backgroundPath = ''; // assets/backgrounds/b0.png
 
   int gachaTicket = 0;
-  List<String> notHaveNickNameIdList = [];
-  List<String> notHaveCharacterIdList = [];
-  List<String> notHaveBackgroundIdList = [];
+  List<String> notHaveNickNameIdList = []; // n1,n2
+  List<String> notHaveCharacterIdList = []; // (m or w)1,(m or w)2
+  List<String> notHaveBackgroundIdList = []; // b1,b2
 
   int paperNum = 0;
   int sumTime = 0;
@@ -38,28 +37,80 @@ class DataProvider extends ChangeNotifier {
   double meanTime = 0;
   bool penalty = false;
 
-  List<String> haveNickNameIdList = [];
-  List<String> haveNickNameList = [];
-  List<String> haveCharacterIdList = [];
-  List<String> haveCharacterPathList = [];
-  List<String> haveBackgroundIdList = [];
-  List<String> haveBackgroundPathList = [];
+  List<String> haveNickNameIdList = []; // n0
+  List<String> haveNickNameList = []; // 研究生
+  List<String> haveCharacterIdList = []; // (m or w)0
+  List<String> haveCharacterPathList = []; // assets/models/(m or w)0.obj
+  List<String> haveBackgroundIdList = []; // b0
+  List<String> haveBackgroundPathList = []; // assets/backgrounds/b0.png
 
-  List<List<bool>> classFlagList = [[false,false,false,false,false,false],[false,false,false,false,false,false],
-                                    [false,false,false,false,false,false],[false,false,false,false,false,false],
-                                    [false,false,false,false,false,false],[false,false,false,false,false,false],];
-  List<List<int>> classTimeList = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],];
+  List<List<bool>> classFlagList = []; // 6*6
+  List<List<int>> classTimeList = []; // 6*4
 
-  List<List<String>> paperNumRanking = [];
-  List<List<String>> sumTimeRanking = [];
-  List<List<String>> meanTimeRanking = [];
+  List<List<String>> paperNumRanking = []; // 10*4
+  List<List<String>> sumTimeRanking = []; // 10*4
+  List<List<String>> meanTimeRanking = []; // 10*4
 
   void getData() async {
     final prefs = await SharedPreferences.getInstance();
     userName = prefs.getString('userName') ?? '';
+
     nickNameId = prefs.getString('nickNameId') ?? '';
     nickName = prefs.getString('nickName') ?? '';
 
+    gender = prefs.getString('gender') ?? '';
+    characterId = prefs.getString('characterId') ?? '';
+    characterPath = prefs.getString('characterPath') ?? '';
+
+    backgroundId = prefs.getString('backgroundId') ?? '';
+    backgroundPath = prefs.getString('backgroundPath') ?? '';
+
+    gachaTicket = prefs.getInt('gachaTicket') ?? 0;
+    notHaveNickNameIdList = prefs.getStringList('notHaveNickNameIdList') ?? [];
+    notHaveCharacterIdList = prefs.getStringList('notHaveCharacterIdList') ?? [];
+    notHaveBackgroundIdList = prefs.getStringList('notHaveBackgroundIdList') ?? [];
+
+    paperNum = prefs.getInt('paperNum') ?? 0;
+    sumTime = prefs.getInt('sumTime') ?? 0;
+    thisTime = prefs.getInt('thisTime') ?? 0;
+    needTime = prefs.getInt('needTime') ?? 0;
+    achieveNum = prefs.getInt('achieveNum') ?? 0;
+    meanTime = prefs.getDouble('meanTime') ?? 0;
+    penalty = prefs.getBool('penalty') ?? false;
+
+    haveNickNameIdList = prefs.getStringList('haveNickNameIdList') ?? [];
+    haveNickNameList = prefs.getStringList('haveNickNameList') ?? [];
+    haveCharacterIdList = prefs.getStringList('haveCharacterIdList') ?? [];
+    haveCharacterPathList = prefs.getStringList('haveCharacterPathList') ?? [];
+    haveBackgroundIdList = prefs.getStringList('haveBackgroundIdList') ?? [];
+    haveBackgroundPathList = prefs.getStringList('haveBackgroundPathList') ?? [];
+
+    classFlagList = [];
+    List<String> tmp = prefs.getStringList('classFlagList') ?? [];
+    for (int i=0; i<tmp.length; i+=6){
+      classFlagList.add(tmp.sublist(i,i+6).map((e) => e=='1' ? true : false).toList());
+    }
+
+    classTimeList = [];
+    tmp = prefs.getStringList('classTimeList') ?? [];
+    for (int i=0; i<tmp.length; i+=4){
+      classTimeList.add(tmp.sublist(i,i+4).map((e) => int.parse(e)).toList());
+    }
+
+    paperNumRanking = [];
+    for (int i=0; i<10; i++){
+      paperNumRanking.add(prefs.getStringList('paperNumRanking${i+1}') ?? []);
+    }
+    sumTimeRanking = [];
+    for (int i=0; i<10; i++){
+      sumTimeRanking.add(prefs.getStringList('sumTimeRanking${i+1}') ?? []);
+    }
+    meanTimeRanking = [];
+    for (int i=0; i<10; i++){
+      meanTimeRanking.add(prefs.getStringList('meanTimeRanking${i+1}') ?? []);
+    }
+    
+    notifyListeners();
   }
 
   Future<void> getUserId() async {
@@ -107,11 +158,11 @@ class DataProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void getCharacter() async {
-    final prefs = await SharedPreferences.getInstance();
-    character = prefs.getString('character') ?? '';
-    notifyListeners(); // Add this line
-  }
+  // void getCharacter() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   character = prefs.getString('character') ?? '';
+  //   notifyListeners(); // Add this line
+  // }
 
   void getCharacterPath() async {
     final prefs = await SharedPreferences.getInstance();
@@ -233,10 +284,11 @@ class DataProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void getClassFlagList() async {
+  Future<void> getClassFlagList() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = prefs.getStringList('classFlagList') ?? [];
     classFlagList = [];
+    print(tmp);
     for (int i=0; i<tmp.length; i+=6){
       classFlagList.add(tmp.sublist(i,i+6).map((e) => e=='1' ? true : false).toList());
     }
@@ -251,9 +303,10 @@ class DataProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void getClassTimeList() async {
+  Future <void> getClassTimeList() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = prefs.getStringList('classTimeList') ?? [];
+    classTimeList = [];
     for (int i=0; i<tmp.length; i+=4){
       classTimeList.add(tmp.sublist(i,i+4).map((e) => int.parse(e)).toList());
     }
@@ -262,49 +315,48 @@ class DataProvider extends ChangeNotifier {
 
   void getPaperNumRanking() async {
     final prefs = await SharedPreferences.getInstance();
-    sumTimeRanking = [[]];
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking1st') ?? []);
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking2nd') ?? []);
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking3rd') ?? []);
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking4th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking5th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking6th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking7th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking8th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking9th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('paperNumRanking10th') ?? []);
+    paperNumRanking = [];
+    for (int i=0; i<10; i++){
+      paperNumRanking.add(prefs.getStringList('paperNumRanking${i+1}') ?? []);
+    }
     notifyListeners(); // Add this line
   }
 
   void getSumTimeRanking() async {
     final prefs = await SharedPreferences.getInstance();
-    sumTimeRanking = [[]];
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking1st') ?? []);
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking2nd') ?? []);
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking3rd') ?? []);
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking4th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking5th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking6th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking7th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking8th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking9th') ?? []);
-    sumTimeRanking.add(prefs.getStringList('sumTimeRanking10th') ?? []);
+    sumTimeRanking = [];
+    for (int i=0; i<10; i++){
+      sumTimeRanking.add(prefs.getStringList('sumTimeRanking${i+1}') ?? []);
+    }
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking1st') ?? []);
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking2nd') ?? []);
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking3rd') ?? []);
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking4th') ?? []);
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking5th') ?? []);
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking6th') ?? []);
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking7th') ?? []);
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking8th') ?? []);
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking9th') ?? []);
+    // sumTimeRanking.add(prefs.getStringList('sumTimeRanking10th') ?? []);
     notifyListeners(); // Add this line
   }
 
   void getMeanTimeRanking() async {
     final prefs = await SharedPreferences.getInstance();
-    meanTimeRanking = [[]];
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking1st') ?? []);
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking2nd') ?? []);
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking3rd') ?? []);
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking4th') ?? []);
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking5th') ?? []);
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking6th') ?? []);
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking7th') ?? []);
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking8th') ?? []);
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking9th') ?? []);
-    meanTimeRanking.add(prefs.getStringList('meanTimeRanking10th') ?? []);
+    meanTimeRanking = [];
+    for (int i=0; i<10; i++){
+      meanTimeRanking.add(prefs.getStringList('meanTimeRanking${i+1}') ?? []);
+    }
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking1st') ?? []);
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking2nd') ?? []);
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking3rd') ?? []);
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking4th') ?? []);
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking5th') ?? []);
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking6th') ?? []);
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking7th') ?? []);
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking8th') ?? []);
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking9th') ?? []);
+    // meanTimeRanking.add(prefs.getStringList('meanTimeRanking10th') ?? []);
     notifyListeners(); // Add this line
   }
 
@@ -316,93 +368,142 @@ class DataProvider extends ChangeNotifier {
     if (tmp[1] == "Success"){
       login = true;
       userId = tmp[0];
+    
+      userName = _userName;
+
+      nickNameId = 'n0';
+      nickName = '研究生';
+
+      gender = _gender;
+      characterId = '($gender)0';
+      characterPath = 'assets/models/($characterId).obj';
+
+      backgroundId = 'b0';
+      backgroundPath = 'assets/backgrounds/b0.png';
+
+      gachaTicket = 0;
+      notHaveNickNameIdList = ['n1','n2'];
+      notHaveCharacterIdList = ['($gender)1','($gender)2'];
+      notHaveBackgroundIdList = ['b1','b2'];
+
+      paperNum = 0;
+      sumTime = 0;
+      thisTime = 0;
+      needTime = 0;
+      achieveNum = 0;
+      meanTime = 0;
+      penalty = false;
+
+      haveNickNameIdList = ['n0'];
+      haveNickNameList = ['研究生'];
+      haveCharacterIdList = ['($characterId)'];
+      haveCharacterPathList = ['assets/models/($characterId).obj'];
+      haveBackgroundIdList = ['b0'];
+      haveBackgroundPathList = ['assets/backgrounds/b0.png'];
+
+      classFlagList = [[false,false,false,false,false,false],
+                        [false,false,false,false,false,false],
+                        [false,false,false,false,false,false],
+                        [false,false,false,false,false,false],
+                        [false,false,false,false,false,false],
+                        [false,false,false,false,false,false],];
+      classTimeList = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],];
+
+      paperNumRanking = [];
+      sumTimeRanking = [];
+      meanTimeRanking = [];
+
+    //  notifyListeners();
+
+      await FirebaseService().createUser(userId, userName, gender);
+
+      final prefs = await SharedPreferences.getInstance();
+
+      prefs.setString('userName', userName);
+      prefs.setString('nickNameId', 'n0');
+      prefs.setString('nickName', '研究生');
+
+      prefs.setString('gender', gender);
+      prefs.setString('characterId', characterId);
+      prefs.setString('characterPath', 'assets/models/($characterId).obj');
+      prefs.setString('backgroundId', 'b0');
+      prefs.setString('backgroundPath', 'assets/backgrounds/b0.png');
+
+      prefs.setInt('gachaTicket', 0);
+      prefs.setStringList('notHaveNickNameList', ['n1','n2']);
+      prefs.setStringList('notHaveCharacterList', ['($gender)1','($gender)2']);
+      prefs.setStringList('notHaveBackgroundList', ['b1','b2']);
+
+      prefs.setInt('paperNum', 0);
+      prefs.setInt('sumTime', 0);
+      prefs.setInt('thisTime', 0);
+      prefs.setInt('needTime', 0);
+      prefs.setInt('achieveNum', 0);
+      prefs.setInt('meanTime', 0);
+      prefs.setInt('penalty', 0);
+
+      prefs.setStringList('haveNickNameIdList', ['n0']);
+      prefs.setStringList('haveNickNameList', ['研究生']);
+      prefs.setStringList('haveCharacterIdList', ['($characterId)']);
+      prefs.setStringList('haveCharacterPathList', ['assets/models/($characterId).obj']);
+      prefs.setStringList('haveBackgroundIdList', ['b0']);
+      prefs.setStringList('haveBackgroundPathList', ['assets/backgrounds/b0.png']);
+
+      prefs.setStringList('classFlagList', ['0','0','0','0','0','0',
+                                          '0','0','0','0','0','0',
+                                          '0','0','0','0','0','0',
+                                          '0','0','0','0','0','0',
+                                          '0','0','0','0','0','0',
+                                          '0','0','0','0','0','0']);
+      prefs.setStringList('classTimeList', ['0','0','0','0',
+                                        '0','0','0','0',
+                                        '0','0','0','0',
+                                        '0','0','0','0',
+                                        '0','0','0','0',
+                                        '0','0','0','0']);
+
+      for (int i=0; i<10; i++){
+        prefs.setStringList('paperNumRanking${i+1}', []);
+        prefs.setStringList('sumTimeRanking${i+1}', []);
+        prefs.setStringList('meanTimeRanking${i+1}', []);
+      }
+      // prefs.setStringList('paperNumRanking1st', []);
+      // prefs.setStringList('paperNumRanking2nd', []);
+      // prefs.setStringList('paperNumRanking3rd', []);
+      // prefs.setStringList('paperNumRanking4th', []);
+      // prefs.setStringList('paperNumRanking5th', []);
+      // prefs.setStringList('paperNumRanking6th', []);
+      // prefs.setStringList('paperNumRanking7th', []);
+      // prefs.setStringList('paperNumRanking8th', []);
+      // prefs.setStringList('paperNumRanking9th', []);
+      // prefs.setStringList('paperNumRanking10th', []);
+
+      // prefs.setStringList('sumTimeRanking1st', []);
+      // prefs.setStringList('sumTimeRanking2nd', []);
+      // prefs.setStringList('sumTimeRanking3rd', []);
+      // prefs.setStringList('sumTimeRanking4th', []);
+      // prefs.setStringList('sumTimeRanking5th', []);
+      // prefs.setStringList('sumTimeRanking6th', []);
+      // prefs.setStringList('sumTimeRanking7th', []);
+      // prefs.setStringList('sumTimeRanking8th', []);
+      // prefs.setStringList('sumTimeRanking9th', []);
+      // prefs.setStringList('sumTimeRanking10th', []);
+
+      // prefs.setStringList('meanTimeRanking1st', []);
+      // prefs.setStringList('meanTimeRanking2nd', []);
+      // prefs.setStringList('meanTimeRanking3rd', []);
+      // prefs.setStringList('meanTimeRanking4th', []);
+      // prefs.setStringList('meanTimeRanking5th', []);
+      // prefs.setStringList('meanTimeRanking6th', []);
+      // prefs.setStringList('meanTimeRanking7th', []);
+      // prefs.setStringList('meanTimeRanking8th', []);
+      // prefs.setStringList('meanTimeRanking9th', []);
+      // prefs.setStringList('meanTimeRanking10th', []);
+ notifyListeners();
     } else {
       login = false;
+      notifyListeners();
     }
-    userName = _userName;
-    gender = _gender;
-    character = '($gender)0';
-    notifyListeners();
-
-    await FirebaseService().createUser(userId, userName, gender);
-
-    final prefs = await SharedPreferences.getInstance();
-
-    prefs.setString('userName', userName);
-    prefs.setString('nickNameId', '');
-    prefs.setString('nickName', '');
-
-    prefs.setString('gender', gender);
-    prefs.setString('characterId', '0');
-    prefs.setString('character', character);
-    prefs.setString('characterPath', '0');
-    prefs.setString('backgroundId', '0');
-    prefs.setString('backgroundPath', '0');
-
-    prefs.setInt('gachaTicket', 0);
-    prefs.setStringList('notHaveNickNameList', ['0','1','2']);
-    prefs.setStringList('notHaveCharacterList', ['($gender)1','($gender)2']);
-    prefs.setStringList('notHaveBackgroundList', ['0','1','2']);
-
-    prefs.setInt('paperNum', 0);
-    prefs.setInt('sumTime', 0);
-    prefs.setInt('thisTime', 0);
-    prefs.setInt('needTime', 0);
-    prefs.setInt('achieveNum', 0);
-    prefs.setInt('meanTime', 0);
-    prefs.setInt('penalty', 0);
-
-    prefs.setStringList('haveNickNameList', []);
-    prefs.setStringList('haveCharacterList', []);
-    prefs.setStringList('haveBackgroundList', []);
-
-    prefs.setStringList('classFlag', ['0','0','0','0','0','0',
-                                      '0','0','0','0','0','0',
-                                      '0','0','0','0','0','0',
-                                      '0','0','0','0','0','0',
-                                      '0','0','0','0','0','0',
-                                      '0','0','0','0','0','0']);
-    prefs.setStringList('classTime', ['0','0','0','0',
-                                      '0','0','0','0',
-                                      '0','0','0','0',
-                                      '0','0','0','0',
-                                      '0','0','0','0',
-                                      '0','0','0','0']);
-
-    prefs.setStringList('paperNumRanking1st', []);
-    prefs.setStringList('paperNumRanking2nd', []);
-    prefs.setStringList('paperNumRanking3rd', []);
-    prefs.setStringList('paperNumRanking4th', []);
-    prefs.setStringList('paperNumRanking5th', []);
-    prefs.setStringList('paperNumRanking6th', []);
-    prefs.setStringList('paperNumRanking7th', []);
-    prefs.setStringList('paperNumRanking8th', []);
-    prefs.setStringList('paperNumRanking9th', []);
-    prefs.setStringList('paperNumRanking10th', []);
-
-    prefs.setStringList('sumTimeRanking1st', []);
-    prefs.setStringList('sumTimeRanking2nd', []);
-    prefs.setStringList('sumTimeRanking3rd', []);
-    prefs.setStringList('sumTimeRanking4th', []);
-    prefs.setStringList('sumTimeRanking5th', []);
-    prefs.setStringList('sumTimeRanking6th', []);
-    prefs.setStringList('sumTimeRanking7th', []);
-    prefs.setStringList('sumTimeRanking8th', []);
-    prefs.setStringList('sumTimeRanking9th', []);
-    prefs.setStringList('sumTimeRanking10th', []);
-
-    prefs.setStringList('meanTimeRanking1st', []);
-    prefs.setStringList('meanTimeRanking2nd', []);
-    prefs.setStringList('meanTimeRanking3rd', []);
-    prefs.setStringList('meanTimeRanking4th', []);
-    prefs.setStringList('meanTimeRanking5th', []);
-    prefs.setStringList('meanTimeRanking6th', []);
-    prefs.setStringList('meanTimeRanking7th', []);
-    prefs.setStringList('meanTimeRanking8th', []);
-    prefs.setStringList('meanTimeRanking9th', []);
-    prefs.setStringList('meanTimeRanking10th', []);
-
-
     // notifyListeners();
   }
 
@@ -439,13 +540,14 @@ class DataProvider extends ChangeNotifier {
 
   void setCharacterId(String _characterId) async{
     characterId = _characterId;
-    character = gender+characterId;
-    characterPath = 'assets/models/${gender+characterId}.obj';
+    // character = gender+characterId;
+    // characterPath = 'assets/models/${gender+characterId}.obj';
+    characterPath = 'assets/models/${characterId}.obj';
     notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('characterId',characterId);
-    prefs.setString('character',character);
+    // prefs.setString('character',character);
     prefs.setString('characterPath',characterPath);
 
     await FirebaseService().updateCharacter(userId, characterId);
@@ -501,14 +603,14 @@ class DataProvider extends ChangeNotifier {
     await FirebaseService().deleteNotHaveNickName(userId, _nickNameId);
   }
 
-  void setNotHaveCharacterIdList(String _character) async{
-    notHaveCharacterIdList.remove(_character);
+  void setNotHaveCharacterIdList(String _characterId) async{
+    notHaveCharacterIdList.remove(_characterId);
     notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notHaveCharacterIdList',notHaveCharacterIdList);
 
-    await FirebaseService().deleteNotHaveCharacter(userId, _character);
+    await FirebaseService().deleteNotHaveCharacter(userId, _characterId);
   }
 
   void setNotHaveBackgroundIdList(String _backgroundId) async{
@@ -667,55 +769,72 @@ class DataProvider extends ChangeNotifier {
     prefs.setStringList('classFlagList',tmp);
   }
 
-  void setClassTimeList(List<int> _classTimeList, int row) async{
-    classTimeList[row] = _classTimeList;
+ void setClassStartTimeList(List<int> _classTimeList, int row) async{
+    classTimeList[row][0] = _classTimeList[0];
+    classTimeList[row][1] = _classTimeList[1];
+    notifyListeners();
+
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = classTimeList.map((e) => e.map((e) => e.toString()).toList()).toList().expand((e) => e).toList();
     prefs.setStringList('classTimeList',tmp);
   }
 
+  void setClassFinishTimeList(List<int> _classTimeList, int row) async{
+    classTimeList[row][2] = _classTimeList[0];
+    classTimeList[row][3] = _classTimeList[1];
+    notifyListeners();
+
+    final prefs = await SharedPreferences.getInstance();
+    List<String> tmp = classTimeList.map((e) => e.map((e) => e.toString()).toList()).toList().expand((e) => e).toList();
+    prefs.setStringList('classTimeList',tmp);
+  }
   void setRanking() async{
     List<List<dynamic>> tmp = await FirebaseService().getRanking();
     for(int i=0;i<10;i++){
-      paperNumRanking[i] = [tmp[0][i]['userName'],tmp[0][i]['character'],tmp[0][i]['backgroundId'],tmp[0][i]['paperNum']];
-      sumTimeRanking[i] = [tmp[1][i]['userName'],tmp[1][i]['character'],tmp[1][i]['backgroundId'],tmp[1][i]['sumTime']];
-      meanTimeRanking[i] = [tmp[2][i]['userName'],tmp[2][i]['character'],tmp[2][i]['backgroundId'],tmp[2][i]['meanTime']];
+      paperNumRanking[i] = [tmp[0][i]['userName'],tmp[0][i]['characterId'],tmp[0][i]['backgroundId'],tmp[0][i]['paperNum']];
+      sumTimeRanking[i] = [tmp[1][i]['userName'],tmp[1][i]['characterId'],tmp[1][i]['backgroundId'],tmp[1][i]['sumTime']];
+      meanTimeRanking[i] = [tmp[2][i]['userName'],tmp[2][i]['characterId'],tmp[2][i]['backgroundId'],tmp[2][i]['meanTime']];
     }
     notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('paperNumRanking1st', [tmp[0][0]['userName'],tmp[0][0]['character'],tmp[0][0]['backgroundId'],tmp[0][0]['paperNum']]);
-    prefs.setStringList('paperNumRanking2nd', [tmp[0][1]['userName'],tmp[0][1]['character'],tmp[0][1]['backgroundId'],tmp[0][1]['paperNum']]);
-    prefs.setStringList('paperNumRanking3rd', [tmp[0][2]['userName'],tmp[0][2]['character'],tmp[0][2]['backgroundId'],tmp[0][2]['paperNum']]);
-    prefs.setStringList('paperNumRanking4th', [tmp[0][3]['userName'],tmp[0][3]['character'],tmp[0][3]['backgroundId'],tmp[0][3]['paperNum']]);
-    prefs.setStringList('paperNumRanking5th', [tmp[0][4]['userName'],tmp[0][4]['character'],tmp[0][4]['backgroundId'],tmp[0][4]['paperNum']]);
-    prefs.setStringList('paperNumRanking6th', [tmp[0][5]['userName'],tmp[0][5]['character'],tmp[0][5]['backgroundId'],tmp[0][5]['paperNum']]);
-    prefs.setStringList('paperNumRanking7th', [tmp[0][6]['userName'],tmp[0][6]['character'],tmp[0][6]['backgroundId'],tmp[0][6]['paperNum']]);
-    prefs.setStringList('paperNumRanking8th', [tmp[0][7]['userName'],tmp[0][7]['character'],tmp[0][7]['backgroundId'],tmp[0][7]['paperNum']]);
-    prefs.setStringList('paperNumRanking9th', [tmp[0][8]['userName'],tmp[0][8]['character'],tmp[0][8]['backgroundId'],tmp[0][8]['paperNum']]);
-    prefs.setStringList('paperNumRanking10th', [tmp[0][9]['userName'],tmp[0][9]['character'],tmp[0][9]['backgroundId'],tmp[0][9]['paperNum']]);
+    for(int i=0;i<10;i++){
+      prefs.setStringList('paperNumRanking${i+1}',[tmp[0][i]['userName'],tmp[0][i]['characterId'],tmp[0][i]['backgroundId'],tmp[0][i]['paperNum']]);
+      prefs.setStringList('sumTimeRanking${i+1}',[tmp[1][i]['userName'],tmp[1][i]['characterId'],tmp[1][i]['backgroundId'],tmp[1][i]['sumTime']]);
+      prefs.setStringList('meanTimeRanking${i+1}',[tmp[2][i]['userName'],tmp[2][i]['characterId'],tmp[2][i]['backgroundId'],tmp[2][i]['meanTime']]);
+    }
+    // prefs.setStringList('paperNumRanking1st', [tmp[0][0]['userName'],tmp[0][0]['characterId'],tmp[0][0]['backgroundId'],tmp[0][0]['paperNum']]);
+    // prefs.setStringList('paperNumRanking2nd', [tmp[0][1]['userName'],tmp[0][1]['characterId'],tmp[0][1]['backgroundId'],tmp[0][1]['paperNum']]);
+    // prefs.setStringList('paperNumRanking3rd', [tmp[0][2]['userName'],tmp[0][2]['characterId'],tmp[0][2]['backgroundId'],tmp[0][2]['paperNum']]);
+    // prefs.setStringList('paperNumRanking4th', [tmp[0][3]['userName'],tmp[0][3]['characterId'],tmp[0][3]['backgroundId'],tmp[0][3]['paperNum']]);
+    // prefs.setStringList('paperNumRanking5th', [tmp[0][4]['userName'],tmp[0][4]['characterId'],tmp[0][4]['backgroundId'],tmp[0][4]['paperNum']]);
+    // prefs.setStringList('paperNumRanking6th', [tmp[0][5]['userName'],tmp[0][5]['characterId'],tmp[0][5]['backgroundId'],tmp[0][5]['paperNum']]);
+    // prefs.setStringList('paperNumRanking7th', [tmp[0][6]['userName'],tmp[0][6]['characterId'],tmp[0][6]['backgroundId'],tmp[0][6]['paperNum']]);
+    // prefs.setStringList('paperNumRanking8th', [tmp[0][7]['userName'],tmp[0][7]['characterId'],tmp[0][7]['backgroundId'],tmp[0][7]['paperNum']]);
+    // prefs.setStringList('paperNumRanking9th', [tmp[0][8]['userName'],tmp[0][8]['characterId'],tmp[0][8]['backgroundId'],tmp[0][8]['paperNum']]);
+    // prefs.setStringList('paperNumRanking10th', [tmp[0][9]['userName'],tmp[0][9]['characterId'],tmp[0][9]['backgroundId'],tmp[0][9]['paperNum']]);
 
-    prefs.setStringList('sumTimeRanking1st', [tmp[1][0]['userName'],tmp[1][0]['character'],tmp[1][0]['backgroundId'],tmp[1][0]['sumTime']]);
-    prefs.setStringList('sumTimeRanking2nd', [tmp[1][1]['userName'],tmp[1][1]['character'],tmp[1][1]['backgroundId'],tmp[1][1]['sumTime']]);
-    prefs.setStringList('sumTimeRanking3rd', [tmp[1][2]['userName'],tmp[1][2]['character'],tmp[1][2]['backgroundId'],tmp[1][2]['sumTime']]);
-    prefs.setStringList('sumTimeRanking4th', [tmp[1][3]['userName'],tmp[1][3]['character'],tmp[1][3]['backgroundId'],tmp[1][3]['sumTime']]);
-    prefs.setStringList('sumTimeRanking5th', [tmp[1][4]['userName'],tmp[1][4]['character'],tmp[1][4]['backgroundId'],tmp[1][4]['sumTime']]);
-    prefs.setStringList('sumTimeRanking6th', [tmp[1][5]['userName'],tmp[1][5]['character'],tmp[1][5]['backgroundId'],tmp[1][5]['sumTime']]);
-    prefs.setStringList('sumTimeRanking7th', [tmp[1][6]['userName'],tmp[1][6]['character'],tmp[1][6]['backgroundId'],tmp[1][6]['sumTime']]);
-    prefs.setStringList('sumTimeRanking8th', [tmp[1][7]['userName'],tmp[1][7]['character'],tmp[1][7]['backgroundId'],tmp[1][7]['sumTime']]);
-    prefs.setStringList('sumTimeRanking9th', [tmp[1][8]['userName'],tmp[1][8]['character'],tmp[1][8]['backgroundId'],tmp[1][8]['sumTime']]);
-    prefs.setStringList('sumTimeRanking10th', [tmp[1][9]['userName'],tmp[1][9]['character'],tmp[1][9]['backgroundId'],tmp[1][9]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking1st', [tmp[1][0]['userName'],tmp[1][0]['character'],tmp[1][0]['backgroundId'],tmp[1][0]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking2nd', [tmp[1][1]['userName'],tmp[1][1]['character'],tmp[1][1]['backgroundId'],tmp[1][1]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking3rd', [tmp[1][2]['userName'],tmp[1][2]['character'],tmp[1][2]['backgroundId'],tmp[1][2]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking4th', [tmp[1][3]['userName'],tmp[1][3]['character'],tmp[1][3]['backgroundId'],tmp[1][3]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking5th', [tmp[1][4]['userName'],tmp[1][4]['character'],tmp[1][4]['backgroundId'],tmp[1][4]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking6th', [tmp[1][5]['userName'],tmp[1][5]['character'],tmp[1][5]['backgroundId'],tmp[1][5]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking7th', [tmp[1][6]['userName'],tmp[1][6]['character'],tmp[1][6]['backgroundId'],tmp[1][6]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking8th', [tmp[1][7]['userName'],tmp[1][7]['character'],tmp[1][7]['backgroundId'],tmp[1][7]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking9th', [tmp[1][8]['userName'],tmp[1][8]['character'],tmp[1][8]['backgroundId'],tmp[1][8]['sumTime']]);
+    // prefs.setStringList('sumTimeRanking10th', [tmp[1][9]['userName'],tmp[1][9]['character'],tmp[1][9]['backgroundId'],tmp[1][9]['sumTime']]);
 
-    prefs.setStringList('meanTimeRanking1st', [tmp[2][0]['userName'],tmp[2][0]['character'],tmp[2][0]['backgroundId'],tmp[2][0]['meanTime']]);
-    prefs.setStringList('meanTimeRanking2nd', [tmp[2][1]['userName'],tmp[2][1]['character'],tmp[2][1]['backgroundId'],tmp[2][1]['meanTime']]);
-    prefs.setStringList('meanTimeRanking3rd', [tmp[2][2]['userName'],tmp[2][2]['character'],tmp[2][2]['backgroundId'],tmp[2][2]['meanTime']]);
-    prefs.setStringList('meanTimeRanking4th', [tmp[2][3]['userName'],tmp[2][3]['character'],tmp[2][3]['backgroundId'],tmp[2][3]['meanTime']]);
-    prefs.setStringList('meanTimeRanking5th', [tmp[2][4]['userName'],tmp[2][4]['character'],tmp[2][4]['backgroundId'],tmp[2][4]['meanTime']]);
-    prefs.setStringList('meanTimeRanking6th', [tmp[2][5]['userName'],tmp[2][5]['character'],tmp[2][5]['backgroundId'],tmp[2][5]['meanTime']]);
-    prefs.setStringList('meanTimeRanking7th', [tmp[2][6]['userName'],tmp[2][6]['character'],tmp[2][6]['backgroundId'],tmp[2][6]['meanTime']]);
-    prefs.setStringList('meanTimeRanking8th', [tmp[2][7]['userName'],tmp[2][7]['character'],tmp[2][7]['backgroundId'],tmp[2][7]['meanTime']]);
-    prefs.setStringList('meanTimeRanking9th', [tmp[2][8]['userName'],tmp[2][8]['character'],tmp[2][8]['backgroundId'],tmp[2][8]['meanTime']]);
-    prefs.setStringList('meanTimeRanking10th', [tmp[2][9]['userName'],tmp[2][9]['character'],tmp[2][9]['backgroundId'],tmp[2][9]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking1st', [tmp[2][0]['userName'],tmp[2][0]['character'],tmp[2][0]['backgroundId'],tmp[2][0]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking2nd', [tmp[2][1]['userName'],tmp[2][1]['character'],tmp[2][1]['backgroundId'],tmp[2][1]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking3rd', [tmp[2][2]['userName'],tmp[2][2]['character'],tmp[2][2]['backgroundId'],tmp[2][2]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking4th', [tmp[2][3]['userName'],tmp[2][3]['character'],tmp[2][3]['backgroundId'],tmp[2][3]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking5th', [tmp[2][4]['userName'],tmp[2][4]['character'],tmp[2][4]['backgroundId'],tmp[2][4]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking6th', [tmp[2][5]['userName'],tmp[2][5]['character'],tmp[2][5]['backgroundId'],tmp[2][5]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking7th', [tmp[2][6]['userName'],tmp[2][6]['character'],tmp[2][6]['backgroundId'],tmp[2][6]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking8th', [tmp[2][7]['userName'],tmp[2][7]['character'],tmp[2][7]['backgroundId'],tmp[2][7]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking9th', [tmp[2][8]['userName'],tmp[2][8]['character'],tmp[2][8]['backgroundId'],tmp[2][8]['meanTime']]);
+    // prefs.setStringList('meanTimeRanking10th', [tmp[2][9]['userName'],tmp[2][9]['character'],tmp[2][9]['backgroundId'],tmp[2][9]['meanTime']]);
 
   }
 
