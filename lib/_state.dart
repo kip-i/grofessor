@@ -123,13 +123,13 @@ class UserProvider extends ChangeNotifier{
       prefs.setStringList('haveBackgroundIdList', ['b0']);
       prefs.setStringList('haveBackgroundPathList', ['assets/backgrounds/b0.png']);
 
-      prefs.setStringList('classFlag', ['0','0','0','0','0','0',
+      prefs.setStringList('classFlagList', ['0','0','0','0','0','0',
                                         '0','0','0','0','0','0',
                                         '0','0','0','0','0','0',
                                         '0','0','0','0','0','0',
                                         '0','0','0','0','0','0',
                                         '0','0','0','0','0','0']);
-      prefs.setStringList('classTime', ['0','0','0','0',
+      prefs.setStringList('classTimeList', ['0','0','0','0',
                                         '0','0','0','0',
                                         '0','0','0','0',
                                         '0','0','0','0',
