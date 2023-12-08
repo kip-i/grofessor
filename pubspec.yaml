@@ -97,6 +97,11 @@ flutter:
     - assets/backgrounds/b1.png
     - assets/backgrounds/fuji.png
 
+    #ガチャ画面
+    - assets/images/present.jpg
+    - assets/images/b0.jpg
+    - assets/images/kirakira.jpg
+
     # - gs://hackumeijo2023.appspot.com/m0.obj
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

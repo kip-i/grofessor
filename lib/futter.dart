@@ -3,6 +3,7 @@ import 'home/home_selector.dart';
 import 'home/home_default.dart';
 import 'home/home_during_time.dart';
 import 'dress_up/dress_up.dart';
+import 'gacha.dart';
 
 void main() => runApp(const NavigationBarApp());
 
@@ -37,7 +38,9 @@ class _NavigationExampleState extends State<NavigationExample> {
     HomeDefault(),
     DressUp(),
     HomeSelector(),
-    HomeDefault(),
+    //HomeDefault(),
+    //_MyHomePageState(),
+    MyHomePage(),
     HomeDefault(),
   ];
 

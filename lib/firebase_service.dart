@@ -134,7 +134,7 @@ class FirebaseService {
     await userCollection.doc('gacha').get()
     .then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveNickNameList'];
+      List<dynamic> notHaveList = data?['notHaveNickNameList'];
       notHaveList.remove(nickNameId);
       await userCollection.doc('gacha').update({
         'notHaveNickNameList': notHaveList,
@@ -148,7 +148,7 @@ class FirebaseService {
     await userCollection.doc('gacha').get()
     .then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveCharacterList'];
+      List<dynamic> notHaveList = data?['notHaveCharacterList'];
       notHaveList.remove(characterId);
       await userCollection.doc('gacha').update({
         'notHaveCharacterList': notHaveList,
@@ -162,7 +162,7 @@ class FirebaseService {
     await userCollection.doc('gacha').get()
     .then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveBackgroundList'];
+      List<dynamic> notHaveList = data?['notHaveBackgroundList'];
       notHaveList.remove(backgroundId);
       await userCollection.doc('gacha').update({
         'notHaveBackgroundList': notHaveList,

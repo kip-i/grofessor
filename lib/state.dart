@@ -26,10 +26,13 @@ class DataProvider extends ChangeNotifier {
   String backgroundPath = '';
 
   int gachaTicket = 0;
-  List<String> notHaveNickNameIdList = [];
-  List<String> notHaveCharacterIdList = [];
-  List<String> notHaveBackgroundIdList = [];
+  List<String> notHaveNickNameIdList = ['n1','n2'];
+  List<String> notHaveCharacterIdList = ['m1','m2'];
+  List<String> notHaveBackgroundIdList = ['b1','b2'];
 
+//  List<String> notHaveNickNameIdList = [for (int i = 1; i <= 30; i++) '$i'];
+//   List<String> notHaveCharacterIdList = ['a1','a2'];
+//   List<String> notHaveBackgroundIdList = [for (int i = 1; i <= 50; i++) 'b$i'];
   int paperNum = 0;
   int sumTime = 0;
   int thisTime = 0;
