@@ -85,22 +85,8 @@ class _RankingState extends State<Ranking> {
     return Column(
       children: players.map((players) {
         String displayText;
-        switch (rankingType) {
-          case 'numberOfPapers':
-            displayText =
-                ' ${players.rank}位     ${players.numberOfPapers}冊     ${players.nickName}';
-            break;
-          case 'totalStudyTime':
-            displayText =
-                ' ${players.rank}位     ${players.totalStudyTime}時間     ${players.nickName}';
-            break;
-          case 'averageStudyTime':
-            displayText =
-                ' ${players.rank}位     ${players.averageStudyTime}時間/回     ${players.nickName}';
-            break;
-          default:
-            displayText = ' ${players.rank}位     ${players.nickName}';
-        }
+        displayText =
+            ' ${players.rank}位     ${players.character}     ${players.nickName}';
         return ListTile(
           title: Text(
             displayText,
@@ -132,23 +118,33 @@ class _RankingState extends State<Ranking> {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => changeRankingType('numberOfPapers'),
-                      child: Text('論文数順位'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => changeRankingType('totalStudyTime'),
-                      child: Text('総学習時間順位'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => changeRankingType('averageStudyTime'),
-                      child: Text('平均学習時間順位'),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () => changeRankingType('numberOfPapers'),
+                          child: const Text('論文数'),
+                        ),
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () => changeRankingType('totalStudyTime'),
+                          child: const Text('合計時間'),
+                        ),
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              changeRankingType('averageStudyTime'),
+                          child: const Text('平均時間'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildPlayerList(),
               ],
             ),
