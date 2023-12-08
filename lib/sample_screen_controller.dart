@@ -38,7 +38,7 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
         navigatorKey.currentState?.pushReplacement(
             MaterialPageRoute(builder: (context) => HomeSelector()));
       }
-      debugPrint('navigatorKey: ${navigatorKey.currentState}');
+      debugPrint('navigatorKey.currentState: ${navigatorKey.currentState}');
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
