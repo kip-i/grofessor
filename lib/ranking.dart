@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_cube/flutter_cube.dart';
 import 'package:provider/provider.dart';
 import 'state.dart';
 import './home/name_button.dart';
