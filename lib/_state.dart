@@ -107,15 +107,15 @@ class UserProvider extends ChangeNotifier {
       prefs.setString('nickName', '研究生');
 
       prefs.setString('gender', _gender);
-      prefs.setString('characterId', '($_gender)0');
-      prefs.setString('characterPath', 'assets/models/($_gender)0.obj');
+      prefs.setString('characterId', '${_gender}0');
+      prefs.setString('characterPath', 'assets/models/${_gender}0.obj');
       prefs.setString('backgroundId', 'b0');
       prefs.setString('backgroundPath', 'assets/backgrounds/b0.png');
 
       prefs.setInt('gachaTicket', 0);
       prefs.setStringList('notHaveNickNameList', ['n1', 'n2']);
       prefs.setStringList(
-          'notHaveCharacterList', ['($_gender)1', '($_gender)2']);
+          'notHaveCharacterList', ['${_gender}1', '${_gender}2']);
       prefs.setStringList('notHaveBackgroundList', ['b1', 'b2']);
 
       prefs.setInt('paperNum', 0);
@@ -128,9 +128,9 @@ class UserProvider extends ChangeNotifier {
 
       prefs.setStringList('haveNickNameIdList', ['n0']);
       prefs.setStringList('haveNickNameList', ['研究生']);
-      prefs.setStringList('haveCharacterIdList', ['($_gender)0']);
+      prefs.setStringList('haveCharacterIdList', ['${_gender}0']);
       prefs.setStringList(
-          'haveCharacterPathList', ['assets/models/($_gender)0.obj']);
+          'haveCharacterPathList', ['assets/models/${_gender}0.obj']);
       prefs.setStringList('haveBackgroundIdList', ['b0']);
       prefs.setStringList(
           'haveBackgroundPathList', ['assets/backgrounds/b0.png']);
