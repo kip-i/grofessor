@@ -3,7 +3,9 @@ import 'home/home_selector.dart';
 import 'home/home_default.dart';
 import 'home/home_during_time.dart';
 import 'dress_up/dress_up.dart';
-import '../ranking.dart';
+import 'ranking.dart';
+import 'package:provider/provider.dart';
+import 'state.dart';
 
 void main() => runApp(const NavigationBarApp());
 
@@ -44,6 +46,7 @@ class _NavigationExampleState extends State<NavigationExample> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final dataProvider = Provider.of<DataProvider>(context);
     return Scaffold(
       body: IndexedStack(
         index: _currentPageIndex,
@@ -62,6 +65,7 @@ class _NavigationExampleState extends State<NavigationExample> {
               (index) => _buildIconButton(
                 index,
                 index == _currentPageIndex,
+                dataProvider,
               ),
             ),
           ),
@@ -70,7 +74,7 @@ class _NavigationExampleState extends State<NavigationExample> {
     );
   }
 
-  Widget _buildIconButton(int index, bool isSelected) {
+  Widget _buildIconButton(int index, bool isSelected, DataProvider dataProvider) {
     IconData icon;
     String label;
 
@@ -101,7 +105,12 @@ class _NavigationExampleState extends State<NavigationExample> {
 
     return Expanded(
       child: InkWell(
-        onTap: () {
+        onTap: () async {
+          if (index == 4) {
+            // Todo: 日時取得
+            await dataProvider.setRanking();
+            debugPrint('ランキング!!!');
+          }
           setState(() {
             _currentPageIndex = index;
           });

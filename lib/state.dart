@@ -47,9 +47,9 @@ class DataProvider extends ChangeNotifier {
   List<List<bool>> classFlagList = []; // 6*6
   List<List<int>> classTimeList = []; // 6*4
 
-  List<List<String>> paperNumRanking = []; // 10*4
-  List<List<String>> sumTimeRanking = []; // 10*4
-  List<List<String>> meanTimeRanking = []; // 10*4
+  List<List<dynamic>> paperNumRanking = []; // 10*4
+  List<List<dynamic>> sumTimeRanking = []; // 10*4
+  List<List<dynamic>> meanTimeRanking = []; // 10*4
 
   void getData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -767,20 +767,24 @@ class DataProvider extends ChangeNotifier {
     prefs.setStringList('classTimeList',tmp);
   }
 
-  void setRanking() async{
+  Future<void> setRanking() async{
     List<List<dynamic>> tmp = await FirebaseService().getRanking();
+    // debugPrint(tmp.toString());
+    paperNumRanking = [];
+    sumTimeRanking = [];
+    meanTimeRanking = [];
     for(int i=0;i<10;i++){
-      paperNumRanking[i] = [tmp[0][i]['userName'],tmp[0][i]['characterId'],tmp[0][i]['backgroundId'],tmp[0][i]['paperNum']];
-      sumTimeRanking[i] = [tmp[1][i]['userName'],tmp[1][i]['characterId'],tmp[1][i]['backgroundId'],tmp[1][i]['sumTime']];
-      meanTimeRanking[i] = [tmp[2][i]['userName'],tmp[2][i]['characterId'],tmp[2][i]['backgroundId'],tmp[2][i]['meanTime']];
+      paperNumRanking.add([tmp[0][i][0],tmp[0][i][1],tmp[0][i][2],tmp[0][i][3]]);
+      sumTimeRanking.add([tmp[1][i][0],tmp[1][i][1],tmp[1][i][2],tmp[1][i][3]]);
+      meanTimeRanking.add([tmp[2][i][0],tmp[2][i][1],tmp[2][i][2],tmp[2][i][3]]);
     }
     notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     for(int i=0;i<10;i++){
-      prefs.setStringList('paperNumRanking${i+1}',[tmp[0][i]['userName'],tmp[0][i]['characterId'],tmp[0][i]['backgroundId'],tmp[0][i]['paperNum']]);
-      prefs.setStringList('sumTimeRanking${i+1}',[tmp[1][i]['userName'],tmp[1][i]['characterId'],tmp[1][i]['backgroundId'],tmp[1][i]['sumTime']]);
-      prefs.setStringList('meanTimeRanking${i+1}',[tmp[2][i]['userName'],tmp[2][i]['characterId'],tmp[2][i]['backgroundId'],tmp[2][i]['meanTime']]);
+      prefs.setStringList('paperNumRanking${i+1}',[tmp[0][i][0],tmp[0][i][1],tmp[0][i][2],tmp[0][i][3]]);
+      prefs.setStringList('sumTimeRanking${i+1}',[tmp[1][i][0],tmp[1][i][1],tmp[1][i][2],tmp[1][i][3]]);
+      prefs.setStringList('meanTimeRanking${i+1}',[tmp[2][i][0],tmp[2][i][1],tmp[2][i][2],tmp[2][i][3]]);
     }
     // prefs.setStringList('paperNumRanking1st', [tmp[0][0]['userName'],tmp[0][0]['characterId'],tmp[0][0]['backgroundId'],tmp[0][0]['paperNum']]);
     // prefs.setStringList('paperNumRanking2nd', [tmp[0][1]['userName'],tmp[0][1]['characterId'],tmp[0][1]['backgroundId'],tmp[0][1]['paperNum']]);

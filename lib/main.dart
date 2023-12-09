@@ -18,6 +18,8 @@ void main() async {
 
   DataProvider dataProvider = DataProvider();
   await dataProvider.getUserId();
+  await dataProvider.setRanking();
+  debugPrint('ランキング更新');
 
   runApp(
     // MaterialApp(
