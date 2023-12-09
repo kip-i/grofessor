@@ -17,10 +17,10 @@ class DataProvider extends ChangeNotifier {
   String nickName = '';
 
   String gender = ''; // m or w
-  String characterId = ''; // (m or w)0
+  String characterId = 'm2'; // (m or w)0
   String characterPath = ''; // assets/models/(m or w)0.obj
 
-  String backgroundId = ''; // b0
+  String backgroundId = 'b1'; // b0
   String backgroundPath = ''; // assets/backgrounds/b0.png
 
   int gachaTicket = 0;
@@ -38,9 +38,9 @@ class DataProvider extends ChangeNotifier {
 
   List<String> haveNickNameIdList = []; // n0
   List<String> haveNickNameList = []; // 研究生
-  List<String> haveCharacterIdList = []; // (m or w)0
+  List<String> haveCharacterIdList = ['m0', 'm2']; // (m or w)0
   List<String> haveCharacterPathList = []; // assets/models/(m or w)0.obj
-  List<String> haveBackgroundIdList = []; // b0
+  List<String> haveBackgroundIdList = ['b0', 'b1', 'b2']; // b0
   List<String> haveBackgroundPathList = []; // assets/backgrounds/b0.png
 
   List<List<bool>> classFlagList = []; // 6*6
