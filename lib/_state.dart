@@ -27,14 +27,14 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> initUser(String _userName, String _gender) async {
-    NickNameProvider nickNameProvider = NickNameProvider();
-    CharacterProvider characterProvider = CharacterProvider();
-    BackgroundProvider backgroundProvider = BackgroundProvider();
-    GachaProvider gachaProvider = GachaProvider();
-    AchieveProvider achieveProvider = AchieveProvider();
-    HaveItemProvider haveItemProvider = HaveItemProvider();
-    ClassProvider classProvider = ClassProvider();
-    RankingProvider rankingProvider = RankingProvider();
+    // NickNameProvider nickNameProvider = NickNameProvider();
+    // CharacterProvider characterProvider = CharacterProvider();
+    // BackgroundProvider backgroundProvider = BackgroundProvider();
+    // GachaProvider gachaProvider = GachaProvider();
+    // AchieveProvider achieveProvider = AchieveProvider();
+    // HaveItemProvider haveItemProvider = HaveItemProvider();
+    // ClassProvider classProvider = ClassProvider();
+    // RankingProvider rankingProvider = RankingProvider();
 
     List<String> tmp = await AuthService().createUser(_userName, _gender);
     if (tmp[1] == "Success") {
@@ -43,58 +43,58 @@ class UserProvider extends ChangeNotifier {
 
       userName = _userName;
 
-      nickNameProvider.nickNameId = 'n0';
-      nickNameProvider.nickName = '研究生';
+      // nickNameProvider.nickNameId = 'n0';
+      // nickNameProvider.nickName = '研究生';
 
-      characterProvider.gender = _gender;
-      characterProvider.characterId = '($_gender)0';
-      characterProvider.characterPath = 'assets/models/($_gender)0).obj';
+      // characterProvider.gender = _gender;
+      // characterProvider.characterId = '($_gender)0';
+      // characterProvider.characterPath = 'assets/models/($_gender)0).obj';
 
-      backgroundProvider.backgroundId = 'b0';
-      backgroundProvider.backgroundPath = 'assets/backgrounds/b0.png';
+      // backgroundProvider.backgroundId = 'b0';
+      // backgroundProvider.backgroundPath = 'assets/backgrounds/b0.png';
 
-      gachaProvider.gachaTicket = 0;
-      gachaProvider.notHaveNickNameIdList = ['n1', 'n2'];
-      gachaProvider.notHaveCharacterIdList = ['($_gender)1', '($_gender)2'];
-      gachaProvider.notHaveBackgroundIdList = ['b1', 'b2'];
+      // gachaProvider.gachaTicket = 0;
+      // gachaProvider.notHaveNickNameIdList = ['n1', 'n2'];
+      // gachaProvider.notHaveCharacterIdList = ['($_gender)1', '($_gender)2'];
+      // gachaProvider.notHaveBackgroundIdList = ['b1', 'b2'];
 
-      achieveProvider.paperNum = 0;
-      achieveProvider.sumTime = 0;
-      achieveProvider.thisTime = 0;
-      achieveProvider.needTime = 0;
-      achieveProvider.achieveNum = 0;
-      achieveProvider.meanTime = 0;
-      achieveProvider.penalty = false;
+      // achieveProvider.paperNum = 0;
+      // achieveProvider.sumTime = 0;
+      // achieveProvider.thisTime = 0;
+      // achieveProvider.needTime = 0;
+      // achieveProvider.achieveNum = 0;
+      // achieveProvider.meanTime = 0;
+      // achieveProvider.penalty = false;
 
-      haveItemProvider.haveNickNameIdList = ['n0'];
-      haveItemProvider.haveNickNameList = ['研究生'];
-      haveItemProvider.haveCharacterIdList = ['($_gender)0'];
-      haveItemProvider.haveCharacterPathList = [
-        'assets/models/($_gender)0.obj'
-      ];
-      haveItemProvider.haveBackgroundIdList = ['b0'];
-      haveItemProvider.haveBackgroundPathList = ['assets/backgrounds/b0.png'];
+      // haveItemProvider.haveNickNameIdList = ['n0'];
+      // haveItemProvider.haveNickNameList = ['研究生'];
+      // haveItemProvider.haveCharacterIdList = ['($_gender)0'];
+      // haveItemProvider.haveCharacterPathList = [
+      //   'assets/models/($_gender)0.obj'
+      // ];
+      // haveItemProvider.haveBackgroundIdList = ['b0'];
+      // haveItemProvider.haveBackgroundPathList = ['assets/backgrounds/b0.png'];
 
-      classProvider.classFlagList = [
-        [false, false, false, false, false, false],
-        [false, false, false, false, false, false],
-        [false, false, false, false, false, false],
-        [false, false, false, false, false, false],
-        [false, false, false, false, false, false],
-        [false, false, false, false, false, false],
-      ];
-      classProvider.classTimeList = [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-      ];
+      // classProvider.classFlagList = [
+      //   [false, false, false, false, false, false],
+      //   [false, false, false, false, false, false],
+      //   [false, false, false, false, false, false],
+      //   [false, false, false, false, false, false],
+      //   [false, false, false, false, false, false],
+      //   [false, false, false, false, false, false],
+      // ];
+      // classProvider.classTimeList = [
+      //   [0, 0, 0, 0],
+      //   [0, 0, 0, 0],
+      //   [0, 0, 0, 0],
+      //   [0, 0, 0, 0],
+      //   [0, 0, 0, 0],
+      //   [0, 0, 0, 0],
+      // ];
 
-      rankingProvider.paperNumRanking = [];
-      rankingProvider.sumTimeRanking = [];
-      rankingProvider.meanTimeRanking = [];
+      // rankingProvider.paperNumRanking = [];
+      // rankingProvider.sumTimeRanking = [];
+      // rankingProvider.meanTimeRanking = [];
 
       notifyListeners();
 
@@ -200,11 +200,11 @@ class UserProvider extends ChangeNotifier {
         '0'
       ]);
 
-      for (int i = 0; i < 10; i++) {
-        prefs.setStringList('paperNumRanking${i + 1}', []);
-        prefs.setStringList('sumTimeRanking${i + 1}', []);
-        prefs.setStringList('meanTimeRanking${i + 1}', []);
-      }
+      // for (int i = 0; i < 10; i++) {
+      //   prefs.setStringList('paperNumRanking${i + 1}', []);
+      //   prefs.setStringList('sumTimeRanking${i + 1}', []);
+      //   prefs.setStringList('meanTimeRanking${i + 1}', []);
+      // }
     } else {
       login = false;
       notifyListeners();
@@ -215,6 +215,13 @@ class UserProvider extends ChangeNotifier {
 class NickNameProvider extends ChangeNotifier {
   String nickNameId = ''; // n0
   String nickName = '';
+
+  void init() async {
+    nickNameId = 'n0';
+    nickName = '研究生';
+
+    notifyListeners();
+  }
 
   void getNickName() async {
     final prefs = await SharedPreferences.getInstance();
@@ -241,6 +248,14 @@ class CharacterProvider extends ChangeNotifier {
   String characterId = ''; // (m or w)0
   String characterPath = ''; // assets/models/(m or w)0.obj
 
+  void init(String _gender) async {
+    gender = _gender;
+    characterId = '($_gender)0';
+    characterPath = 'assets/models/($_gender)0).obj';
+
+    notifyListeners();
+  }
+
   void getCharacter() async {
     final prefs = await SharedPreferences.getInstance();
     gender = prefs.getString('gender') ?? 'm';
@@ -265,6 +280,13 @@ class CharacterProvider extends ChangeNotifier {
 class BackgroundProvider extends ChangeNotifier {
   String backgroundId = ''; // b0
   String backgroundPath = ''; // assets/backgrounds/b0.png
+
+  void init() async {
+    backgroundId = 'b0';
+    backgroundPath = 'assets/backgrounds/b0.png';
+
+    notifyListeners();
+  }
 
   void getBackground() async {
     final prefs = await SharedPreferences.getInstance();
@@ -292,6 +314,15 @@ class GachaProvider extends ChangeNotifier {
   List<String> notHaveNickNameIdList = []; // n1,n2
   List<String> notHaveCharacterIdList = []; // (m or w)1,(m or w)2
   List<String> notHaveBackgroundIdList = []; // b1,b2
+
+  void init(String _gender) async {
+    gachaTicket = 0;
+    notHaveNickNameIdList = ['n1', 'n2'];
+    notHaveCharacterIdList = ['($_gender)1', '($_gender)2'];
+    notHaveBackgroundIdList = ['b1', 'b2'];
+
+    notifyListeners();
+  }
 
   void getGacha() async {
     final prefs = await SharedPreferences.getInstance();
@@ -354,6 +385,18 @@ class AchieveProvider extends ChangeNotifier {
   double meanTime = 0;
   bool penalty = false;
 
+  void init() async {
+    paperNum = 0;
+    sumTime = 0;
+    thisTime = 0;
+    needTime = 0;
+    achieveNum = 0;
+    meanTime = 0;
+    penalty = false;
+
+    notifyListeners();
+  }
+
   void getAchieve() async {
     final prefs = await SharedPreferences.getInstance();
     paperNum = prefs.getInt('paperNum') ?? 0;
@@ -400,6 +443,17 @@ class HaveItemProvider extends ChangeNotifier {
   List<String> haveCharacterPathList = []; // assets/models/(m or w)0.obj
   List<String> haveBackgroundIdList = []; // b0
   List<String> haveBackgroundPathList = []; // assets/backgrounds/b0.png
+
+  void init(String _gender) async {
+    haveNickNameIdList = ['n0'];
+    haveNickNameList = ['研究生'];
+    haveCharacterIdList = ['($_gender)0'];
+    haveCharacterPathList = ['assets/models/($_gender)0.obj'];
+    haveBackgroundIdList = ['b0'];
+    haveBackgroundPathList = ['assets/backgrounds/b0.png'];
+
+    notifyListeners();
+  }
 
   void getHaveItemList() async {
     final prefs = await SharedPreferences.getInstance();
@@ -455,6 +509,27 @@ class ClassProvider extends ChangeNotifier {
   List<List<bool>> classFlagList = []; // 6*6
   List<List<int>> classTimeList = []; // 6*4
 
+  void init() async {
+    classFlagList = [
+      [false, false, false, false, false, false],
+      [false, false, false, false, false, false],
+      [false, false, false, false, false, false],
+      [false, false, false, false, false, false],
+      [false, false, false, false, false, false],
+      [false, false, false, false, false, false],
+    ];
+    classTimeList = [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ];
+
+    notifyListeners();
+  }
+
   void getClassList() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = prefs.getStringList('classFlagList') ?? [];
@@ -504,6 +579,15 @@ class RankingProvider extends ChangeNotifier {
   List<List<String>> paperNumRanking = []; // 10*4
   List<List<String>> sumTimeRanking = []; // 10*4
   List<List<String>> meanTimeRanking = []; // 10*4
+
+  void init() async {
+    paperNumRanking = [];
+    sumTimeRanking = [];
+    meanTimeRanking = [];
+    setRanking();
+
+    notifyListeners();
+  }
 
   void getRanking() async {
     final prefs = await SharedPreferences.getInstance();

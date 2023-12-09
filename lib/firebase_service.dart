@@ -281,7 +281,7 @@ class FirebaseService {
         .get()
         .then((value) {
       Map<String, dynamic>? data = value.data();
-      return data?['nextUpdateTime'];
+      return data?['nextUpdateTime'].toDate();
     });
   }
 
