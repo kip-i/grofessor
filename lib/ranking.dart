@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import 'state.dart';
+import './home/name_button.dart';
+import './home/experience_bar.dart';
 
 class Player {
   String userName;
@@ -65,22 +67,24 @@ class _RankingState extends State<Ranking> {
   void changeRankingType(String type) {
     setState(() {
       rankingType = type;
-      switch (rankingType) {
-        case 'numberOfPapers':
-          players.sort((a, b) => b.numberOfPapers.compareTo(a.numberOfPapers));
-          break;
-        case 'totalStudyTime':
-          players.sort((a, b) => b.totalStudyTime.compareTo(a.totalStudyTime));
-          break;
-        case 'averageStudyTime':
-          players
-              .sort((a, b) => b.averageStudyTime.compareTo(a.averageStudyTime));
-          break;
-      }
+      players.sort((a, b) => getValue(b).compareTo(getValue(a)));
       for (int i = 0; i < players.length; i++) {
         players[i].rank = i + 1;
       }
     });
+  }
+
+  int getValue(Player player) {
+    switch (rankingType) {
+      case 'numberOfPapers':
+        return player.numberOfPapers;
+      case 'totalStudyTime':
+        return player.totalStudyTime;
+      case 'averageStudyTime':
+        return player.averageStudyTime;
+      default:
+        return 0;
+    }
   }
 
   Widget _buildPlayerList() {
@@ -103,7 +107,6 @@ class _RankingState extends State<Ranking> {
   }
 
   Widget _playerScore(dataProvider) {
-    // String displayText = ' ${dataProvider.userName}枚';
     String displayText;
     switch (rankingType) {
       case 'numberOfPapers':
@@ -142,57 +145,123 @@ class _RankingState extends State<Ranking> {
     );
   }
 
+  Widget _kindOfRanking() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                rankingType = 'numberOfPapers';
+                changeRankingType(rankingType);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: rankingType == 'numberOfPapers'
+                    ? Colors.blue
+                    : Colors.white,
+                side: const BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
+              ),
+              child: Text(
+                '論文数',
+                style: TextStyle(
+                    color: rankingType == 'numberOfPapers'
+                        ? Colors.white
+                        : Colors.black,
+                    fontStyle: FontStyle.italic),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                rankingType = 'totalStudyTime';
+                changeRankingType(rankingType);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: rankingType == 'totalStudyTime'
+                    ? Colors.blue
+                    : Colors.white,
+                side: const BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
+              ),
+              child: Text(
+                '合計時間',
+                style: TextStyle(
+                    color: rankingType == 'totalStudyTime'
+                        ? Colors.white
+                        : Colors.black,
+                    fontStyle: FontStyle.italic),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                rankingType = 'averageStudyTime';
+                changeRankingType(rankingType);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: rankingType == 'averageStudyTime'
+                    ? Colors.blue
+                    : Colors.white,
+                side: const BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
+              ),
+              child: Text(
+                '平均時間',
+                style: TextStyle(
+                    color: rankingType == 'averageStudyTime'
+                        ? Colors.white
+                        : Colors.black,
+                    fontStyle: FontStyle.italic),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              '順位表',
-              style: TextStyle(
-                color: Colors.green,
-                fontSize: 24,
-                fontStyle: FontStyle.italic,
+          body: Stack(
+        children: [
+          Positioned(
+            top: 30, // 上からの位置を指定します
+            left: 16, // 左からの位置を指定します
+            child: SizedBox(
+              width: 200, // ここに希望の幅を設定します
+              child: Column(
+                children: [NameButton(), ExperienceBar()],
               ),
             ),
-            backgroundColor: Colors.white,
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () => changeRankingType('numberOfPapers'),
-                          child: const Text('論文数'),
-                        ),
-                      ),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () => changeRankingType('totalStudyTime'),
-                          child: const Text('合計時間'),
-                        ),
-                      ),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () =>
-                              changeRankingType('averageStudyTime'),
-                          child: const Text('平均時間'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                _playerScore(dataProvider),
-                const SizedBox(height: 20),
-                _buildPlayerList(),
-              ],
+          Padding(
+            padding: const EdgeInsets.only(top: 180),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _kindOfRanking(),
+                  _playerScore(dataProvider),
+                  const SizedBox(height: 10),
+                  _buildPlayerList(),
+                ],
+              ),
             ),
-          )),
+          ),
+        ],
+      )),
     );
   }
 }
