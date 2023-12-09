@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_cube/flutter_cube.dart';
 import 'package:provider/provider.dart';
 import 'state.dart';
 import './home/name_button.dart';
@@ -9,8 +10,8 @@ import './home/experience_bar.dart';
 class Player {
   String userName;
   String nickName;
-  String character;
-  String backGround;
+  String characterPath;
+  String backgroundPath;
   int numberOfPapers;
   int totalStudyTime;
   int averageStudyTime;
@@ -19,8 +20,8 @@ class Player {
   Player(
       this.userName,
       this.nickName,
-      this.character,
-      this.backGround,
+      this.characterPath,
+      this.backgroundPath,
       this.numberOfPapers,
       this.totalStudyTime,
       this.averageStudyTime,
@@ -30,8 +31,8 @@ class Player {
     return Player(
         json['userName'],
         json['nickName'],
-        json['character'],
-        json['background'],
+        json['characterPath'],
+        json['backgroundPath'],
         json['numberOfPapers'],
         json['totalStudyTime'],
         json['averageStudyTime'],
@@ -89,10 +90,20 @@ class _RankingState extends State<Ranking> {
 
   Widget _buildPlayerList() {
     return Column(
-      children: players.map((players) {
+      children: players.take(20).map((players) {
         String displayText;
-        displayText =
-            ' ${players.rank}位     ${players.character}     ${players.nickName}';
+        if (rankingType == 'numberOfPapers') {
+          displayText =
+              ' ${players.rank}位     ${players.nickName}     ${players.numberOfPapers}枚';
+        } else if (rankingType == 'totalStudyTime') {
+          displayText =
+              ' ${players.rank}位     ${players.nickName}     ${players.totalStudyTime}分';
+        } else if (rankingType == 'averageStudyTime') {
+          displayText =
+              ' ${players.rank}位     ${players.nickName}     ${players.averageStudyTime}分';
+        } else {
+          displayText = ' ${players.rank}位     ${players.nickName}';
+        }
         return ListTile(
           title: Text(
             displayText,

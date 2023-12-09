@@ -2,8 +2,8 @@
   {
     "userName": "user001",
     "nickName": "taro",
-    "character": "character1.png",
-    "background": "bg1.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 5,
     "totalStudyTime": 100,
     "averageStudyTime": 1
@@ -11,8 +11,8 @@
   {
     "userName": "user002",
     "nickName": "jiro",
-    "character": "character2.png",
-    "background": "bg2.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 10,
     "totalStudyTime": 200,
     "averageStudyTime": 3
@@ -20,8 +20,8 @@
   {
     "userName": "user003",
     "nickName": "saburo",
-    "character": "character3.png",
-    "background": "bg3.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 15,
     "totalStudyTime": 300,
     "averageStudyTime": 5
@@ -29,8 +29,8 @@
   {
     "userName": "user004",
     "nickName": "siro",
-    "character": "character4.png",
-    "background": "bg4.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 20,
     "totalStudyTime": 400,
     "averageStudyTime": 7
@@ -38,8 +38,8 @@
   {
     "userName": "user005",
     "nickName": "goro",
-    "character": "character5.png",
-    "background": "bg5.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 25,
     "totalStudyTime": 500,
     "averageStudyTime": 9
@@ -47,8 +47,8 @@
   {
     "userName": "user006",
     "nickName": "rokuro",
-    "character": "character6.png",
-    "background": "bg6.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 30,
     "totalStudyTime": 600,
     "averageStudyTime": 11
@@ -56,8 +56,8 @@
   {
     "userName": "user007",
     "nickName": "shichiro",
-    "character": "character1.png",
-    "background": "bg7.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 35,
     "totalStudyTime": 700,
     "averageStudyTime": 13
@@ -65,8 +65,8 @@
   {
     "userName": "user008",
     "nickName": "hachiro",
-    "character": "character2.png",
-    "background": "bg8.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 40,
     "totalStudyTime": 800,
     "averageStudyTime": 15
@@ -74,8 +74,8 @@
   {
     "userName": "user009",
     "nickName": "kuro",
-    "character": "character3.png",
-    "background": "bg9.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 45,
     "totalStudyTime": 900,
     "averageStudyTime": 17
@@ -83,8 +83,8 @@
   {
     "userName": "user010",
     "nickName": "juro",
-    "character": "character4.png",
-    "background": "bg10.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 50,
     "totalStudyTime": 1000,
     "averageStudyTime": 19
@@ -92,8 +92,8 @@
   {
     "userName": "user011",
     "nickName": "zyuro",
-    "character": "character5.png",
-    "background": "bg11.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 55,
     "totalStudyTime": 1100,
     "averageStudyTime": 2
@@ -101,8 +101,8 @@
   {
     "userName": "user012",
     "nickName": "doro",
-    "character": "character6.png",
-    "background": "bg12.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 60,
     "totalStudyTime": 1200,
     "averageStudyTime": 4
@@ -110,8 +110,8 @@
   {
     "userName": "user013",
     "nickName": "toro",
-    "character": "character1.png",
-    "background": "bg13.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 65,
     "totalStudyTime": 1300,
     "averageStudyTime": 6
@@ -119,8 +119,8 @@
   {
     "userName": "user014",
     "nickName": "noro",
-    "character": "character2.png",
-    "background": "bg14.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 70,
     "totalStudyTime": 1400,
     "averageStudyTime": 8
@@ -128,8 +128,8 @@
   {
     "userName": "user015",
     "nickName": "munemu",
-    "character": "character3.png",
-    "background": "bg15.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 75,
     "totalStudyTime": 1500,
     "averageStudyTime": 10
@@ -137,8 +137,8 @@
   {
     "userName": "user016",
     "nickName": "shomei",
-    "character": "character4.png",
-    "background": "bg16.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 80,
     "totalStudyTime": 1600,
     "averageStudyTime": 12
@@ -146,8 +146,8 @@
   {
     "userName": "user017",
     "nickName": "dotchi",
-    "character": "character5.png",
-    "background": "bg17.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 85,
     "totalStudyTime": 1700,
     "averageStudyTime": 14
@@ -155,8 +155,8 @@
   {
     "userName": "user018",
     "nickName": "kotchi",
-    "character": "character6.png",
-    "background": "bg18.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 90,
     "totalStudyTime": 1800,
     "averageStudyTime": 16
@@ -164,8 +164,8 @@
   {
     "userName": "user019",
     "nickName": "zotchi",
-    "character": "character1.png",
-    "background": "bg19.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 95,
     "totalStudyTime": 1900,
     "averageStudyTime": 18
@@ -173,8 +173,8 @@
   {
     "userName": "user020",
     "nickName": "gotchi",
-    "character": "character2.png",
-    "background": "bg20.jpg",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
     "numberOfPapers": 100,
     "totalStudyTime": 2000,
     "averageStudyTime": 20
