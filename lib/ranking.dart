@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:provider/provider.dart';
+import 'state.dart';
 
 class Player {
   String userName;
@@ -100,8 +102,49 @@ class _RankingState extends State<Ranking> {
     );
   }
 
+  Widget _playerScore(dataProvider) {
+    // String displayText = ' ${dataProvider.userName}枚';
+    String displayText;
+    switch (rankingType) {
+      case 'numberOfPapers':
+        displayText = ' ${dataProvider.paperNum}枚';
+        break;
+      case 'totalStudyTime':
+        displayText = ' ${dataProvider.sumTime}分';
+        break;
+      case 'averageStudyTime':
+        displayText = ' ${dataProvider.meanTime}分';
+        break;
+      default:
+        displayText = ' ${dataProvider.userName}';
+    }
+    return Column(
+      children: [
+        ListTile(
+          title: const Text(
+            'あなたの結果は',
+            style: TextStyle(
+              fontSize: 25,
+              fontStyle: FontStyle.italic,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          subtitle: Text(
+            displayText,
+            style: const TextStyle(
+              fontSize: 25,
+              fontStyle: FontStyle.italic,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        )
+      ].toList(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context);
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
@@ -144,6 +187,7 @@ class _RankingState extends State<Ranking> {
                     ],
                   ),
                 ),
+                _playerScore(dataProvider),
                 const SizedBox(height: 20),
                 _buildPlayerList(),
               ],
