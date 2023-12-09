@@ -12,14 +12,13 @@ class ModelTab extends StatefulWidget {
 
 class _ModelTabState extends State<ModelTab> {
   late int selectedIndex;
-  late int model_num;
+  final int model_num = 3;
 
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
     dataProvider.getCharacterId();
     selectedIndex = dataProvider.haveCharacterIdList.indexOf(dataProvider.characterId);
-    model_num = dataProvider.haveCharacterIdList.length+ dataProvider.notHaveCharacterIdList.length;
     return GridView.builder(
       shrinkWrap: true, // スクロール可能にする
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
