@@ -12,7 +12,7 @@ class BackgroundTab extends StatefulWidget {
 
 class _BackgroundTabState extends State<BackgroundTab> {
   late int selectedIndex;
-  final int background_num = 5; // background_numが変わる場合、適宜調整してください
+  late int background_num; // background_numが変わる場合、適宜調整してください
 
 
   @override
@@ -20,6 +20,7 @@ class _BackgroundTabState extends State<BackgroundTab> {
     final dataProvider = Provider.of<DataProvider>(context);
     dataProvider.getBackgroundId();
     selectedIndex = dataProvider.haveBackgroundIdList.indexOf(dataProvider.backgroundId);
+    background_num = dataProvider.haveBackgroundIdList.length+ dataProvider.notHaveBackgroundIdList.length;
     return GridView.builder(
       shrinkWrap: true, // スクロール可能にする
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
