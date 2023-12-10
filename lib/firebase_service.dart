@@ -36,13 +36,13 @@ class FirebaseService {
             'penalty': false,
           }).then((value) async {
             await userCollection.doc('nickName').set({
-              'haveList': [],
+              'haveList': ['n0'],
             }).then((value) async {
               await userCollection.doc('character').set({
-                'haveList': [],
+                'haveList': ['${gender}0'],
               }).then((value) async {
                 await userCollection.doc('background').set({
-                  'haveList': [],
+                  'haveList': ['b0'],
                 }).then((value) async {
                   final CollectionReference classCollection =
                       userCollection.doc('schedule').collection('class');
@@ -80,9 +80,7 @@ class FirebaseService {
         .doc(userId)
         .set({
       'userName': userName,
-      'nickNameId': 'n0',
-      'characterId': '${gender}0',
-      'backgroundId': 'b0',
+      'nickName': '研究生',
       'paperNum': 0,
       'paperNumUpdated': DateTime.now(),
       'sumTime': 0,
@@ -479,14 +477,25 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('user').update({
       'nickNameId': nickNameId,
-    }).then((value) async {
-      await _rootCollection
-          .doc('rankings')
-          .collection('userData')
-          .doc(userId)
-          .update({
-        'nickNameId': nickNameId,
-      });
+      // }).then((value) async {
+      //   await _rootCollection
+      //       .doc('rankings')
+      //       .collection('userData')
+      //       .doc(userId)
+      //       .update({
+      //     'nickName': nickNameId,
+      //   });
+    });
+  }
+
+  // 選択ニックネームの更新
+  Future<void> updateNickName(String userId, String nickName) async {
+    await _rootCollection
+        .doc('rankings')
+        .collection('userData')
+        .doc(userId)
+        .update({
+      'nickName': nickName,
     });
   }
 
@@ -496,14 +505,15 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('user').update({
       'backgroundId': backgroundId,
-    }).then((value) async {
-      await _rootCollection
-          .doc('rankings')
-          .collection('userData')
-          .doc(userId)
-          .update({
-        'backgroundId': backgroundId,
-      });
+      // })
+      // .then((value) async {
+      //   await _rootCollection
+      //       .doc('rankings')
+      //       .collection('userData')
+      //       .doc(userId)
+      //       .update({
+      //     'backgroundId': backgroundId,
+      //   });
     });
   }
 
@@ -513,14 +523,14 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('user').update({
       'characterId': characterId,
-    }).then((value) async {
-      await _rootCollection
-          .doc('rankings')
-          .collection('userData')
-          .doc(userId)
-          .update({
-        'characterId': characterId,
-      });
+      // }).then((value) async {
+      //   await _rootCollection
+      //       .doc('rankings')
+      //       .collection('userData')
+      //       .doc(userId)
+      //       .update({
+      //     'characterId': characterId,
+      //   });
     });
   }
 
@@ -530,6 +540,44 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('gacha').update({
       'gachaTicket': FieldValue.increment(num),
+    });
+  }
+
+  // 時間割(有無)の更新
+  Future<void> updateClassExisteSchedule(
+      String userId, List<List<bool>> schedule) async {
+    final CollectionReference userCollection =
+        _rootCollection.doc('users').collection(userId);
+    await userCollection
+        .doc('schedule')
+        .collection('class')
+        .doc('class')
+        .update({
+      'monday': schedule[0],
+      'tuesday': schedule[1],
+      'wednesday': schedule[2],
+      'thursday': schedule[3],
+      'friday': schedule[4],
+      'saturday': schedule[5],
+    });
+  }
+
+  // 時間割(時間)の更新
+  Future<void> updateClassTimeSchedule(
+      String userId, List<List<int>> schedule) async {
+    final CollectionReference userCollection =
+        _rootCollection.doc('users').collection(userId);
+    await userCollection
+        .doc('schedule')
+        .collection('class')
+        .doc('time')
+        .update({
+      '1st': schedule[0],
+      '2nd': schedule[1],
+      '3rd': schedule[2],
+      '4th': schedule[3],
+      '5th': schedule[4],
+      '6th': schedule[5],
     });
   }
 
@@ -615,7 +663,7 @@ class FirebaseService {
   Future<void> updatePaperNumRanking(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('userData');
-    List<List<String>> ranking = [[]];
+    List<List<String>> ranking = [];
     await userCollection
         .orderBy('paperNum', descending: true)
         .orderBy('paperNumUpdated', descending: false)
@@ -626,8 +674,7 @@ class FirebaseService {
         Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
         List<String> tmp = [
           data?['userName'],
-          'assets/models/' + data?['characterId'] + '.obj',
-          'assets/backgrounds/' + data?['backgroundId'] + '.obj',
+          data?['nickName'],
           data?['paperNum'].toString() as String
         ];
         ranking.add(tmp);
@@ -655,7 +702,7 @@ class FirebaseService {
   Future<void> updateSumTimeRanking(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('userData');
-    List<List<String>> ranking = [[]];
+    List<List<String>> ranking = [];
     await userCollection
         .orderBy('sumTime', descending: true)
         .orderBy('timeUpdated', descending: false)
@@ -666,8 +713,7 @@ class FirebaseService {
         Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
         List<String> tmp = [
           data?['userName'],
-          'assets/models/' + data?['characterId'] + '.obj',
-          'assets/backgrounds/' + data?['backgroundId'] + '.obj',
+          data?['nickName'],
           data?['sumTime'].toString() as String
         ];
         ranking.add(tmp);
@@ -695,7 +741,7 @@ class FirebaseService {
   Future<void> updateMeanTimeRanking(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('userData');
-    List<List<String>> ranking = [[]];
+    List<List<String>> ranking = [];
     await userCollection
         .orderBy('meanTime', descending: true)
         .orderBy('timeUpdated', descending: false)
@@ -706,8 +752,7 @@ class FirebaseService {
         Map<String, dynamic>? data = element.data() as Map<String, dynamic>?;
         List<String> tmp = [
           data?['userName'],
-          'assets/models/' + data?['characterId'] + '.obj',
-          'assets/backgrounds/' + data?['backgroundId'] + '.obj',
+          data?['nickName'],
           data?['meanTime'].toString() as String
         ];
         ranking.add(tmp);
@@ -736,10 +781,10 @@ class FirebaseService {
       String userId, DateTime last, DateTime now) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('rankingUpdate');
-    DateTime next = DateTime(now.year, now.month, now.day + 1, last.hour,
-        last.minute, last.second); // 1日1回更新
+    // DateTime next = DateTime(now.year, now.month, now.day + 1, last.hour, last.minute, last.second); // 1日1回更新
     // DateTime next = DateTime(now.year, now.month, now.day, now.hour+1, last.minute, last.second); // 1時間1回更新
-    // DateTime next = DateTime(now.year, now.month, now.day, now.hour, now.minute+10, last.second); // 10分1回更新
+    DateTime next = DateTime(now.year, now.month, now.day, now.hour,
+        now.minute + 10, last.second); // 10分1回更新
     await userCollection.doc('updateTime').update({
       'nextUpdateTime': next,
     });

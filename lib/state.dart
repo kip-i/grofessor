@@ -448,7 +448,7 @@ class DataProvider extends ChangeNotifier {
       sumTimeRanking = [];
       meanTimeRanking = [];
 
-      notifyListeners();
+      // notifyListeners();
 
       await FirebaseService().createUser(userId, userName, gender);
 
@@ -588,9 +588,9 @@ class DataProvider extends ChangeNotifier {
       // prefs.setStringList('meanTimeRanking10th', []);
     } else {
       login = false;
-      notifyListeners();
+      // notifyListeners();
     }
-    // notifyListeners();
+    notifyListeners();
   }
 
   // void setUserName(String _userName) async {
@@ -603,19 +603,24 @@ class DataProvider extends ChangeNotifier {
 
   void setNickNameId(String _nickNameId) async {
     nickNameId = _nickNameId;
-    notifyListeners();
+    // notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('nickNameId', nickNameId);
     // notifyListeners(); // Add this line
     await FirebaseService().updateNickNameId(userId, nickNameId);
+
+    notifyListeners();
   }
 
   void setNickName(String _nickName) async {
     nickName = _nickName;
-    notifyListeners();
+    // notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('nickName', nickName);
     // notifyListeners(); // Add this line
+    await FirebaseService().updateNickName(userId, nickName);
+
+    notifyListeners();
   }
 
   // void setGender(String _gender) async{
@@ -629,7 +634,7 @@ class DataProvider extends ChangeNotifier {
     // character = gender+characterId;
     // characterPath = 'assets/models/${gender+characterId}.obj';
     characterPath = 'assets/models/${characterId}.obj';
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('characterId', characterId);
@@ -637,6 +642,8 @@ class DataProvider extends ChangeNotifier {
     prefs.setString('characterPath', characterPath);
 
     await FirebaseService().updateCharacter(userId, characterId);
+
+    notifyListeners();
   }
 
   // void setCharacter(String _character) async{
@@ -654,13 +661,15 @@ class DataProvider extends ChangeNotifier {
   void setBackgroundId(String _backgroundId) async {
     backgroundId = _backgroundId;
     backgroundPath = 'assets/backgrounds/${backgroundId}.png';
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('backgroundId', backgroundId);
     prefs.setString('backgroundPath', backgroundPath);
 
     await FirebaseService().updateBackgroundId(userId, backgroundId);
+
+    notifyListeners();
   }
 
   // void setBackgroundPath(String _backgroundPath) async{
@@ -671,42 +680,50 @@ class DataProvider extends ChangeNotifier {
 
   void setGachaTicket(int _number) async {
     gachaTicket = gachaTicket + _number;
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt('gachaTicket', gachaTicket);
 
     await FirebaseService().updateGachaTicket(userId, _number);
+
+    notifyListeners();
   }
 
   void setNotHaveNickNameIdList(String _nickNameId) async {
     notHaveNickNameIdList.remove(_nickNameId);
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notHaveNickNameIdList', notHaveNickNameIdList);
 
     await FirebaseService().deleteNotHaveNickName(userId, _nickNameId);
+
+    notifyListeners();
   }
 
   void setNotHaveCharacterIdList(String _characterId) async {
     notHaveCharacterIdList.remove(_characterId);
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notHaveCharacterIdList', notHaveCharacterIdList);
 
     await FirebaseService().deleteNotHaveCharacter(userId, _characterId);
+
+    notifyListeners();
   }
 
   void setNotHaveBackgroundIdList(String _backgroundId) async {
     notHaveBackgroundIdList.remove(_backgroundId);
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notHaveBackgroundIdList', notHaveBackgroundIdList);
 
     await FirebaseService().deleteNotHaveBackground(userId, _backgroundId);
+
+    notifyListeners();
   }
 
   void setAchieve(int _paperNum, int _time, bool _penalty) async {
@@ -720,7 +737,7 @@ class DataProvider extends ChangeNotifier {
     achieveNum = achieveNum + 1;
     meanTime = sumTime / achieveNum;
     penalty = _penalty;
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt('paperNum', paperNum);
@@ -732,6 +749,8 @@ class DataProvider extends ChangeNotifier {
     prefs.setInt('penalty', penalty ? 1 : 0);
 
     await FirebaseService().updateAchieve(userId, _penalty, _time);
+
+    notifyListeners();
   }
 
   // void setPaperNum(int _paperNum) async{
@@ -794,13 +813,15 @@ class DataProvider extends ChangeNotifier {
     haveNickNameIdList.add(_nickNameId);
     String _nickName = await FirebaseService().getNickName(_nickNameId);
     haveNickNameList.add(_nickName);
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('haveNickNameIdList', haveNickNameIdList);
     prefs.setStringList('haveNickNameList', haveNickNameList);
 
     await FirebaseService().addHaveNickName(userId, _nickNameId);
+
+    notifyListeners();
   }
 
   // void setHaveNickNamePathList(List<String> _haveNickNamePathList) async{
@@ -812,13 +833,15 @@ class DataProvider extends ChangeNotifier {
   void setHaveCharacterIdList(String _characterId) async {
     haveCharacterIdList.add(_characterId);
     haveCharacterPathList.add('assets/models/${_characterId}.obj');
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('haveCharacterIdList', haveCharacterIdList);
     prefs.setStringList('haveCharacterPathList', haveCharacterPathList);
 
     await FirebaseService().addHaveCharacter(userId, _characterId);
+
+    notifyListeners();
   }
 
   // void setHaveCharacterPathList(List<String> _haveCharacterPathList) async{
@@ -830,13 +853,15 @@ class DataProvider extends ChangeNotifier {
   void setHaveBackgroundIdList(String _backgroundId) async {
     haveBackgroundIdList.add(_backgroundId);
     haveBackgroundPathList.add('assets/backgrounds/${_backgroundId}.png');
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('haveBackgroundIdList', haveBackgroundIdList);
     prefs.setStringList('haveBackgroundPathList', haveBackgroundPathList);
 
     await FirebaseService().addHaveBackground(userId, _backgroundId);
+
+    notifyListeners();
   }
 
   // void setHaveBackgroundPathList(List<String> _haveBackgroundPathList) async{
@@ -847,7 +872,7 @@ class DataProvider extends ChangeNotifier {
 
   void setClassFlagList(int row, int column) async {
     classFlagList[row][column] = !classFlagList[row][column];
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = classFlagList
@@ -856,6 +881,10 @@ class DataProvider extends ChangeNotifier {
         .expand((e) => e)
         .toList();
     prefs.setStringList('classFlagList', tmp);
+
+    await FirebaseService().updateClassExisteSchedule(userId, classFlagList);
+
+    notifyListeners();
   }
 
   // void setClassTimeList(List<int> _classTimeList, int row) async{
@@ -869,7 +898,7 @@ class DataProvider extends ChangeNotifier {
   void setClassStartTimeList(List<int> _classTimeList, int row) async {
     classTimeList[row][0] = _classTimeList[0];
     classTimeList[row][1] = _classTimeList[1];
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = classTimeList
@@ -878,12 +907,16 @@ class DataProvider extends ChangeNotifier {
         .expand((e) => e)
         .toList();
     prefs.setStringList('classTimeList', tmp);
+
+    await FirebaseService().updateClassTimeSchedule(userId, classTimeList);
+
+    notifyListeners();
   }
 
   void setClassFinishTimeList(List<int> _classTimeList, int row) async {
     classTimeList[row][2] = _classTimeList[0];
     classTimeList[row][3] = _classTimeList[1];
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = classTimeList
@@ -892,52 +925,55 @@ class DataProvider extends ChangeNotifier {
         .expand((e) => e)
         .toList();
     prefs.setStringList('classTimeList', tmp);
+
+    await FirebaseService().updateClassTimeSchedule(userId, classTimeList);
+
+    notifyListeners();
   }
 
   void setRanking() async {
     List<List<dynamic>> tmp = await FirebaseService().getRanking();
+    paperNumRanking = [];
+    sumTimeRanking = [];
+    meanTimeRanking = [];
     for (int i = 0; i < 10; i++) {
-      paperNumRanking[i] = [
-        tmp[0][i]['userName'],
-        tmp[0][i]['characterId'],
-        tmp[0][i]['backgroundId'],
-        tmp[0][i]['paperNum']
-      ];
-      sumTimeRanking[i] = [
-        tmp[1][i]['userName'],
-        tmp[1][i]['characterId'],
-        tmp[1][i]['backgroundId'],
-        tmp[1][i]['sumTime']
-      ];
-      meanTimeRanking[i] = [
-        tmp[2][i]['userName'],
-        tmp[2][i]['characterId'],
-        tmp[2][i]['backgroundId'],
-        tmp[2][i]['meanTime']
-      ];
+      paperNumRanking.add([
+        tmp[0][i][0],
+        tmp[0][i][1],
+        tmp[0][i][2],
+      ]);
+      sumTimeRanking.add([
+        tmp[1][i][0],
+        tmp[1][i][1],
+        tmp[1][i][2],
+      ]);
+      meanTimeRanking.add([
+        tmp[2][i][0],
+        tmp[2][i][1],
+        tmp[2][i][2],
+      ]);
     }
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     for (int i = 0; i < 10; i++) {
       prefs.setStringList('paperNumRanking${i + 1}', [
-        tmp[0][i]['userName'],
-        tmp[0][i]['characterId'],
-        tmp[0][i]['backgroundId'],
-        tmp[0][i]['paperNum']
+        tmp[0][i][0],
+        tmp[0][i][1],
+        tmp[0][i][2],
       ]);
       prefs.setStringList('sumTimeRanking${i + 1}', [
-        tmp[1][i]['userName'],
-        tmp[1][i]['characterId'],
-        tmp[1][i]['backgroundId'],
-        tmp[1][i]['sumTime']
+        tmp[1][i][0],
+        tmp[1][i][1],
+        tmp[1][i][2],
       ]);
       prefs.setStringList('meanTimeRanking${i + 1}', [
-        tmp[2][i]['userName'],
-        tmp[2][i]['characterId'],
-        tmp[2][i]['backgroundId'],
-        tmp[2][i]['meanTime']
+        tmp[2][i][0],
+        tmp[2][i][1],
+        tmp[2][i][2],
       ]);
+
+      notifyListeners();
     }
     // prefs.setStringList('paperNumRanking1st', [tmp[0][0]['userName'],tmp[0][0]['characterId'],tmp[0][0]['backgroundId'],tmp[0][0]['paperNum']]);
     // prefs.setStringList('paperNumRanking2nd', [tmp[0][1]['userName'],tmp[0][1]['characterId'],tmp[0][1]['backgroundId'],tmp[0][1]['paperNum']]);

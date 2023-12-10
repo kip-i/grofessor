@@ -25,7 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<DataProvider>(context);
+    // final dataProvider = Provider.of<DataProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final nickNameProvider = Provider.of<NickNameProvider>(context);
     final characterProvider = Provider.of<CharacterProvider>(context);
@@ -190,14 +190,16 @@ class _RegisterPageState extends State<RegisterPage> {
                   // _ranking = await FirebaseService().getRanking();
                   // await dataProvider.setUser(_userName, _gender);
                   await userProvider.initUser(_userName, _gender);
-                  nickNameProvider.init();
-                  characterProvider.init(_gender);
-                  backgroundProvider.init();
-                  gachaProvider.init(_gender);
-                  achieveProvider.init();
-                  haveItemProvider.init(_gender);
-                  classProvider.init();
-                  rankingProvider.init();
+                  await nickNameProvider.init();
+                  await characterProvider.init(_gender);
+                  await backgroundProvider.init();
+                  await gachaProvider.init(_gender);
+                  await achieveProvider.init();
+                  await haveItemProvider.init(_gender);
+                  await classProvider.init();
+                  await rankingProvider.init();
+
+                  await userProvider.notify();
                   // DataProvider().setUser();
                   // dataProvider.getUserId();
                   // print(_msg);

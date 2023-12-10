@@ -11,6 +11,10 @@ class UserProvider extends ChangeNotifier {
   String userId = '';
   String userName = '';
 
+  Future<void> notify() async {
+    notifyListeners();
+  }
+
   Future<void> getUser() async {
     final prefs = await SharedPreferences.getInstance();
     userName = prefs.getString('userName') ?? '';
@@ -21,21 +25,12 @@ class UserProvider extends ChangeNotifier {
     } else {
       login = false;
     }
-    notifyListeners(); // Add this line
+    // notifyListeners(); // Add this line
     print('正常更新:${login}');
     notifyListeners(); // Add this line
   }
 
   Future<void> initUser(String _userName, String _gender) async {
-    // NickNameProvider nickNameProvider = NickNameProvider();
-    // CharacterProvider characterProvider = CharacterProvider();
-    // BackgroundProvider backgroundProvider = BackgroundProvider();
-    // GachaProvider gachaProvider = GachaProvider();
-    // AchieveProvider achieveProvider = AchieveProvider();
-    // HaveItemProvider haveItemProvider = HaveItemProvider();
-    // ClassProvider classProvider = ClassProvider();
-    // RankingProvider rankingProvider = RankingProvider();
-
     List<String> tmp = await AuthService().createUser(_userName, _gender);
     if (tmp[1] == "Success") {
       login = true;
@@ -96,7 +91,7 @@ class UserProvider extends ChangeNotifier {
       // rankingProvider.sumTimeRanking = [];
       // rankingProvider.meanTimeRanking = [];
 
-      notifyListeners();
+      // notifyListeners();
 
       await FirebaseService().createUser(userId, userName, _gender);
 
@@ -114,26 +109,35 @@ class UserProvider extends ChangeNotifier {
 
       prefs.setInt('gachaTicket', 0);
       prefs.setStringList('notHaveNickNameList', ['n1', 'n2']);
-      prefs.setStringList(
-          'notHaveCharacterList', ['${_gender}1', '${_gender}2']);
-      prefs.setStringList('notHaveBackgroundList', ['b1', 'b2']);
+      // prefs.setStringList(
+      //     'notHaveCharacterList', ['${_gender}1', '${_gender}2']);
+      prefs.setStringList('notHaveCharacterList', ['${_gender}2']);
+      // prefs.setStringList('notHaveBackgroundList', ['b1', 'b2']);
+      prefs.setStringList('notHaveBackgroundList', ['b2']);
 
       prefs.setInt('paperNum', 0);
       prefs.setInt('sumTime', 0);
       prefs.setInt('thisTime', 0);
       prefs.setInt('needTime', 0);
       prefs.setInt('achieveNum', 0);
-      prefs.setInt('meanTime', 0);
+      prefs.setDouble('meanTime', 0);
       prefs.setInt('penalty', 0);
 
       prefs.setStringList('haveNickNameIdList', ['n0']);
       prefs.setStringList('haveNickNameList', ['研究生']);
-      prefs.setStringList('haveCharacterIdList', ['${_gender}0']);
-      prefs.setStringList(
-          'haveCharacterPathList', ['assets/models/${_gender}0.obj']);
-      prefs.setStringList('haveBackgroundIdList', ['b0']);
-      prefs.setStringList(
-          'haveBackgroundPathList', ['assets/backgrounds/b0.png']);
+      // prefs.setStringList('haveCharacterIdList', ['${_gender}0']);
+      prefs
+          .setStringList('haveCharacterIdList', ['${_gender}0', '${_gender}1']);
+      // prefs.setStringList(
+      //     'haveCharacterPathList', ['assets/models/${_gender}0.obj']);
+      prefs.setStringList('haveCharacterPathList',
+          ['assets/models/${_gender}0.obj', 'assets/models/${_gender}1.obj']);
+      // prefs.setStringList('haveBackgroundIdList', ['b0']);
+      prefs.setStringList('haveBackgroundIdList', ['b0', 'b1']);
+      // prefs.setStringList(
+      //     'haveBackgroundPathList', ['assets/backgrounds/b0.png']);
+      prefs.setStringList('haveBackgroundPathList',
+          ['assets/backgrounds/b0.png', 'assets/backgrounds/b1.png']);
 
       prefs.setStringList('classFlagList', [
         '0',
@@ -216,14 +220,14 @@ class NickNameProvider extends ChangeNotifier {
   String nickNameId = ''; // n0
   String nickName = '';
 
-  void init() async {
+  Future<void> init() async {
     nickNameId = 'n0';
     nickName = '研究生';
 
-    notifyListeners();
+    // notifyListeners();
   }
 
-  void getNickName() async {
+  Future<void> getNickName() async {
     final prefs = await SharedPreferences.getInstance();
     nickNameId = prefs.getString('nickNameId') ?? 'n0';
     nickName = prefs.getString('nickName') ?? '研究生';
@@ -233,13 +237,16 @@ class NickNameProvider extends ChangeNotifier {
   void setNickName(String _userId, String _nickNameId, String _nickName) async {
     nickNameId = _nickNameId;
     nickName = _nickName;
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('nickNameId', nickNameId);
     prefs.setString('nickName', nickName);
 
     await FirebaseService().updateNickNameId(_userId, nickNameId);
+    await FirebaseService().updateNickName(_userId, nickName);
+
+    notifyListeners();
   }
 }
 
@@ -248,15 +255,15 @@ class CharacterProvider extends ChangeNotifier {
   String characterId = ''; // (m or w)0
   String characterPath = ''; // assets/models/(m or w)0.obj
 
-  void init(String _gender) async {
+  Future<void> init(String _gender) async {
     gender = _gender;
-    characterId = '($_gender)0';
-    characterPath = 'assets/models/($_gender)0).obj';
+    characterId = '${_gender}0';
+    characterPath = 'assets/models/${_gender}0.obj';
 
-    notifyListeners();
+    // notifyListeners();
   }
 
-  void getCharacter() async {
+  Future<void> getCharacter() async {
     final prefs = await SharedPreferences.getInstance();
     gender = prefs.getString('gender') ?? 'm';
     characterId = prefs.getString('characterId') ?? 'm0';
@@ -264,16 +271,18 @@ class CharacterProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setCharacterId(String _userId, String _characterId) async {
+  void setCharacter(String _userId, String _characterId) async {
     characterId = _characterId;
     characterPath = 'assets/models/${characterId}.obj';
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('characterId', characterId);
     prefs.setString('characterPath', characterPath);
 
     await FirebaseService().updateCharacter(_userId, characterId);
+
+    notifyListeners();
   }
 }
 
@@ -281,14 +290,14 @@ class BackgroundProvider extends ChangeNotifier {
   String backgroundId = ''; // b0
   String backgroundPath = ''; // assets/backgrounds/b0.png
 
-  void init() async {
+  Future<void> init() async {
     backgroundId = 'b0';
     backgroundPath = 'assets/backgrounds/b0.png';
 
-    notifyListeners();
+    // notifyListeners();
   }
 
-  void getBackground() async {
+  Future<void> getBackground() async {
     final prefs = await SharedPreferences.getInstance();
     backgroundId = prefs.getString('backgroundId') ?? 'b0';
     backgroundPath =
@@ -299,13 +308,15 @@ class BackgroundProvider extends ChangeNotifier {
   void setBackground(String _userId, String _backgroundId) async {
     backgroundId = _backgroundId;
     backgroundPath = 'assets/backgrounds/${_backgroundId}.png';
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('backgroundId', backgroundId);
     prefs.setString('backgroundPath', backgroundPath);
 
     await FirebaseService().updateBackgroundId(_userId, _backgroundId);
+
+    notifyListeners();
   }
 }
 
@@ -315,16 +326,18 @@ class GachaProvider extends ChangeNotifier {
   List<String> notHaveCharacterIdList = []; // (m or w)1,(m or w)2
   List<String> notHaveBackgroundIdList = []; // b1,b2
 
-  void init(String _gender) async {
+  Future<void> init(String _gender) async {
     gachaTicket = 0;
     notHaveNickNameIdList = ['n1', 'n2'];
-    notHaveCharacterIdList = ['($_gender)1', '($_gender)2'];
-    notHaveBackgroundIdList = ['b1', 'b2'];
+    // notHaveCharacterIdList = ['${_gender}1', '${_gender}2'];
+    notHaveCharacterIdList = ['${_gender}2'];
+    // notHaveBackgroundIdList = ['b1', 'b2'];
+    notHaveBackgroundIdList = ['b2'];
 
-    notifyListeners();
+    // notifyListeners();
   }
 
-  void getGacha() async {
+  Future<void> getGacha() async {
     final prefs = await SharedPreferences.getInstance();
     gachaTicket = prefs.getInt('gachaTicket') ?? 0;
     notHaveNickNameIdList = prefs.getStringList('notHaveNickNameIdList') ?? [];
@@ -337,42 +350,50 @@ class GachaProvider extends ChangeNotifier {
 
   void setGachaTicket(String _userId, int _number) async {
     gachaTicket = gachaTicket + _number;
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt('gachaTicket', gachaTicket);
 
     await FirebaseService().updateGachaTicket(_userId, _number);
+
+    notifyListeners();
   }
 
   void setNotHaveNickNameIdList(String _userId, String _nickNameId) async {
     notHaveNickNameIdList.remove(_nickNameId);
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notHaveNickNameIdList', notHaveNickNameIdList);
 
     await FirebaseService().deleteNotHaveNickName(_userId, _nickNameId);
+
+    notifyListeners();
   }
 
   void setNotHaveCharacterIdList(String _userId, String _characterId) async {
     notHaveCharacterIdList.remove(_characterId);
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notHaveCharacterIdList', notHaveCharacterIdList);
 
     await FirebaseService().deleteNotHaveCharacter(_userId, _characterId);
+
+    notifyListeners();
   }
 
   void setNotHaveBackgroundIdList(String _userId, String _backgroundId) async {
     notHaveBackgroundIdList.remove(_backgroundId);
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notHaveBackgroundIdList', notHaveBackgroundIdList);
 
     await FirebaseService().deleteNotHaveBackground(_userId, _backgroundId);
+
+    notifyListeners();
   }
 }
 
@@ -385,19 +406,19 @@ class AchieveProvider extends ChangeNotifier {
   double meanTime = 0;
   bool penalty = false;
 
-  void init() async {
+  Future<void> init() async {
     paperNum = 0;
     sumTime = 0;
     thisTime = 0;
     needTime = 0;
     achieveNum = 0;
-    meanTime = 0;
+    meanTime = 0.0;
     penalty = false;
 
-    notifyListeners();
+    // notifyListeners();
   }
 
-  void getAchieve() async {
+  Future<void> getAchieve() async {
     final prefs = await SharedPreferences.getInstance();
     paperNum = prefs.getInt('paperNum') ?? 0;
     sumTime = prefs.getInt('sumTime') ?? 0;
@@ -421,7 +442,7 @@ class AchieveProvider extends ChangeNotifier {
     achieveNum = achieveNum + 1;
     meanTime = sumTime / achieveNum;
     penalty = _penalty;
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt('paperNum', paperNum);
@@ -433,6 +454,8 @@ class AchieveProvider extends ChangeNotifier {
     prefs.setInt('penalty', penalty ? 1 : 0);
 
     await FirebaseService().updateAchieve(_userId, _penalty, _time);
+
+    notifyListeners();
   }
 }
 
@@ -444,18 +467,28 @@ class HaveItemProvider extends ChangeNotifier {
   List<String> haveBackgroundIdList = []; // b0
   List<String> haveBackgroundPathList = []; // assets/backgrounds/b0.png
 
-  void init(String _gender) async {
+  Future<void> init(String _gender) async {
     haveNickNameIdList = ['n0'];
     haveNickNameList = ['研究生'];
-    haveCharacterIdList = ['($_gender)0'];
-    haveCharacterPathList = ['assets/models/($_gender)0.obj'];
-    haveBackgroundIdList = ['b0'];
-    haveBackgroundPathList = ['assets/backgrounds/b0.png'];
+    // haveCharacterIdList = ['${_gender}0'];
+    haveCharacterIdList = ['${_gender}0', '${_gender}1'];
+    // haveCharacterPathList = ['assets/models/${_gender}0.obj'];
+    haveCharacterPathList = [
+      'assets/models/${_gender}0.obj',
+      'assets/models/${_gender}0.obj'
+    ];
+    // haveBackgroundIdList = ['b0'];
+    haveBackgroundIdList = ['b0', 'b1'];
+    // haveBackgroundPathList = ['assets/backgrounds/b0.png'];
+    haveBackgroundPathList = [
+      'assets/backgrounds/b0.png',
+      'assets/backgrounds/b1.png'
+    ];
 
-    notifyListeners();
+    // notifyListeners();
   }
 
-  void getHaveItemList() async {
+  Future<void> getHaveItemList() async {
     final prefs = await SharedPreferences.getInstance();
     haveNickNameIdList = prefs.getStringList('haveNickNameIdList') ?? [];
     haveNickNameList = prefs.getStringList('haveNickNameList') ?? [];
@@ -471,37 +504,43 @@ class HaveItemProvider extends ChangeNotifier {
     haveNickNameIdList.add(_nickNameId);
     String _nickName = await FirebaseService().getNickName(_nickNameId);
     haveNickNameList.add(_nickName);
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('haveNickNameIdList', haveNickNameIdList);
     prefs.setStringList('haveNickNameList', haveNickNameList);
 
     await FirebaseService().addHaveNickName(_userId, _nickNameId);
+
+    notifyListeners();
   }
 
   void setHaveCharacterIdList(String _userId, String _characterId) async {
     haveCharacterIdList.add(_characterId);
     haveCharacterPathList.add('assets/models/${_characterId}.obj');
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('haveCharacterIdList', haveCharacterIdList);
     prefs.setStringList('haveCharacterPathList', haveCharacterPathList);
 
     await FirebaseService().addHaveCharacter(_userId, _characterId);
+
+    notifyListeners();
   }
 
   void setHaveBackgroundIdList(String _userId, String _backgroundId) async {
     haveBackgroundIdList.add(_backgroundId);
     haveBackgroundPathList.add('assets/backgrounds/${_backgroundId}.png');
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('haveBackgroundIdList', haveBackgroundIdList);
     prefs.setStringList('haveBackgroundPathList', haveBackgroundPathList);
 
     await FirebaseService().addHaveBackground(_userId, _backgroundId);
+
+    notifyListeners();
   }
 }
 
@@ -509,7 +548,7 @@ class ClassProvider extends ChangeNotifier {
   List<List<bool>> classFlagList = []; // 6*6
   List<List<int>> classTimeList = []; // 6*4
 
-  void init() async {
+  Future<void> init() async {
     classFlagList = [
       [false, false, false, false, false, false],
       [false, false, false, false, false, false],
@@ -527,10 +566,10 @@ class ClassProvider extends ChangeNotifier {
       [0, 0, 0, 0],
     ];
 
-    notifyListeners();
+    // notifyListeners();
   }
 
-  void getClassList() async {
+  Future<void> getClassList() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = prefs.getStringList('classFlagList') ?? [];
     List<String> tmp2 = prefs.getStringList('classTimeList') ?? [];
@@ -548,9 +587,9 @@ class ClassProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setClassFlagList(int row, int column) async {
+  void setClassFlagList(String _userId, int row, int column) async {
     classFlagList[row][column] = !classFlagList[row][column];
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = classFlagList
@@ -559,11 +598,16 @@ class ClassProvider extends ChangeNotifier {
         .expand((e) => e)
         .toList();
     prefs.setStringList('classFlagList', tmp);
+
+    await FirebaseService().updateClassExisteSchedule(_userId, classFlagList);
+
+    notifyListeners();
   }
 
-  void setClassTimeList(List<int> _classTimeList, int row) async {
+  void setClassStartTimeList(
+      String _userId, List<int> _classTimeList, int row) async {
     classTimeList[row] = _classTimeList;
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = classTimeList
@@ -572,24 +616,46 @@ class ClassProvider extends ChangeNotifier {
         .expand((e) => e)
         .toList();
     prefs.setStringList('classTimeList', tmp);
-  }
-}
 
-class RankingProvider extends ChangeNotifier {
-  List<List<String>> paperNumRanking = []; // 10*4
-  List<List<String>> sumTimeRanking = []; // 10*4
-  List<List<String>> meanTimeRanking = []; // 10*4
-
-  void init() async {
-    paperNumRanking = [];
-    sumTimeRanking = [];
-    meanTimeRanking = [];
-    setRanking();
+    await FirebaseService().updateClassTimeSchedule(_userId, classTimeList);
 
     notifyListeners();
   }
 
-  void getRanking() async {
+  void setClassFinishTimeList(
+      String _userId, List<int> _classTimeList, int row) async {
+    classTimeList[row] = _classTimeList;
+    // notifyListeners();
+
+    final prefs = await SharedPreferences.getInstance();
+    List<String> tmp = classTimeList
+        .map((e) => e.map((e) => e.toString()).toList())
+        .toList()
+        .expand((e) => e)
+        .toList();
+    prefs.setStringList('classTimeList', tmp);
+
+    await FirebaseService().updateClassTimeSchedule(_userId, classTimeList);
+
+    notifyListeners();
+  }
+}
+
+class RankingProvider extends ChangeNotifier {
+  List<List<dynamic>> paperNumRanking = []; // 10*4
+  List<List<dynamic>> sumTimeRanking = []; // 10*4
+  List<List<dynamic>> meanTimeRanking = []; // 10*4
+
+  Future<void> init() async {
+    // paperNumRanking = [];
+    // sumTimeRanking = [];
+    // meanTimeRanking = [];
+    setRanking();
+
+    // notifyListeners();
+  }
+
+  Future<void> getRanking() async {
     final prefs = await SharedPreferences.getInstance();
     paperNumRanking = [];
     sumTimeRanking = [];
@@ -604,48 +670,47 @@ class RankingProvider extends ChangeNotifier {
 
   void setRanking() async {
     List<List<dynamic>> tmp = await FirebaseService().getRanking();
+    paperNumRanking = [];
+    sumTimeRanking = [];
+    meanTimeRanking = [];
     for (int i = 0; i < 10; i++) {
-      paperNumRanking[i] = [
-        tmp[0][i]['userName'],
-        tmp[0][i]['characterId'],
-        tmp[0][i]['backgroundId'],
-        tmp[0][i]['paperNum']
-      ];
-      sumTimeRanking[i] = [
-        tmp[1][i]['userName'],
-        tmp[1][i]['characterId'],
-        tmp[1][i]['backgroundId'],
-        tmp[1][i]['sumTime']
-      ];
-      meanTimeRanking[i] = [
-        tmp[2][i]['userName'],
-        tmp[2][i]['characterId'],
-        tmp[2][i]['backgroundId'],
-        tmp[2][i]['meanTime']
-      ];
+      paperNumRanking.add([
+        tmp[0][i][0],
+        tmp[0][i][1],
+        tmp[0][i][2],
+      ]);
+      sumTimeRanking.add([
+        tmp[1][i][0],
+        tmp[1][i][1],
+        tmp[1][i][2],
+      ]);
+      meanTimeRanking.add([
+        tmp[2][i][0],
+        tmp[2][i][1],
+        tmp[2][i][2],
+      ]);
     }
-    notifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     for (int i = 0; i < 10; i++) {
       prefs.setStringList('paperNumRanking${i + 1}', [
-        tmp[0][i]['userName'],
-        tmp[0][i]['characterId'],
-        tmp[0][i]['backgroundId'],
-        tmp[0][i]['paperNum']
+        tmp[0][i][0],
+        tmp[0][i][1],
+        tmp[0][i][2],
       ]);
       prefs.setStringList('sumTimeRanking${i + 1}', [
-        tmp[1][i]['userName'],
-        tmp[1][i]['characterId'],
-        tmp[1][i]['backgroundId'],
-        tmp[1][i]['sumTime']
+        tmp[1][i][0],
+        tmp[1][i][1],
+        tmp[1][i][2],
       ]);
       prefs.setStringList('meanTimeRanking${i + 1}', [
-        tmp[2][i]['userName'],
-        tmp[2][i]['characterId'],
-        tmp[2][i]['backgroundId'],
-        tmp[2][i]['meanTime']
+        tmp[2][i][0],
+        tmp[2][i][1],
+        tmp[2][i][2],
       ]);
+
+      notifyListeners();
     }
   }
 }

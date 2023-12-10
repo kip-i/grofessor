@@ -26,20 +26,30 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  DataProvider dataProvider = DataProvider();
-  await dataProvider.getUserId();
+  // DataProvider dataProvider = DataProvider();
+  // await dataProvider.getUserId();
 
   UserProvider userProvider = UserProvider();
   await userProvider.getUser();
 
+  print('ページ：main.dart');
+
   NickNameProvider nickNameProvider = NickNameProvider();
+  await nickNameProvider.getNickName();
   CharacterProvider characterProvider = CharacterProvider();
+  await characterProvider.getCharacter();
   BackgroundProvider backgroundProvider = BackgroundProvider();
+  await backgroundProvider.getBackground();
   GachaProvider gachaProvider = GachaProvider();
+  await gachaProvider.getGacha();
   AchieveProvider achieveProvider = AchieveProvider();
+  await achieveProvider.getAchieve();
   HaveItemProvider haveItemProvider = HaveItemProvider();
+  await haveItemProvider.getHaveItemList();
   ClassProvider classProvider = ClassProvider();
+  await classProvider.getClassList();
   RankingProvider rankingProvider = RankingProvider();
+  await rankingProvider.getRanking();
   // await nickNameProvider.getNickName();
 
   // runApp(
@@ -51,9 +61,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<DataProvider>.value(
-          value: dataProvider,
-        ),
+        // ChangeNotifierProvider<DataProvider>.value(
+        //   value: dataProvider,
+        // ),
         ChangeNotifierProvider<UserProvider>.value(
           value: userProvider,
         ),
@@ -94,6 +104,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final nickNameProvider = Provider.of<NickNameProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    print('ユーザID：' + userProvider.userId);
     return riverpod.ProviderScope(
       overrides: [
         sampleScreenProvider.overrideWith(
@@ -111,22 +123,22 @@ class MyApp extends StatelessWidget {
             // print('画面生成'+Provider.of<DataProvider>(context, listen: true).isLogin.toString());
             // return Provider.of<DataProvider>(context, listen: true).login
             // return dataProvider.login
-            // return userProvider.login
-            //     ? const Scaffold(
-            //         bottomNavigationBar: NavigationExample(),
-            //       )
-            //     : RegisterPage();
+            return userProvider.login
+                ? const Scaffold(
+                    bottomNavigationBar: NavigationExample(),
+                  )
+                : RegisterPage();
 
-            return Consumer<NickNameProvider>(
-              builder: (context, nickNameProvider, child) {
-                print('ニックネーム ${nickNameProvider.nickName}');
-                return userProvider.login
-                    ? const Scaffold(
-                        bottomNavigationBar: NavigationExample(),
-                      )
-                    : RegisterPage();
-              },
-            );
+            // return Consumer<NickNameProvider>(
+            //   builder: (context, nickNameProvider, child) {
+            //     print('ニックネーム ${nickNameProvider.nickName}');
+            //     return userProvider.login
+            //         ? const Scaffold(
+            //             bottomNavigationBar: NavigationExample(),
+            //           )
+            //         : RegisterPage();
+            //   },
+            // );
           },
         ),
       ),

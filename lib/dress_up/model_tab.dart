@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cube/flutter_cube.dart';
+import 'package:grofessor/_state.dart';
 import '../const/color.dart';
 import 'package:grofessor/state.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +16,15 @@ class _ModelTabState extends State<ModelTab> {
 
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<DataProvider>(context);
-    dataProvider.getCharacterId();
-    selectedIndex =
-        dataProvider.haveCharacterIdList.indexOf(dataProvider.characterId);
+    // final dataProvider = Provider.of<DataProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    final characterProvider = Provider.of<CharacterProvider>(context);
+    final haveItemProvider = Provider.of<HaveItemProvider>(context);
+    // dataProvider.getCharacterId();
+    // selectedIndex =
+    //     dataProvider.haveCharacterIdList.indexOf(dataProvider.characterId);
+    selectedIndex = haveItemProvider.haveCharacterIdList
+        .indexOf(characterProvider.characterId); // ここでエラーが出る
     return GridView.builder(
       shrinkWrap: true, // スクロール可能にする
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -29,16 +35,20 @@ class _ModelTabState extends State<ModelTab> {
       ),
       itemCount: model_num,
       itemBuilder: (context, index) {
-        if (index < dataProvider.haveCharacterIdList.length) {
+        // if (index < dataProvider.haveCharacterIdList.length) {
+        if (index < haveItemProvider.haveCharacterIdList.length) {
           // 画像が存在する場合
           return GestureDetector(
             onTap: () {
               setState(() {
                 selectedIndex = index;
               });
-              dataProvider
-                  .setCharacterId(dataProvider.haveCharacterIdList[index]);
-              print(dataProvider.characterId);
+              // dataProvider
+              //     .setCharacterId(dataProvider.haveCharacterIdList[index]);
+              // print(dataProvider.characterId);
+              characterProvider.setCharacter(userProvider.userId,
+                  haveItemProvider.haveCharacterIdList[index]);
+              print(characterProvider.characterId);
             },
             child: SizedBox(
               child: Card(
@@ -58,7 +68,9 @@ class _ModelTabState extends State<ModelTab> {
                             onSceneCreated: (Scene scene) {
                               scene.world.add(Object(
                                 fileName: 'assets/models/' +
-                                    dataProvider.haveCharacterIdList[index] +
+                                    // dataProvider.haveCharacterIdList[index] +
+                                    haveItemProvider
+                                        .haveCharacterIdList[index] +
                                     '.obj',
                                 scale: Vector3(15.0, 15.0, 15.0),
                                 rotation: Vector3(270.0, 180.0, 0.0),
