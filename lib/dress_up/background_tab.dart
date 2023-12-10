@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grofessor/state.dart';
 import 'package:provider/provider.dart';
 
+import '../_state.dart';
 import '../const/color.dart';
 
 class BackgroundTab extends StatefulWidget {
@@ -16,10 +17,15 @@ class _BackgroundTabState extends State<BackgroundTab> {
 
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<DataProvider>(context);
-    dataProvider.getBackgroundId();
-    selectedIndex =
-        dataProvider.haveBackgroundIdList.indexOf(dataProvider.backgroundId);
+    // final dataProvider = Provider.of<DataProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    final backgroundProvider = Provider.of<BackgroundProvider>(context);
+    final haveItemProvider = Provider.of<HaveItemProvider>(context);
+    // dataProvider.getBackgroundId();
+    // selectedIndex =
+    //     dataProvider.haveBackgroundIdList.indexOf(dataProvider.backgroundId);
+    selectedIndex = haveItemProvider.haveBackgroundIdList
+        .indexOf(backgroundProvider.backgroundId);
     return GridView.builder(
       shrinkWrap: true, // スクロール可能にする
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -30,16 +36,20 @@ class _BackgroundTabState extends State<BackgroundTab> {
       ),
       itemCount: background_num,
       itemBuilder: (context, index) {
-        if (index < dataProvider.haveBackgroundIdList.length) {
+        // if (index < dataProvider.haveBackgroundIdList.length) {
+        if (index < haveItemProvider.haveBackgroundIdList.length) {
           // インデックスがリストの範囲内の場合
           return GestureDetector(
             onTap: () {
               setState(() {
                 selectedIndex = index;
               });
-              dataProvider
-                  .setBackgroundId(dataProvider.haveBackgroundIdList[index]);
-              print(dataProvider.backgroundId);
+              // dataProvider
+              //     .setBackgroundId(dataProvider.haveBackgroundIdList[index]);
+              // print(dataProvider.backgroundId);
+              backgroundProvider.setBackground(userProvider.userId,
+                  haveItemProvider.haveBackgroundIdList[index]);
+              print(backgroundProvider.backgroundId);
             },
             child: SizedBox(
               child: Card(
@@ -55,7 +65,8 @@ class _BackgroundTabState extends State<BackgroundTab> {
                       Expanded(
                         child: Image.asset(
                           'assets/backgrounds/' +
-                              dataProvider.haveBackgroundIdList[index] +
+                              // dataProvider.haveBackgroundIdList[index] +
+                              haveItemProvider.haveBackgroundIdList[index] +
                               '.png',
                           fit: BoxFit.contain, // 画像をカードに合わせて拡大・縮小
                         ),
