@@ -121,7 +121,7 @@ class UserProvider extends ChangeNotifier {
       prefs.setInt('needTime', 0);
       prefs.setInt('achieveNum', 0);
       prefs.setDouble('meanTime', 0);
-      prefs.setInt('penalty', 0);
+      prefs.setBool('penalty', false);
 
       prefs.setStringList('haveNickNameIdList', ['n0']);
       prefs.setStringList('haveNickNameList', ['研究生']);
@@ -451,7 +451,7 @@ class AchieveProvider extends ChangeNotifier {
     prefs.setInt('needTime', needTime);
     prefs.setInt('achieveNum', achieveNum);
     prefs.setDouble('meanTime', meanTime);
-    prefs.setInt('penalty', penalty ? 1 : 0);
+    prefs.setBool('penalty', penalty);
 
     await FirebaseService().updateAchieve(_userId, _penalty, _time);
 
@@ -580,7 +580,7 @@ class ClassProvider extends ChangeNotifier {
       classFlagList.add(
           tmp.sublist(i, i + 6).map((e) => e == '1' ? true : false).toList());
     }
-    for (int i = 0; i < tmp.length; i += 4) {
+    for (int i = 0; i < tmp2.length; i += 4) {
       classTimeList
           .add(tmp2.sublist(i, i + 4).map((e) => int.parse(e)).toList());
     }

@@ -162,7 +162,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Cube(
                         onSceneCreated: (Scene scene) {
                           scene.world.add(Object(
-                            fileName: 'assets/models/w1.obj',
+                            fileName: 'assets/models/w0.obj',
                             scale: Vector3(15.0, 15.0, 15.0),
                             rotation: Vector3(270.0, 180.0, 0.0),
                             position: Vector3(-1.0, -3.5, 0.0),
