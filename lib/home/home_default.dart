@@ -9,7 +9,6 @@ import 'time_slider.dart';
 import 'instruction_bar.dart';
 import '../futter.dart';
 
-
 class HomeDefault extends StatefulWidget {
   const HomeDefault({super.key});
 
@@ -28,7 +27,7 @@ class _HomeDefaultState extends State<HomeDefault> {
             height: MediaQuery.of(context).size.height,
             decoration: const BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('assets/backgrounds/fuji.png'),
+              image: AssetImage('assets/backgrounds/b5.png'),
               fit: BoxFit.cover,
             ))),
         Positioned.fill(
