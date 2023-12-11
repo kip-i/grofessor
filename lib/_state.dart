@@ -178,11 +178,21 @@ class GachaProvider extends ChangeNotifier {
 
   Future<void> init(String _gender) async {
     gachaTicket = 0;
-    notHaveNickNameIdList = ['n1', 'n2'];
+    // notHaveNickNameIdList = ['n1', 'n2'];
+    notHaveNickNameIdList = await FirebaseService().getAllNickNameId();
+    notHaveNickNameIdList.remove('n0');
     // notHaveCharacterIdList = ['${_gender}1', '${_gender}2'];
-    notHaveCharacterIdList = ['${_gender}2'];
+    // notHaveCharacterIdList = ['${_gender}2'];
+    notHaveCharacterIdList = await FirebaseService().getAllCharacterId(_gender);
+    notHaveCharacterIdList.remove('${_gender}0');
     // notHaveBackgroundIdList = ['b1', 'b2'];
-    notHaveBackgroundIdList = ['b2'];
+    // notHaveBackgroundIdList = ['b2'];
+    notHaveBackgroundIdList = await FirebaseService().getAllBackgroundId();
+    notHaveBackgroundIdList.remove('b0');
+
+    print(notHaveNickNameIdList);
+    print(notHaveCharacterIdList);
+    print(notHaveBackgroundIdList);
 
     final prefs = await SharedPreferences.getInstance();
 
