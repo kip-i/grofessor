@@ -273,7 +273,7 @@ class AchieveProvider extends ChangeNotifier {
   int thisTime = 0;
   int needTime = 0;
   int achieveNum = 0;
-  double meanTime = 0;
+  double meanTime = 0.0;
   bool penalty = false;
 
   Future<void> init() async {
@@ -527,8 +527,9 @@ class ClassProvider extends ChangeNotifier {
 
   Future<void> setClassStartTimeList(
       String _userId, List<int> _classTimeList, int row) async {
-    classTimeList[row] = _classTimeList;
-    // notifyListeners();
+    classTimeList[row][0] = _classTimeList[0];
+    classTimeList[row][1] = _classTimeList[1];
+    // noclassTtifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = classTimeList
@@ -545,7 +546,8 @@ class ClassProvider extends ChangeNotifier {
 
   Future<void> setClassFinishTimeList(
       String _userId, List<int> _classTimeList, int row) async {
-    classTimeList[row] = _classTimeList;
+    classTimeList[row][2] = _classTimeList[0];
+    classTimeList[row][3] = _classTimeList[1];
     // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();

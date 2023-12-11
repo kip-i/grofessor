@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:grofessor/_state.dart';
 import 'package:provider/provider.dart';
 
 import 'state.dart';
@@ -9,7 +10,7 @@ class Schedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<DataProvider>(context);
+    final classProvider = Provider.of<ClassProvider>(context);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -52,7 +53,8 @@ class _MyDataTableState extends State<MyDataTable> {
 
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<DataProvider>(context);
+    final classProvider = Provider.of<ClassProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
     //dataProvider.getClassFlagList();
     final now = DateTime.now();
     return DataTable(
@@ -97,7 +99,7 @@ class _MyDataTableState extends State<MyDataTable> {
                 InkWell(
                   onTap: () {
                     _showTimeSettingBottomSheet(context, rowIndex,
-                        startCellIndex + 1, dataProvider, now);
+                        startCellIndex + 1, classProvider, userProvider, now);
                   },
                   child: Container(
                     padding: EdgeInsets.all(8.0),
@@ -110,17 +112,17 @@ class _MyDataTableState extends State<MyDataTable> {
                                 fontSize: 40)),
                         Text(
                           //   _leftColumnStartTimes[rowIndex].isNotEmpty
-                          dataProvider.classTimeList != []
+                          classProvider.classTimeList != []
                               // ? ' ${_leftColumnStartTimes[rowIndex]}'
-                              ? ' ${dataProvider.classTimeList[rowIndex][0].toString().padLeft(2, "0")}時${dataProvider.classTimeList[rowIndex][1]}分'
+                              ? ' ${classProvider.classTimeList[rowIndex][0].toString().padLeft(2, "0")}時${classProvider.classTimeList[rowIndex][1].toString().padLeft(2, "0")}分'
                               : '開始時刻',
                           style: TextStyle(fontSize: 25),
                         ),
                         Text(
                           //_leftColumnEndTimes[rowIndex].isNotEmpty
-                          dataProvider.classTimeList != []
+                          classProvider.classTimeList != []
                               // ? '~ ${_leftColumnEndTimes[rowIndex]}'
-                              ? '~ ${dataProvider.classTimeList[rowIndex][2]}時${dataProvider.classTimeList[rowIndex][3]}分'
+                              ? '~ ${classProvider.classTimeList[rowIndex][2].toString().padLeft(2, "0")}時${classProvider.classTimeList[rowIndex][3].toString().padLeft(2, "0")}分'
                               : '終了時刻',
                           style: TextStyle(fontSize: 25),
                         ),
@@ -136,12 +138,13 @@ class _MyDataTableState extends State<MyDataTable> {
                   scale: 2.0,
                   child: Checkbox(
                     // value: _isSelected[index],
-                    value: dataProvider.classFlagList[rowIndex][cellIndex - 1],
+                    value: classProvider.classFlagList[rowIndex][cellIndex - 1],
                     onChanged: (bool? value) {
                       // setState(() {
                       // _isSelected[index] = value!;
                       //});
-                      dataProvider.setClassFlagList(rowIndex, cellIndex - 1);
+                      classProvider.setClassFlagList(
+                          userProvider.userId, rowIndex, cellIndex - 1);
                     },
                   ),
                 ),
@@ -153,8 +156,13 @@ class _MyDataTableState extends State<MyDataTable> {
     );
   }
 
-  void _showTimeSettingBottomSheet(BuildContext context, int rowIndex,
-      int cellIndex, DataProvider dataProvider, DateTime now) {
+  void _showTimeSettingBottomSheet(
+      BuildContext context,
+      int rowIndex,
+      int cellIndex,
+      ClassProvider classProvider,
+      UserProvider userProvider,
+      DateTime now) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
@@ -180,9 +188,15 @@ class _MyDataTableState extends State<MyDataTable> {
               Expanded(
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.time,
+                  initialDateTime: DateTime(
+                      now.year,
+                      now.month,
+                      now.day,
+                      classProvider.classTimeList[rowIndex][0],
+                      classProvider.classTimeList[rowIndex][1]),
                   onDateTimeChanged: (DateTime dateTime) {
                     TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                    dataProvider.setClassStartTimeList(
+                    classProvider.setClassStartTimeList(userProvider.userId,
                         [time.hour, time.minute], rowIndex);
                   },
                   use24hFormat: true, // Set this to true for 24-hour format
@@ -200,11 +214,11 @@ class _MyDataTableState extends State<MyDataTable> {
                       now.year,
                       now.month,
                       now.day,
-                      dataProvider.classTimeList[rowIndex][2],
-                      dataProvider.classTimeList[rowIndex][3]),
+                      classProvider.classTimeList[rowIndex][2],
+                      classProvider.classTimeList[rowIndex][3]),
                   onDateTimeChanged: (DateTime dateTime) {
                     TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                    dataProvider.setClassFinishTimeList(
+                    classProvider.setClassFinishTimeList(userProvider.userId,
                         [time.hour, time.minute], rowIndex);
                   },
                   use24hFormat: true, // Set this to true for 24-hour format
