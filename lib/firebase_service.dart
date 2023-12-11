@@ -19,11 +19,20 @@ class FirebaseService {
       'backgroundId': 'b0',
       'characterId': '${gender}0', // gender = 'm' or 'w'
     }).then((value) async {
+      List<String> nickNameIdList = await getAllNickNameId();
+      nickNameIdList.remove('n0');
+      List<String> characterIdList = await getAllCharacterId(gender);
+      characterIdList.remove('${gender}0');
+      List<String> backgroundIdList = await getAllBackgroundId();
+      backgroundIdList.remove('b0');
       await userCollection.doc('gacha').set({
         'gachaTicket': 0,
-        'notHaveNickNameList': ['n1', 'n2'],
-        'notHaveCharacterList': ['${gender}1', '${gender}m2'],
-        'notHaveBackgroundList': ['b1', 'b2'],
+        // 'notHaveNickNameList': ['n1', 'n2'],
+        'notHaveNickNameList': nickNameIdList,
+        // 'notHaveCharacterList': ['${gender}1', '${gender}m2'],
+        'notHaveCharacterList': characterIdList,
+        // 'notHaveBackgroundList': ['b1', 'b2'],
+        'notHaveBackgroundList': backgroundIdList,
       }).then((value) async {
         await getNeedTime(0).then((value) async {
           await userCollection.doc('achieve').set({
@@ -47,12 +56,12 @@ class FirebaseService {
                   final CollectionReference classCollection =
                       userCollection.doc('schedule').collection('class');
                   await classCollection.doc('class').set({
-                    'monday': [0, 0, 0, 0, 0, 0],
-                    'tuesday': [0, 0, 0, 0, 0, 0],
-                    'wednesday': [0, 0, 0, 0, 0, 0],
-                    'thursday': [0, 0, 0, 0, 0, 0],
-                    'friday': [0, 0, 0, 0, 0, 0],
-                    'saturday': [0, 0, 0, 0, 0, 0],
+                    'monday': [false, false, false, false, false, false],
+                    'tuesday': [false, false, false, false, false, false],
+                    'wednesday': [false, false, false, false, false, false],
+                    'thursday': [false, false, false, false, false, false],
+                    'friday': [false, false, false, false, false, false],
+                    'saturday': [false, false, false, false, false, false],
                   }).then((value) async {
                     await classCollection.doc('time').set({
                       '1st': [0, 0, 0, 0],
@@ -297,18 +306,124 @@ class FirebaseService {
     // return 'error';
   }
 
+  // 二つ名の総数を取得
+  Future<int> getTotalNickNameNum() async {
+    return await _rootCollection
+        .doc('nickNames')
+        .collection('nickNames')
+        .count()
+        .get()
+        .then((value) {
+      return value.count;
+    });
+    // return -1;
+  }
+
+  // 二つ名IDを全て取得
+  Future<List<String>> getAllNickNameId() async {
+    return await _rootCollection
+        .doc('nickNames')
+        .collection('nickNames')
+        .get()
+        .then((value) {
+      List<String> nickNameIdList = [];
+      value.docs.forEach((element) {
+        nickNameIdList.add(element.id);
+      });
+      return nickNameIdList;
+    });
+    // return ['error'];
+  }
+
+  // 二つ名を全て取得
+  Future<List<String>> getAllNickName() async {
+    return await _rootCollection
+        .doc('nickNames')
+        .collection('nickNames')
+        .get()
+        .then((value) {
+      List<String> nickNameList = [];
+      value.docs.forEach((element) {
+        Map<String, dynamic> data = element.data();
+        nickNameList.add(data['nickName'] as String);
+      });
+      return nickNameList;
+    });
+    // return ['error'];
+  }
+
   // 3DモデルのURLを取得
   Future<String> getCharacter(String characterId) async {
     return await _rootCollection
         .doc('characters')
         .collection(characterId[0])
-        .doc(characterId[1])
+        .doc(characterId)
         .get()
         .then((value) {
       Map<String, dynamic>? data = value.data();
       return data?['characterPath'];
     });
     // return 'error';
+  }
+
+  // 3Dモデルの総数を取得
+  Future<int> getTotalCharacterNum() async {
+    int num = 0;
+    int m_num = 0;
+    int w_num = 0;
+
+    m_num = await _rootCollection
+        .doc('characters')
+        .collection('m')
+        .count()
+        .get()
+        .then((value) {
+      return value.count;
+    });
+    w_num = await _rootCollection
+        .doc('characters')
+        .collection('w')
+        .count()
+        .get()
+        .then((value) {
+      return value.count;
+    });
+    num = m_num + w_num;
+    return num;
+    // return -1;
+  }
+
+  // 3DモデルIDを全て取得
+  Future<List<String>> getAllCharacterId(String _gender) async {
+    List<String> characterIdList = [];
+    await _rootCollection
+        .doc('characters')
+        .collection(_gender)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        characterIdList.add(element.id);
+      });
+    });
+    return characterIdList;
+    // return ['error'];
+  }
+
+  // 3Dモデルを全て取得
+  Future<List<String>> getAllCharacterPath(String _gender) async {
+    List<String> characterPathList = [];
+    await _rootCollection
+        .doc('characters')
+        .collection(_gender)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        Map<String, dynamic> data = element.data();
+        characterPathList.add(data['characterPath'] as String);
+      });
+    });
+    return characterPathList;
+    // return ['error'];
   }
 
   // 背景画像のURLを取得
@@ -323,6 +438,52 @@ class FirebaseService {
       return data?['backgroundPath'];
     });
     // return 'error';
+  }
+
+  // 背景画像の総数を取得
+  Future<int> getTotalBackgroundNum() async {
+    return await _rootCollection
+        .doc('backgrounds')
+        .collection('backgrounds')
+        .count()
+        .get()
+        .then((value) {
+      return value.count;
+    });
+    // return -1;
+  }
+
+  // 背景画像IDを全て取得
+  Future<List<String>> getAllBackgroundId() async {
+    return await _rootCollection
+        .doc('backgrounds')
+        .collection('backgrounds')
+        .get()
+        .then((value) {
+      List<String> backgroundIdList = [];
+      value.docs.forEach((element) {
+        backgroundIdList.add(element.id);
+      });
+      return backgroundIdList;
+    });
+    // return ['error'];
+  }
+
+  // 背景画像を全て取得
+  Future<List<String>> getAllBackgroundPath() async {
+    return await _rootCollection
+        .doc('backgrounds')
+        .collection('backgrounds')
+        .get()
+        .then((value) {
+      List<String> backgroundPathList = [];
+      value.docs.forEach((element) {
+        Map<String, dynamic> data = element.data();
+        backgroundPathList.add(data['backgroundPath'] as String);
+      });
+      return backgroundPathList;
+    });
+    // return ['error'];
   }
 
   // レベルごとの論文完成までの必要時間を取得

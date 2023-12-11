@@ -85,16 +85,14 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     # モデル
-    - assets/models/v4.obj
-    - assets/models/v4.mtl
-    - assets/models/v4.obj
-    - assets/models/v4.mtl
     - assets/models/m0.obj
     - assets/models/m0.mtl
     - assets/models/m1.obj
     - assets/models/m1.mtl
     - assets/models/m2.obj
     - assets/models/m2.mtl
+    - assets/models/w0.obj
+    - assets/models/w0.mtl
     - assets/models/w1.obj
     - assets/models/w1.mtl
     - assets/models/w2.obj

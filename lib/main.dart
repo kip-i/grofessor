@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:grofessor/_state.dart';
+import 'firebase_service.dart';
 import 'sample_screen_controller.dart';
 import 'sample_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -51,6 +52,8 @@ void main() async {
   RankingProvider rankingProvider = RankingProvider();
   await rankingProvider.getRanking();
   // await nickNameProvider.getNickName();
+
+  // print(await FirebaseService().getAllNickNameId());
 
   // runApp(
   //   ChangeNotifierProvider.value(
