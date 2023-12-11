@@ -175,6 +175,7 @@ class GachaProvider extends ChangeNotifier {
   List<String> notHaveNickNameIdList = []; // n1,n2
   List<String> notHaveCharacterIdList = []; // (m or w)1,(m or w)2
   List<String> notHaveBackgroundIdList = []; // b1,b2
+  List<String> allNickNameList = [];
 
   Future<void> init(String _gender) async {
     gachaTicket = 0;
@@ -190,9 +191,12 @@ class GachaProvider extends ChangeNotifier {
     notHaveBackgroundIdList = await FirebaseService().getAllBackgroundId();
     notHaveBackgroundIdList.remove('b0');
 
-    print(notHaveNickNameIdList);
-    print(notHaveCharacterIdList);
-    print(notHaveBackgroundIdList);
+    allNickNameList = await FirebaseService().getAllNickName();
+
+    // print(notHaveNickNameIdList);
+    // print(notHaveCharacterIdList);
+    // print(notHaveBackgroundIdList);
+    // print(notHaveNickNameList);
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -200,6 +204,7 @@ class GachaProvider extends ChangeNotifier {
     prefs.setStringList('notHaveNickNameList', notHaveNickNameIdList);
     prefs.setStringList('notHaveCharacterList', notHaveCharacterIdList);
     prefs.setStringList('notHaveBackgroundList', notHaveBackgroundIdList);
+    prefs.setStringList('allNickNameList', allNickNameList);
 
     // notifyListeners();
   }
@@ -212,6 +217,10 @@ class GachaProvider extends ChangeNotifier {
         prefs.getStringList('notHaveCharacterIdList') ?? [];
     notHaveBackgroundIdList =
         prefs.getStringList('notHaveBackgroundIdList') ?? [];
+    allNickNameList = prefs.getStringList('allNickNameList') ?? [];
+
+    // print(notHaveNickNameList);
+
     notifyListeners(); // Add this line
   }
 
@@ -571,7 +580,7 @@ class RankingProvider extends ChangeNotifier {
     // paperNumRanking = [];
     // sumTimeRanking = [];
     // meanTimeRanking = [];
-    setRanking();
+    await setRanking();
 
     // notifyListeners();
   }
@@ -591,6 +600,8 @@ class RankingProvider extends ChangeNotifier {
 
   Future<void> setRanking() async {
     List<List<dynamic>> tmp = await FirebaseService().getRanking();
+
+    print('ランキング：' + tmp.toString());
     paperNumRanking = [];
     sumTimeRanking = [];
     meanTimeRanking = [];
