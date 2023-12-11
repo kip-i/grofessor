@@ -12,7 +12,6 @@ class HomeSelector extends StatefulWidget {
 }
 
 class _HomeSelector extends State<HomeSelector> {
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -33,6 +32,7 @@ class _HomeSelector extends State<HomeSelector> {
       },
     );
   }
+
   getDuring() async {
     // SharedPreferencesのインスタンスを生成
     final prefs = await SharedPreferences.getInstance();

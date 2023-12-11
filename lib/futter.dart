@@ -32,7 +32,6 @@ class NavigationExample extends StatefulWidget {
 class _NavigationExampleState extends State<NavigationExample> {
   int _currentPageIndex = 0;
 
-
   final List<Widget> _pages = <Widget>[
     // ここを自身のウィジェットに変更したらいい
     Schedule(),//時間割
@@ -45,13 +44,14 @@ class _NavigationExampleState extends State<NavigationExample> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    print('ページ：futter.dart');
     return Scaffold(
       body: IndexedStack(
         index: _currentPageIndex,
         children: _pages,
       ),
       bottomNavigationBar: Container(
-        color:Color.fromARGB(255, 226, 228, 226), // フッター部分の背景色を変更
+        color: Color.fromARGB(255, 226, 228, 226), // フッター部分の背景色を変更
         padding: EdgeInsets.symmetric(vertical: 8.0),
         child: BottomAppBar(
           color: Colors.transparent,
@@ -110,7 +110,9 @@ class _NavigationExampleState extends State<NavigationExample> {
         borderRadius: BorderRadius.circular(10.0),
         child: Container(
           decoration: BoxDecoration(
-            color: isSelected ?Color.fromARGB(255, 191, 193, 192) : Colors.transparent,
+            color: isSelected
+                ? Color.fromARGB(255, 191, 193, 192)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Column(
@@ -120,13 +122,17 @@ class _NavigationExampleState extends State<NavigationExample> {
               Icon(
                 icon,
                 size: isSelected ? 32.0 : 24.0,
-                color: isSelected ? const Color(0xFF00753F) : Color.fromARGB(255, 80, 81, 80),
+                color: isSelected
+                    ? const Color(0xFF00753F)
+                    : Color.fromARGB(255, 80, 81, 80),
               ),
               SizedBox(height: 4.0),
               Text(
                 label,
                 style: TextStyle(
-                  color: isSelected ? const Color(0xFF00753F) : Color.fromARGB(255, 80, 81, 80),
+                  color: isSelected
+                      ? const Color(0xFF00753F)
+                      : Color.fromARGB(255, 80, 81, 80),
                   fontSize: 12.5,
                 ),
                 textAlign: TextAlign.center,

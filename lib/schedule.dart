@@ -36,8 +36,6 @@ class Schedule extends StatelessWidget {
   }
 }
 
-
-
 class MyDataTable extends StatefulWidget {
   @override
   _MyDataTableState createState() => _MyDataTableState();
@@ -56,24 +54,36 @@ class _MyDataTableState extends State<MyDataTable> {
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
     //dataProvider.getClassFlagList();
-    //print('画面生成'+dataProvider.classFlagList.toString());
+    final now = DateTime.now();
     return DataTable(
       dataRowMaxHeight: 190.0,
       decoration: BoxDecoration(color: Color.fromARGB(255, 195, 199, 195)),
       columns: [
         DataColumn(label: Text('')),
         DataColumn(
-            label: Text(' 月', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 月',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 火', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 火',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 水', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 水',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 木', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 木',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 金', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 金',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 土', style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
+            label: Text(' 土',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
       ],
       rows: List.generate(6, (rowIndex) {
         int startCellIndex = rowIndex * 6;
@@ -86,7 +96,8 @@ class _MyDataTableState extends State<MyDataTable> {
               return DataCell(
                 InkWell(
                   onTap: () {
-                    _showTimeSettingBottomSheet(context, rowIndex, startCellIndex + 1,dataProvider);
+                    _showTimeSettingBottomSheet(context, rowIndex,
+                        startCellIndex + 1, dataProvider, now);
                   },
                   child: Container(
                     padding: EdgeInsets.all(8.0),
@@ -94,19 +105,21 @@ class _MyDataTableState extends State<MyDataTable> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('${rowIndex + 1}',
-                            style: TextStyle(color: Color.fromARGB(255, 10, 98, 11), fontSize: 40)),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 10, 98, 11),
+                                fontSize: 40)),
                         Text(
-                       //   _leftColumnStartTimes[rowIndex].isNotEmpty
-                       dataProvider.classTimeList != []
-                             // ? ' ${_leftColumnStartTimes[rowIndex]}'
-                              ? ' ${dataProvider.classTimeList[rowIndex][0].toString().padLeft(2,"0")}時${dataProvider.classTimeList[rowIndex][1]}分'
+                          //   _leftColumnStartTimes[rowIndex].isNotEmpty
+                          dataProvider.classTimeList != []
+                              // ? ' ${_leftColumnStartTimes[rowIndex]}'
+                              ? ' ${dataProvider.classTimeList[rowIndex][0].toString().padLeft(2, "0")}時${dataProvider.classTimeList[rowIndex][1]}分'
                               : '開始時刻',
                           style: TextStyle(fontSize: 25),
                         ),
                         Text(
                           //_leftColumnEndTimes[rowIndex].isNotEmpty
                           dataProvider.classTimeList != []
-                             // ? '~ ${_leftColumnEndTimes[rowIndex]}'
+                              // ? '~ ${_leftColumnEndTimes[rowIndex]}'
                               ? '~ ${dataProvider.classTimeList[rowIndex][2]}時${dataProvider.classTimeList[rowIndex][3]}分'
                               : '終了時刻',
                           style: TextStyle(fontSize: 25),
@@ -122,13 +135,13 @@ class _MyDataTableState extends State<MyDataTable> {
                 Transform.scale(
                   scale: 2.0,
                   child: Checkbox(
-                   // value: _isSelected[index],
-                   value:dataProvider.classFlagList[rowIndex][cellIndex-1],
+                    // value: _isSelected[index],
+                    value: dataProvider.classFlagList[rowIndex][cellIndex - 1],
                     onChanged: (bool? value) {
-                     // setState(() {
-                       // _isSelected[index] = value!;
+                      // setState(() {
+                      // _isSelected[index] = value!;
                       //});
-                      dataProvider.setClassFlagList(rowIndex, cellIndex-1);
+                      dataProvider.setClassFlagList(rowIndex, cellIndex - 1);
                     },
                   ),
                 ),
@@ -140,43 +153,67 @@ class _MyDataTableState extends State<MyDataTable> {
     );
   }
 
-  void _showTimeSettingBottomSheet(BuildContext context, int rowIndex, int cellIndex, DataProvider dataProvider) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext builder) {
-      return Container(
-        height: MediaQuery.of(context).copyWith().size.height / 2,
-        child: Column(
-          children: [
-            Container(
-              child: Text('${rowIndex + 1}限目', textAlign: TextAlign.left, style: TextStyle(fontSize: 25, color: Color.fromARGB(255, 10, 98, 11),),),
-            ),
-            Container(child: const Text("開始時刻", style: TextStyle(fontSize: 18),)),
-            Expanded(
-              child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.time,
-                onDateTimeChanged: (DateTime dateTime) {
-                  TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                  dataProvider.setClassStartTimeList([time.hour, time.minute], rowIndex);
-                },
-                use24hFormat: true, // Set this to true for 24-hour format
+  void _showTimeSettingBottomSheet(BuildContext context, int rowIndex,
+      int cellIndex, DataProvider dataProvider, DateTime now) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builder) {
+        return Container(
+          height: MediaQuery.of(context).copyWith().size.height / 2,
+          child: Column(
+            children: [
+              Container(
+                child: Text(
+                  '${rowIndex + 1}限目',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Color.fromARGB(255, 10, 98, 11),
+                  ),
+                ),
               ),
-            ),
-            Container(child: const Text("終了時刻", style: TextStyle(fontSize: 18),)),
-            Expanded(
-              child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.time,
-                onDateTimeChanged: (DateTime dateTime) {
-                  TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                  dataProvider.setClassFinishTimeList([time.hour, time.minute], rowIndex);
-                },
-                use24hFormat: true, // Set this to true for 24-hour format
+              Container(
+                  child: const Text(
+                "開始時刻",
+                style: TextStyle(fontSize: 18),
+              )),
+              Expanded(
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  onDateTimeChanged: (DateTime dateTime) {
+                    TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                    dataProvider.setClassStartTimeList(
+                        [time.hour, time.minute], rowIndex);
+                  },
+                  use24hFormat: true, // Set this to true for 24-hour format
+                ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+              Container(
+                  child: const Text(
+                "終了時刻",
+                style: TextStyle(fontSize: 18),
+              )),
+              Expanded(
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  initialDateTime: DateTime(
+                      now.year,
+                      now.month,
+                      now.day,
+                      dataProvider.classTimeList[rowIndex][2],
+                      dataProvider.classTimeList[rowIndex][3]),
+                  onDateTimeChanged: (DateTime dateTime) {
+                    TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                    dataProvider.setClassFinishTimeList(
+                        [time.hour, time.minute], rowIndex);
+                  },
+                  use24hFormat: true, // Set this to true for 24-hour format
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
