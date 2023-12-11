@@ -18,6 +18,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   String _userName = '';
   String _gender = '';
+  bool _first = true;
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   String _msg = '';
@@ -36,9 +37,11 @@ class _RegisterPageState extends State<RegisterPage> {
     final classProvider = Provider.of<ClassProvider>(context);
     final rankingProvider = Provider.of<RankingProvider>(context);
 
+    print('ページ：' + userProvider.msg);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Grofessor'),
+        title: Text('教授育成中'),
         backgroundColor: Colors.green,
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -67,6 +70,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
+              // validator: (String? value) {
+              //   if (userProvider.msg == 'Error') {
+              //     print(userProvider.msg);
+              //     return 'すでに使われているユーザーネームです';
+              //   }
+              // if (value != null) {
+              //   String pattern =
+              //       r'^[0-9a-z_./?-]+@([0-9a-z-]+\.)+[0-9a-z-]+$';
+              //   RegExp regExp = RegExp(pattern);
+              //   if (!regExp.hasMatch(value)) {
+              //     return '正しいメールアドレスを入力してください';
+              //   }
+              // }
+              // },
               inputFormatters: [
                 // 最大20文字まで
                 LengthLimitingTextInputFormatter(20),
@@ -86,6 +103,25 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
         ),
+        Consumer<UserProvider>(builder: (context, userProvider, child) {
+          return Center(child: () {
+            if (userProvider.msg == 'Error') {
+              return Text(
+                'すでに使われているユーザーネームです',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              );
+            } else {
+              return Text(
+                '',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              );
+            }
+          }());
+        }),
         Expanded(child: SizedBox(height: 50.0)),
         Text(
           'アバターを選択してください',
@@ -183,29 +219,45 @@ class _RegisterPageState extends State<RegisterPage> {
             ]),
         SizedBox(height: 40.0),
         ElevatedButton(
-          onPressed: _userName == '' || _gender == ''
+          onPressed: _userName == '' || _gender == '' || !_first
               ? null
               : () async {
+                  setState(() {
+                    _first = false;
+                  });
+                  // await Future.delayed(
+                  //   Duration(seconds: 1), //無効にする時間
+                  // );
                   // _msg = await AuthService().addUser(_userName,_gender);
                   // _ranking = await FirebaseService().getRanking();
                   // await dataProvider.setUser(_userName, _gender);
                   await userProvider.initUser(_userName, _gender);
-                  await nickNameProvider.init();
-                  await characterProvider.init(_gender);
-                  await backgroundProvider.init();
-                  await gachaProvider.init(_gender);
-                  await achieveProvider.init();
-                  await haveItemProvider.init(_gender);
-                  await classProvider.init();
-                  await rankingProvider.init();
+                  if (userProvider.login) {
+                    await nickNameProvider.init();
+                    await characterProvider.init(_gender);
+                    await backgroundProvider.init();
+                    await gachaProvider.init(_gender);
+                    await achieveProvider.init();
+                    await haveItemProvider.init(_gender);
+                    await classProvider.init();
+                    await rankingProvider.init();
 
-                  await userProvider.notify();
+                    await userProvider.notify();
+                  } else {
+                    setState(() {
+                      _first = true;
+                    });
+                  }
                   // DataProvider().setUser();
                   // dataProvider.getUserId();
                   // print(_msg);
                 },
           style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green, foregroundColor: Colors.white),
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            disabledBackgroundColor: Colors.grey,
+            disabledForegroundColor: Colors.white,
+          ),
           child: const Text('作成'),
         ),
         Expanded(child: SizedBox(height: 20.0)),
