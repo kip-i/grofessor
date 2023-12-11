@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:grofessor/_state.dart';
+import 'package:grofessor/state.dart';
+import 'package:provider/provider.dart';
 
 import '../const/color.dart';
 
 class NameButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final nickProvider = Provider.of<NickNameProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    final achieveProvider = Provider.of<AchieveProvider>(context);
     return Container(
       margin: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
       decoration: BoxDecoration(
@@ -29,7 +35,7 @@ class NameButton extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.all(16.0),
-              child: Text('4',
+              child: Text(achieveProvider.paperNum.toString(),
                   style: TextStyle(
                     fontSize: 32.0,
                     color: blackbordWhiteColor,
@@ -49,7 +55,7 @@ class NameButton extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(left: 8.0),
                   child: Text(
-                    '2つ名あああ',
+                    nickProvider.nickName,
                     style: TextStyle(
                       fontSize: 12.0,
                       color: blackbordWhiteColor,
@@ -69,7 +75,7 @@ class NameButton extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(left: 8.0),
                   child: Text(
-                    'UserName',
+                    userProvider.userName,
                     style: TextStyle(
                       fontSize: 16.0,
                       color: blackbordWhiteColor,

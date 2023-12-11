@@ -23,7 +23,7 @@ class InstructionBar extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Marquee(
-              text: '予定の時刻です。計測を開始してください。',
+              text: '予定の時刻です。執筆を開始しましょう!',
               style: TextStyle(
                 fontSize: 30,
                 color: Colors.white,

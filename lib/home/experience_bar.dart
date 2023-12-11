@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:grofessor/_state.dart';
+import 'package:grofessor/state.dart';
+import 'package:provider/provider.dart';
+
+import '../const/color.dart';
 
 class ExperienceBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final achieveProvider = Provider.of<AchieveProvider>(context);
     return Container(
       width: 180.0,
       height: 13.0,
@@ -13,9 +19,9 @@ class ExperienceBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0), // カードの角を丸める
         ),
         child: LinearProgressIndicator(
-          value: 0.5,
+          value: achieveProvider.thisTime / achieveProvider.needTime,
           backgroundColor: Colors.grey[300], // プログレスバーの背景色
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue), // プログレスバーの色
+          valueColor: AlwaysStoppedAnimation<Color>(lightblackbordColor), // プログレスバーの色
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../_state.dart';
 import 'name_button.dart';
 import 'setting_button.dart';
 import 'experience_bar.dart';
@@ -8,7 +9,7 @@ import 'measurements_start.dart';
 import 'time_slider.dart';
 import 'instruction_bar.dart';
 import '../futter.dart';
-
+import 'package:provider/provider.dart';
 
 class HomeDefault extends StatefulWidget {
   const HomeDefault({super.key});
@@ -20,15 +21,18 @@ class HomeDefault extends StatefulWidget {
 class _HomeDefaultState extends State<HomeDefault> {
   @override
   Widget build(BuildContext context) {
+    final backgroundProvider = Provider.of<BackgroundProvider>(context);
     return Scaffold(
         body: Stack(
       children: [
         Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('assets/backgrounds/fuji.png'),
+              //image: AssetImage('assets/backgrounds/b5.png'),
+              image: AssetImage('assets/backgrounds/' +
+                  backgroundProvider.backgroundId +'.png'),
               fit: BoxFit.cover,
             ))),
         Positioned.fill(
