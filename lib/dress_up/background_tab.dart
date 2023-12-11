@@ -17,13 +17,9 @@ class _BackgroundTabState extends State<BackgroundTab> {
 
   @override
   Widget build(BuildContext context) {
-    // final dataProvider = Provider.of<DataProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final backgroundProvider = Provider.of<BackgroundProvider>(context);
     final haveItemProvider = Provider.of<HaveItemProvider>(context);
-    // dataProvider.getBackgroundId();
-    // selectedIndex =
-    //     dataProvider.haveBackgroundIdList.indexOf(dataProvider.backgroundId);
     selectedIndex = haveItemProvider.haveBackgroundIdList
         .indexOf(backgroundProvider.backgroundId);
     return GridView.builder(
@@ -36,7 +32,6 @@ class _BackgroundTabState extends State<BackgroundTab> {
       ),
       itemCount: background_num,
       itemBuilder: (context, index) {
-        // if (index < dataProvider.haveBackgroundIdList.length) {
         if (index < haveItemProvider.haveBackgroundIdList.length) {
           // インデックスがリストの範囲内の場合
           return GestureDetector(
@@ -44,9 +39,6 @@ class _BackgroundTabState extends State<BackgroundTab> {
               setState(() {
                 selectedIndex = index;
               });
-              // dataProvider
-              //     .setBackgroundId(dataProvider.haveBackgroundIdList[index]);
-              // print(dataProvider.backgroundId);
               backgroundProvider.setBackground(userProvider.userId,
                   haveItemProvider.haveBackgroundIdList[index]);
               print(backgroundProvider.backgroundId);
@@ -65,7 +57,6 @@ class _BackgroundTabState extends State<BackgroundTab> {
                       Expanded(
                         child: Image.asset(
                           'assets/backgrounds/' +
-                              // dataProvider.haveBackgroundIdList[index] +
                               haveItemProvider.haveBackgroundIdList[index] +
                               '.png',
                           fit: BoxFit.contain, // 画像をカードに合わせて拡大・縮小

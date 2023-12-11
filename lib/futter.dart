@@ -29,7 +29,7 @@ class NavigationExample extends StatefulWidget {
 }
 
 class _NavigationExampleState extends State<NavigationExample> {
-  int _currentPageIndex = 0;
+  int _currentPageIndex = 2;
 
   final List<Widget> _pages = <Widget>[
     // ここを自身のウィジェットに変更したらいい
