@@ -297,18 +297,58 @@ class FirebaseService {
     // return 'error';
   }
 
+  // 二つ名の総数を取得
+  Future<int> getTotalNickNameNum() async {
+    return await _rootCollection
+        .doc('nickNames')
+        .collection('nickNames')
+        .count()
+        .get()
+        .then((value) {
+      return value.count;
+    });
+    // return -1;
+  }
+
   // 3DモデルのURLを取得
   Future<String> getCharacter(String characterId) async {
     return await _rootCollection
         .doc('characters')
         .collection(characterId[0])
-        .doc(characterId[1])
+        .doc(characterId)
         .get()
         .then((value) {
       Map<String, dynamic>? data = value.data();
       return data?['characterPath'];
     });
     // return 'error';
+  }
+
+  // 3Dモデルの総数を取得
+  Future<int> getTotalCharacterNum() async {
+    int num = 0;
+    int m_num = 0;
+    int w_num = 0;
+
+    m_num = await _rootCollection
+        .doc('characters')
+        .collection('m')
+        .count()
+        .get()
+        .then((value) {
+      return value.count;
+    });
+    w_num = await _rootCollection
+        .doc('characters')
+        .collection('w')
+        .count()
+        .get()
+        .then((value) {
+      return value.count;
+    });
+    num = m_num + w_num;
+    return num;
+    // return -1;
   }
 
   // 背景画像のURLを取得
@@ -323,6 +363,19 @@ class FirebaseService {
       return data?['backgroundPath'];
     });
     // return 'error';
+  }
+
+  // 背景画像の総数を取得
+  Future<int> getTotalBackgroundNum() async {
+    return await _rootCollection
+        .doc('backgrounds')
+        .collection('backgrounds')
+        .count()
+        .get()
+        .then((value) {
+      return value.count;
+    });
+    // return -1;
   }
 
   // レベルごとの論文完成までの必要時間を取得
