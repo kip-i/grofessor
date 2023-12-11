@@ -280,7 +280,7 @@ class AchieveProvider extends ChangeNotifier {
     paperNum = 0;
     sumTime = 0;
     thisTime = 0;
-    needTime = 0;
+    needTime = await FirebaseService().getNeedTime(paperNum);
     achieveNum = 0;
     meanTime = 0.0;
     penalty = false;
