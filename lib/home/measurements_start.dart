@@ -12,15 +12,6 @@ class MeasurementsStart extends ConsumerWidget {
     return Container(
       width: 160.0, // 幅を指定
       height: 70.0, // 高さを指定
-      // decoration: BoxDecoration(
-      //   border: Border.all(
-      //     color: blackbordFrameColor,
-      //     width: 4.0,
-      //   ),
-      //   borderRadius: BorderRadius.circular(8.0), // 角を丸くする
-      // ),
-      // decoration: BoxDecoration(
-      //   border: Border(bottom: BorderSide(color: blackbordFrameColor, width: 4.0)),),
       child: ElevatedButton(
           onPressed: () {
             controller.startTimer();
@@ -45,7 +36,7 @@ class MeasurementsStart extends ConsumerWidget {
               Container(
                 margin: EdgeInsets.all(4.0),
                 child: Text(
-                  '計測開始',
+                  '執筆開始',
                   style: TextStyle(
                     fontSize: 20.0,
                   ),

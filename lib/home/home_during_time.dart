@@ -8,6 +8,8 @@ import 'measurements_start.dart';
 import 'time_slider.dart';
 import 'instruction_bar.dart';
 import '../futter.dart';
+import 'package:provider/provider.dart';
+import '../_state.dart';
 
 class HomeDuringTime extends StatefulWidget {
   const HomeDuringTime({super.key});
@@ -19,6 +21,7 @@ class HomeDuringTime extends StatefulWidget {
 class _HomeDuringTime extends State<HomeDuringTime> {
   @override
   Widget build(BuildContext context) {
+    final backgroundProvider = Provider.of<BackgroundProvider>(context);
     return Scaffold(
         body: Stack(
       children: [
@@ -27,7 +30,9 @@ class _HomeDuringTime extends State<HomeDuringTime> {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('assets/backgrounds/b5.png'),
+              image: AssetImage('assets/backgrounds/' +
+                  backgroundProvider.backgroundId +
+                  '.png'),
               fit: BoxFit.cover,
             ))),
         Positioned.fill(

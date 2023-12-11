@@ -3,6 +3,8 @@ import 'package:grofessor/_state.dart';
 import 'package:grofessor/state.dart';
 import 'package:provider/provider.dart';
 
+import '../const/color.dart';
+
 class ExperienceBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ExperienceBar extends StatelessWidget {
         child: LinearProgressIndicator(
           value: achieveProvider.thisTime / achieveProvider.needTime,
           backgroundColor: Colors.grey[300], // プログレスバーの背景色
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue), // プログレスバーの色
+          valueColor: AlwaysStoppedAnimation<Color>(lightblackbordColor), // プログレスバーの色
         ),
       ),
     );
