@@ -47,12 +47,12 @@ class FirebaseService {
                   final CollectionReference classCollection =
                       userCollection.doc('schedule').collection('class');
                   await classCollection.doc('class').set({
-                    'monday': [0, 0, 0, 0, 0, 0],
-                    'tuesday': [0, 0, 0, 0, 0, 0],
-                    'wednesday': [0, 0, 0, 0, 0, 0],
-                    'thursday': [0, 0, 0, 0, 0, 0],
-                    'friday': [0, 0, 0, 0, 0, 0],
-                    'saturday': [0, 0, 0, 0, 0, 0],
+                    'monday': [false, false, false, false, false, false],
+                    'tuesday': [false, false, false, false, false, false],
+                    'wednesday': [false, false, false, false, false, false],
+                    'thursday': [false, false, false, false, false, false],
+                    'friday': [false, false, false, false, false, false],
+                    'saturday': [false, false, false, false, false, false],
                   }).then((value) async {
                     await classCollection.doc('time').set({
                       '1st': [0, 0, 0, 0],
