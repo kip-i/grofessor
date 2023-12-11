@@ -72,7 +72,8 @@ class NickNameProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setNickName(String _userId, String _nickNameId, String _nickName) async {
+  Future<void> setNickName(
+      String _userId, String _nickNameId, String _nickName) async {
     nickNameId = _nickNameId;
     nickName = _nickName;
     // notifyListeners();
@@ -115,7 +116,7 @@ class CharacterProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setCharacter(String _userId, String _characterId) async {
+  Future<void> setCharacter(String _userId, String _characterId) async {
     characterId = _characterId;
     characterPath = 'assets/models/${characterId}.obj';
     // notifyListeners();
@@ -154,7 +155,7 @@ class BackgroundProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setBackground(String _userId, String _backgroundId) async {
+  Future<void> setBackground(String _userId, String _backgroundId) async {
     backgroundId = _backgroundId;
     backgroundPath = 'assets/backgrounds/${_backgroundId}.png';
     // notifyListeners();
@@ -204,7 +205,7 @@ class GachaProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setGachaTicket(String _userId, int _number) async {
+  Future<void> setGachaTicket(String _userId, int _number) async {
     gachaTicket = gachaTicket + _number;
     // notifyListeners();
 
@@ -216,7 +217,8 @@ class GachaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setNotHaveNickNameIdList(String _userId, String _nickNameId) async {
+  Future<void> setNotHaveNickNameIdList(
+      String _userId, String _nickNameId) async {
     notHaveNickNameIdList.remove(_nickNameId);
     // notifyListeners();
 
@@ -228,7 +230,8 @@ class GachaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setNotHaveCharacterIdList(String _userId, String _characterId) async {
+  Future<void> setNotHaveCharacterIdList(
+      String _userId, String _characterId) async {
     notHaveCharacterIdList.remove(_characterId);
     // notifyListeners();
 
@@ -240,7 +243,8 @@ class GachaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setNotHaveBackgroundIdList(String _userId, String _backgroundId) async {
+  Future<void> setNotHaveBackgroundIdList(
+      String _userId, String _backgroundId) async {
     notHaveBackgroundIdList.remove(_backgroundId);
     // notifyListeners();
 
@@ -296,7 +300,7 @@ class AchieveProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setAchieve(
+  Future<void> setAchieve(
       String _userId, int _paperNum, int _time, bool _penalty) async {
     sumTime = sumTime + _time;
     thisTime = thisTime + _time;
@@ -388,7 +392,7 @@ class HaveItemProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setHaveNickNameIdList(String _userId, String _nickNameId) async {
+  Future<void> setHaveNickNameIdList(String _userId, String _nickNameId) async {
     haveNickNameIdList.add(_nickNameId);
     String _nickName = await FirebaseService().getNickName(_nickNameId);
     haveNickNameList.add(_nickName);
@@ -403,7 +407,8 @@ class HaveItemProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setHaveCharacterIdList(String _userId, String _characterId) async {
+  Future<void> setHaveCharacterIdList(
+      String _userId, String _characterId) async {
     haveCharacterIdList.add(_characterId);
     haveCharacterPathList.add('assets/models/${_characterId}.obj');
     // notifyListeners();
@@ -417,7 +422,8 @@ class HaveItemProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setHaveBackgroundIdList(String _userId, String _backgroundId) async {
+  Future<void> setHaveBackgroundIdList(
+      String _userId, String _backgroundId) async {
     haveBackgroundIdList.add(_backgroundId);
     haveBackgroundPathList.add('assets/backgrounds/${_backgroundId}.png');
     // notifyListeners();
@@ -492,7 +498,7 @@ class ClassProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setClassFlagList(String _userId, int row, int column) async {
+  Future<void> setClassFlagList(String _userId, int row, int column) async {
     classFlagList[row][column] = !classFlagList[row][column];
     // notifyListeners();
 
@@ -509,7 +515,7 @@ class ClassProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setClassStartTimeList(
+  Future<void> setClassStartTimeList(
       String _userId, List<int> _classTimeList, int row) async {
     classTimeList[row] = _classTimeList;
     // notifyListeners();
@@ -527,7 +533,7 @@ class ClassProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setClassFinishTimeList(
+  Future<void> setClassFinishTimeList(
       String _userId, List<int> _classTimeList, int row) async {
     classTimeList[row] = _classTimeList;
     // notifyListeners();
@@ -573,7 +579,7 @@ class RankingProvider extends ChangeNotifier {
     notifyListeners(); // Add this line
   }
 
-  void setRanking() async {
+  Future<void> setRanking() async {
     List<List<dynamic>> tmp = await FirebaseService().getRanking();
     paperNumRanking = [];
     sumTimeRanking = [];
