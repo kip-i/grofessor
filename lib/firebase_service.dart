@@ -192,6 +192,7 @@ class FirebaseService {
     DateTime now = DateTime.now();
     DateTime nextUpdateTime = await getRankingUpdateTime();
     if (now.isAfter(nextUpdateTime)) {
+      print('ランキング更新');
       return await updateRanking('userId', nextUpdateTime, now)
           .then((value) async {
         List<List> pRanking = await getPaperNumRanking();
@@ -824,6 +825,10 @@ class FirebaseService {
   Future<void> updatePaperNumRanking(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('userData');
+    // FirebaseFirestore.instance
+    //     .collection('test')
+    //     .doc('testData')
+    //     .collection('testData');
     List<List<String>> ranking = [];
     await userCollection
         .orderBy('paperNum', descending: true)
@@ -840,6 +845,10 @@ class FirebaseService {
         ];
         ranking.add(tmp);
       });
+      for (int i = ranking.length; i < 10; i++) {
+        ranking.add(['', '', '']);
+      }
+      print('ランキング１：' + ranking.toString());
       await _rootCollection
           .doc('rankings')
           .collection('rankings')
@@ -863,6 +872,10 @@ class FirebaseService {
   Future<void> updateSumTimeRanking(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('userData');
+    // FirebaseFirestore.instance
+    //     .collection('test')
+    //     .doc('testData')
+    //     .collection('testData');
     List<List<String>> ranking = [];
     await userCollection
         .orderBy('sumTime', descending: true)
@@ -879,6 +892,9 @@ class FirebaseService {
         ];
         ranking.add(tmp);
       });
+      for (int i = ranking.length; i < 10; i++) {
+        ranking.add(['', '', '']);
+      }
       await _rootCollection
           .doc('rankings')
           .collection('rankings')
@@ -902,6 +918,10 @@ class FirebaseService {
   Future<void> updateMeanTimeRanking(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('userData');
+    // FirebaseFirestore.instance
+    //     .collection('test')
+    //     .doc('testData')
+    //     .collection('testData');
     List<List<String>> ranking = [];
     await userCollection
         .orderBy('meanTime', descending: true)
@@ -918,6 +938,9 @@ class FirebaseService {
         ];
         ranking.add(tmp);
       });
+      for (int i = ranking.length; i < 10; i++) {
+        ranking.add(['', '', '']);
+      }
       await _rootCollection
           .doc('rankings')
           .collection('rankings')
