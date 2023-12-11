@@ -99,7 +99,7 @@ class _MyDataTableState extends State<MyDataTable> {
                        //   _leftColumnStartTimes[rowIndex].isNotEmpty
                        dataProvider.classTimeList != []
                              // ? ' ${_leftColumnStartTimes[rowIndex]}'
-                              ? ' ${dataProvider.classTimeList[rowIndex][0]}時${dataProvider.classTimeList[rowIndex][1]}分'
+                              ? ' ${dataProvider.classTimeList[rowIndex][0].toString().padLeft(2,"0")}時${dataProvider.classTimeList[rowIndex][1]}分'
                               : '開始時刻',
                           style: TextStyle(fontSize: 25),
                         ),
@@ -140,56 +140,43 @@ class _MyDataTableState extends State<MyDataTable> {
     );
   }
 
-  void _showTimeSettingBottomSheet(BuildContext context, int rowIndex, int cellIndex,DataProvider dataProvider) {
-   //final dataProvider = Provider.of<DataProvider>(context);
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext builder) {
-        return Container(
-          height: MediaQuery.of(context).copyWith().size.height /2,   //スマホ画面の何分割か
-      
-          child: Column(
-            children: [
-          Container(child: Text('${rowIndex+1}限目',textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 25,color: Color.fromARGB(255, 10, 98, 11),),),),
-              
-             
-             
-              Container(child:const Text("開始時刻",style: TextStyle(fontSize: 18),)),
-              Expanded(
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.time,
-                  initialDateTime: DateTime.now(),
-                  onDateTimeChanged: (DateTime dateTime) {
-                   // setState(() {
-                     // TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                      //_leftColumnStartTimes[rowIndex] = '${time.hour}:${time.minute}';
-                    //});
-                   TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                   dataProvider.setClassStartTimeList([time.hour, time.minute],rowIndex);
-                  },
-                ),
+  void _showTimeSettingBottomSheet(BuildContext context, int rowIndex, int cellIndex, DataProvider dataProvider) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext builder) {
+      return Container(
+        height: MediaQuery.of(context).copyWith().size.height / 2,
+        child: Column(
+          children: [
+            Container(
+              child: Text('${rowIndex + 1}限目', textAlign: TextAlign.left, style: TextStyle(fontSize: 25, color: Color.fromARGB(255, 10, 98, 11),),),
+            ),
+            Container(child: const Text("開始時刻", style: TextStyle(fontSize: 18),)),
+            Expanded(
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.time,
+                onDateTimeChanged: (DateTime dateTime) {
+                  TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                  dataProvider.setClassStartTimeList([time.hour, time.minute], rowIndex);
+                },
+                use24hFormat: true, // Set this to true for 24-hour format
               ),
-              Container(child:const Text("終了時刻",style: TextStyle(fontSize: 18),)),
-              Expanded(
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.time,
-                  initialDateTime: DateTime.now(),
-                  onDateTimeChanged: (DateTime dateTime) {
-                   // setState(() {
-                     // TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                      //_leftColumnEndTimes[rowIndex] = '${time.hour}:${time.minute}';
-                    //}
-                    TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                   dataProvider.setClassFinishTimeList([time.hour, time.minute],rowIndex);
-//);
-                  },
-                ),
+            ),
+            Container(child: const Text("終了時刻", style: TextStyle(fontSize: 18),)),
+            Expanded(
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.time,
+                onDateTimeChanged: (DateTime dateTime) {
+                  TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                  dataProvider.setClassFinishTimeList([time.hour, time.minute], rowIndex);
+                },
+                use24hFormat: true, // Set this to true for 24-hour format
               ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
 }
