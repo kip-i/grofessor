@@ -18,6 +18,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   String _userName = '';
   String _gender = '';
+  bool _first = true;
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   String _msg = '';
@@ -183,9 +184,15 @@ class _RegisterPageState extends State<RegisterPage> {
             ]),
         SizedBox(height: 40.0),
         ElevatedButton(
-          onPressed: _userName == '' || _gender == ''
+          onPressed: _userName == '' || _gender == '' || !_first
               ? null
               : () async {
+                  setState(() {
+                    _first = false;
+                  });
+                  // await Future.delayed(
+                  //   Duration(seconds: 1), //無効にする時間
+                  // );
                   // _msg = await AuthService().addUser(_userName,_gender);
                   // _ranking = await FirebaseService().getRanking();
                   // await dataProvider.setUser(_userName, _gender);
@@ -205,7 +212,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   // print(_msg);
                 },
           style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green, foregroundColor: Colors.white),
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            disabledBackgroundColor: Colors.grey,
+            disabledForegroundColor: Colors.white,
+          ),
           child: const Text('作成'),
         ),
         Expanded(child: SizedBox(height: 20.0)),
