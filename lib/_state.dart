@@ -7,6 +7,7 @@ import 'firebase_service.dart';
 
 class UserProvider extends ChangeNotifier {
   bool login = false;
+  String msg = '';
   // bool get isLogin => login;
   String userId = '';
   String userName = '';
@@ -19,6 +20,7 @@ class UserProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     userName = prefs.getString('userName') ?? '';
     List<String> tmp = await AuthService().signIn(userName);
+    // msg = tmp[1];
     if (tmp[1] == "Success") {
       login = true;
       userId = tmp[0];
@@ -32,6 +34,7 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> initUser(String _userName, String _gender) async {
     List<String> tmp = await AuthService().createUser(_userName, _gender);
+    msg = tmp[1];
     if (tmp[1] == "Success") {
       login = true;
       userId = tmp[0];
@@ -44,6 +47,8 @@ class UserProvider extends ChangeNotifier {
       prefs.setString('userName', userName);
     } else {
       login = false;
+      // msg = tmp[1];
+      // print(msg);
       notifyListeners();
     }
   }
