@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '_state.dart';
 import 'state.dart';
 import './home/name_button.dart';
 import './home/experience_bar.dart';
 
 class Player {
+  String userName;
   String nickName;
   String score;
   int rank;
 
   Player(
-      this.nickName,
-      this.score,
-      this.rank);
+    this.userName,
+    this.nickName,
+    this.score,
+    this.rank);
 
-  factory Player.fromJson(Map<String, dynamic> json) {
-    return Player(
-        json['nickName'],
-        json['numberOfPapers'],
-        0);
-  }
+  // factory Player.fromJson(Map<String, dynamic> json) {
+  //   return Player(
+  //       json['nickName'],
+  //       json['numberOfPapers'],
+  //       0);
+  // }
 }
 
 class Ranking extends StatefulWidget {
@@ -70,50 +73,62 @@ class _RankingState extends State<Ranking> {
   //   }
   // }
 
-  Widget _buildPlayerList(dataProvider) {
-    List<List<dynamic>> paperNumRanking = dataProvider.paperNumRanking;
-    List<List<dynamic>> sumTimeRanking = dataProvider.sumTimeRanking;
-    List<List<dynamic>> meanTimeRanking = dataProvider.meanTimeRanking;
+  Widget _buildPlayerList(rankingProvider) {
+    List<List<dynamic>> paperNumRanking = rankingProvider.paperNumRanking;
+    List<List<dynamic>> sumTimeRanking = rankingProvider.sumTimeRanking;
+    List<List<dynamic>> meanTimeRanking = rankingProvider.meanTimeRanking;
+    
     
   if (rankingType == 'numberOfPapers') {
     players = List.generate(paperNumRanking.length, (i) {
-      return Player(
-        paperNumRanking[i][0], // nickName
-        paperNumRanking[i][3], // numberOfPapers
-        i + 1 // rank
-      );
+      if(paperNumRanking[i][0] != ''){
+        return Player(
+          paperNumRanking[i][0], // userName
+          paperNumRanking[i][1], // nickName
+          paperNumRanking[i][2], // numberOfPapers
+          i + 1 // rank
+        );
+      }
     });
   } else if (rankingType == 'totalStudyTime') {
     players = List.generate(sumTimeRanking.length, (i) {
-      return Player(
-        sumTimeRanking[i][0], // nickName
-        sumTimeRanking[i][3], // numberOfPapers
-        i + 1 // rank
-      );
+      if(sumTimeRanking[i][0] != ''){
+        return Player(
+          sumTimeRanking[i][0], // userName
+          sumTimeRanking[i][1], // nickName
+          sumTimeRanking[i][2], // numberOfPapers
+          i + 1 // rank
+        );
+      }
     });
   } else if (rankingType == 'averageStudyTime') {
     players = List.generate(meanTimeRanking.length, (i) {
-      return Player(
-        meanTimeRanking[i][0], // nickName
-        meanTimeRanking[i][3], // numberOfPapers
-        i + 1 // rank
-      );
+      if(meanTimeRanking[i][0] != ''){
+        
+        return Player(
+          meanTimeRanking[i][0], // userName
+          meanTimeRanking[i][1], // nickName
+          meanTimeRanking[i][2], // numberOfPapers
+          i + 1 // rank
+        );
+      }
+      return null;
     });
   }
     return Column(
-      children: players.take(10).map((players) {
+      children: players.take(players.length).map((players) {
         String displayText;
         if (rankingType == 'numberOfPapers') {
           displayText =
-              ' ${players.rank}位     ${players.nickName}     ${players.score}枚';
+              ' ${players.rank}位     ${players.userName}     ${players.score}枚';
         } else if (rankingType == 'totalStudyTime') {
           displayText =
-              ' ${players.rank}位     ${players.nickName}     ${players.score}分';
+              ' ${players.rank}位     ${players.userName}     ${players.score}分';
         } else if (rankingType == 'averageStudyTime') {
           displayText =
-              ' ${players.rank}位     ${players.nickName}     ${players.score}分';
+              ' ${players.rank}位     ${players.userName}     ${players.score}分';
         } else {
-          displayText = ' ${players.rank}位     ${players.nickName}';
+          displayText = ' ${players.rank}位     ${players.userName}';
         }
         return ListTile(
           title: Text(
@@ -128,20 +143,20 @@ class _RankingState extends State<Ranking> {
     );
   }
 
-  Widget _playerScore(dataProvider) {
+  Widget _playerScore(achieveProvider,userProvider) {
     String displayText;
     switch (rankingType) {
       case 'numberOfPapers':
-        displayText = ' ${dataProvider.paperNum}枚';
+        displayText = ' ${achieveProvider.paperNum}枚';
         break;
       case 'totalStudyTime':
-        displayText = ' ${dataProvider.sumTime}分';
+        displayText = ' ${achieveProvider.sumTime}分';
         break;
       case 'averageStudyTime':
-        displayText = ' ${dataProvider.meanTime}分';
+        displayText = ' ${achieveProvider.meanTime}分';
         break;
       default:
-        displayText = ' ${dataProvider.userName}';
+        displayText = ' ${userProvider.userName}';
     }
     return Column(
       children: [
@@ -254,7 +269,9 @@ class _RankingState extends State<Ranking> {
 
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<DataProvider>(context);
+    final rankingProvider = Provider.of<RankingProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final achieveProvider = Provider.of<AchieveProvider>(context, listen: false);
     
     return MaterialApp(
       home: Scaffold(
@@ -276,9 +293,9 @@ class _RankingState extends State<Ranking> {
               child: Column(
                 children: [
                   _kindOfRanking(),
-                  _playerScore(dataProvider),
+                  _playerScore(achieveProvider,userProvider),
                   const SizedBox(height: 10),
-                  _buildPlayerList(dataProvider),
+                  _buildPlayerList(rankingProvider),
                 ],
               ),
             ),
