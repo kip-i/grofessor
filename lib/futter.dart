@@ -7,6 +7,7 @@ import 'dress_up/dress_up.dart';
 import 'ranking.dart';
 import 'package:provider/provider.dart';
 import 'state.dart';
+import 'gacha/gacha.dart';
 
 void main() => runApp(const NavigationBarApp());
 
@@ -40,7 +41,7 @@ class _NavigationExampleState extends State<NavigationExample> {
     HomeDefault(),
     DressUp(),
     HomeSelector(),
-    HomeDefault(),
+    GachaPage(),
     Ranking(),
   ];
 

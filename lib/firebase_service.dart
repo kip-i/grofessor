@@ -148,7 +148,11 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('gacha').get().then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveNickNameList'] as List<String>;
+      //List<String> notHaveList = data?['notHaveNickNameList'] as List<String>;
+      final notHaveDynamiteList = data?['notHaveNickNameList'];
+      List<String> notHaveList = (notHaveDynamiteList as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
       notHaveList.remove(nickNameId);
       await userCollection.doc('gacha').update({
         'notHaveNickNameList': notHaveList,
@@ -162,7 +166,11 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('gacha').get().then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveCharacterList'] as List<String>;
+      //List<String> notHaveList = data?['notHaveCharacterList'] as List<String>;
+      final notHaveDynamiteList = data?['notHaveCharacterList'];
+      List<String> notHaveList = (notHaveDynamiteList as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
       notHaveList.remove(characterId);
       await userCollection.doc('gacha').update({
         'notHaveCharacterList': notHaveList,
@@ -177,7 +185,12 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('gacha').get().then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveBackgroundList'] as List<String>;
+      final notHaveDynamiteList = data?['notHaveBackgroundList'];
+      List<String> notHaveList = (notHaveDynamiteList as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ??[];
+
+      //List<String> notHaveList = data?['notHaveBackgroundList'] as List<String>;
       notHaveList.remove(backgroundId);
       await userCollection.doc('gacha').update({
         'notHaveBackgroundList': notHaveList,

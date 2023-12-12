@@ -136,9 +136,14 @@ flutter:
     - assets/hatena/background_hatena.png
     - assets/hatena/model_hatena.png
 
-    # はてな
-    - assets/hatena/background_hatena.png
-    - assets/hatena/model_hatena.png
+    #ガチャ画面
+    - assets/images/present.jpg
+    - assets/images/present.png
+    - assets/images/b0.jpg
+    - assets/images/kirakira.jpg
+    - assets/images/kirakira.png
+
+    - lib/data/nick_name.json
 
     # - gs://hackumeijo2023.appspot.com/m0.obj
   #   - images/a_dot_burr.jpeg
