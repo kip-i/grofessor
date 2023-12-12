@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cube/flutter_cube.dart';
 
- void showDialog_Skin(BuildContext context, selectedElement) {
+ void showDialogSkin(BuildContext context, selectedElement) {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -9,8 +9,8 @@ import 'package:flutter_cube/flutter_cube.dart';
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(
-              color: const Color.fromARGB(255, 143, 98, 82),
+            side: const BorderSide(
+              color: Color.fromARGB(255, 143, 98, 82),
               width: 6.0,
             ),
           ),
@@ -20,8 +20,8 @@ import 'package:flutter_cube/flutter_cube.dart';
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 5),
-                Text(
+                const SizedBox(height: 5),
+                const Text(
                   'スキンをゲット！！',
                   style: TextStyle(
                     fontSize: 20,
@@ -29,57 +29,58 @@ import 'package:flutter_cube/flutter_cube.dart';
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 10),
-                Container(
-                  child: Cube(
-                    onSceneCreated: (Scene scene) {
-                      scene.world.add(Object(
-                        fileName: 'assets/models/' +
-                            selectedElement +
-                            '.obj',
-                        scale: Vector3(15.0, 15.0, 15.0),
-                        rotation: Vector3(270.0, 180.0, 0.0),
-                        position: Vector3(-0.9, -4.0, 0.0),
-                      ));
-                    },
-                  )
+                const SizedBox(height: 10),
+                Expanded(
+                  child: AspectRatio(
+                    aspectRatio: 0.6,
+                    child: Cube(
+                      onSceneCreated: (Scene scene) {
+                        scene.world.add(Object(
+                          fileName: 'assets/models/$selectedElement.obj',
+                          scale: Vector3(15.0, 15.0, 15.0),
+                          rotation: Vector3(270.0, 180.0, 0.0),
+                          position: Vector3(-0.9, -4.0, 0.0),
+                        ));
+                      },
+                    ),
+                  ),
                 ),
                 // Text(selectedElement),
-                // SizedBox(height: 20),
-                // Text(
-                //   'このスキンに変更しますか?',
-                //   style: TextStyle(
-                //     decoration: TextDecoration.underline,
-                //   ),
-                // ),
-                SizedBox(height: 10),
+                const SizedBox(height: 20),
+                const Text(
+                  'このスキンに変更しますか?',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                const SizedBox(height: 10),
                 Column(
                   children: [
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 66, 183, 70),
+                          foregroundColor: Colors.red,
+                      ),
+                      child: const Text(
                         'これに変更する',
                         style: TextStyle(color: Colors.white),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 66, 183, 70),
-                        onPrimary: Colors.red,
-                      ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 170, 177, 171),
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text(
                         '       閉じる       ',
                         style: TextStyle(color: Colors.white),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color.fromARGB(255, 170, 177, 171),
-                        onPrimary: Colors.white,
                       ),
                     ),
                   ],
