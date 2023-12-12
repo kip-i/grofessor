@@ -1,72 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
-import 'state.dart';
+import '_state.dart';
 
-class Bubble extends StatelessWidget {
-  final Widget child;
 
-  const Bubble({Key? key, required this.child}) : super(key: key);
-
+class GachaPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          top: 0,
-          left: 40,
-          child: ClipPath(
-            clipper: ArrowClipper(),
-            child: Container(
-              width: 30,
-              height: 20,
-              color: Colors.yellow,
-            ),
-          ),
-        ),
-        child,
-      ],
-    );
-  }
+  _GachaPageState createState() => _GachaPageState();
 }
 
-class ArrowClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-    path.lineTo(0, size.height);
-    path.lineTo(size.width / 2, size.height - 20);
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
-  }
-}
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _GachaPageState extends State<GachaPage> {
   ScrollController _scrollController1 = ScrollController();
 
   //int x = 10; // 現在の提出論文数が分かる
@@ -78,13 +21,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<DataProvider>(context);
-    int x = dataProvider.paperNum;
-    int y = dataProvider.gachaTicket;
+    final gachaProvider = Provider.of<GachaProvider>(context);
+    final achieveProvider = Provider.of<AchieveProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    int x = achieveProvider.paperNum;
+    int y = gachaProvider.gachaTicket;
     void generateRandomString() {
-      List<String> elements = dataProvider.notHaveNickNameIdList +
-          dataProvider.notHaveCharacterIdList +
-          dataProvider.notHaveBackgroundIdList;
+      List<String> elements = gachaProvider.notHaveNickNameIdList +
+          gachaProvider.notHaveCharacterIdList +
+          gachaProvider.notHaveBackgroundIdList;
       if (elements.isEmpty || y <= 0) {
         setState(() {
           randomString = 'もう出ないよ'; // 全ての要素が表示されたらガチャが引けなくなる
@@ -102,13 +47,15 @@ class _MyHomePageState extends State<MyHomePage> {
       });
       print(selectedElement);
       print(elements);
-      if (selectedElement.startsWith('m')) {
-        dataProvider.setNotHaveCharacterIdList(selectedElement);
-      } else if (selectedElement.startsWith('b')) {
-        dataProvider.setNotHaveBackgroundIdList(selectedElement);
+      if (selectedElement.startsWith('b')) {
+        gachaProvider.setNotHaveBackgroundIdList(
+            userProvider.userId, selectedElement);
       } else if (selectedElement.startsWith('n')) {
-        dataProvider.setNotHaveNickNameIdList(selectedElement);
-      }
+        gachaProvider.setNotHaveNickNameIdList(
+            userProvider.userId, selectedElement);
+      } else {
+        gachaProvider.setNotHaveCharacterIdList(userProvider.userId,selectedElement);
+      } 
     }
 
     return Scaffold(
@@ -264,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ],
                             ),
-                            if (i + 1 <= dataProvider.paperNum)
+                            if (i + 1 <= achieveProvider.paperNum)
                               Positioned(
                                 top: 38,
                                 right: 40,
@@ -585,3 +532,49 @@ mixin dataProvider {
       },
     );
   }
+
+
+class Bubble extends StatelessWidget {
+  final Widget child;
+
+  const Bubble({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 40,
+          child: ClipPath(
+            clipper: ArrowClipper(),
+            child: Container(
+              width: 30,
+              height: 20,
+              color: Colors.yellow,
+            ),
+          ),
+        ),
+        child,
+      ],
+    );
+  }
+}
+
+class ArrowClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(0, size.height);
+    path.lineTo(size.width / 2, size.height - 20);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
+  }
+}
