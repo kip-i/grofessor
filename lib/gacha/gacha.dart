@@ -94,9 +94,7 @@ class GachaPageState extends State<GachaPage> {
           randomString = 'もう出ないよ'; // 全ての要素が表示されたらガチャが引けなくなる
         });
         return;
-      }
-      print('あああ');
-      
+      }      
 
       Random random = Random();
       int randomIndex = random.nextInt(elements.length);
@@ -134,7 +132,7 @@ class GachaPageState extends State<GachaPage> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/kirakira.png'),
                   fit: BoxFit.cover,
@@ -162,14 +160,14 @@ class GachaPageState extends State<GachaPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(0.0),
               ),
-              primary: Colors.transparent,
-              onPrimary: Colors.transparent,
-              side: BorderSide(color: Colors.transparent, width: 5),
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.transparent,
+              side: const BorderSide(color: Colors.transparent, width: 5),
             ),
             child: Container(
               width: 200,
               height: 50,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 238, 238, 238),
                 border: Border(
                   top: BorderSide(color: Colors.red),
@@ -178,7 +176,7 @@ class GachaPageState extends State<GachaPage> {
                   bottom: BorderSide(color: Colors.green),
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   'ガチャを引く',
                   style: TextStyle(
@@ -203,7 +201,7 @@ class GachaPageState extends State<GachaPage> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 '論文の数  :  $x',
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -222,7 +220,7 @@ class GachaPageState extends State<GachaPage> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 '引けるの数  :  $y ',
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -244,17 +242,17 @@ class GachaPageState extends State<GachaPage> {
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       '    提 出 論 文 数   ➡   ',
                       style: TextStyle(
-                        color: const Color.fromARGB(255, 255, 233, 233),
+                        color: Color.fromARGB(255, 255, 233, 233),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15,
                 ),
                 for (var i = 0; i < 300; i++)
@@ -266,8 +264,8 @@ class GachaPageState extends State<GachaPage> {
                             color: (i + 1) % 3 == 0
                                 ? Colors.yellow
                                 : i.isEven
-                                    ? Color.fromARGB(255, 116, 203, 44)
-                                    : Color.fromARGB(255, 116, 203, 44),
+                                    ? const Color.fromARGB(255, 116, 203, 44)
+                                    : const Color.fromARGB(255, 116, 203, 44),
                             width: 110,
                             height: 110,
                             child: Center(
@@ -276,13 +274,13 @@ class GachaPageState extends State<GachaPage> {
                                 children: [
                                   Text(
                                     (i + 1).toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 30,
                                     ),
                                   ),
-                                  SizedBox(width: 5),
+                                  const SizedBox(width: 5),
                                 ],
                               ),
                             ),
@@ -295,7 +293,7 @@ class GachaPageState extends State<GachaPage> {
                           right: 40,
                           child: Transform.scale(
                             scale: 1.5,
-                            child: Icon(Icons.check, color: Colors.black, size: 24 * 1.2),
+                            child: const Icon(Icons.check, color: Colors.black, size: 24 * 1.2),
                           ),
                         ),
                       if ((i + 1) % 3 == 0)
@@ -304,7 +302,7 @@ class GachaPageState extends State<GachaPage> {
                           right: 5,
                           child: Transform.scale(
                             scale: 1.2,
-                            child: Icon(Icons.star, color: Color.fromARGB(255, 200, 210, 18)),
+                            child: const Icon(Icons.star, color: Color.fromARGB(255, 200, 210, 18)),
                           ),
                         ),
                       if ((i + 1) % 3 == 0)
@@ -312,15 +310,15 @@ class GachaPageState extends State<GachaPage> {
                           top: 75,
                           right: -3,
                           child: Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               color: Colors.yellow,
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            child: Text(
+                            child: const Text(
                               'ごほうびゲット',
                               style: TextStyle(
-                                color: const Color.fromARGB(255, 0, 0, 0),
+                                color: Color.fromARGB(255, 0, 0, 0),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               ),
