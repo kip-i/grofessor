@@ -56,9 +56,13 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
   }
 
   void stopDuration() {
+    saveTime(_stopwatch.elapsed.inMilliseconds);
+    setNavigationToResult();
     _stopwatch.stop();
     _timer.cancel();
     state = state.copyWith(totalDuration: _stopwatch.elapsed);
+    navigatorKey.currentState
+        ?.pushReplacement(MaterialPageRoute(builder: (context) => MyApp()));
   }
 
   void resetDuration() {
