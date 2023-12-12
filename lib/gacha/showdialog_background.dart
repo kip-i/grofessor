@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
- void showDialog_background(BuildContext context) {
+ void showDialog_background(BuildContext context, String selectedElement) {
     showDialog<void>(
       context: context,
       barrierDismissible: false,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cube/flutter_cube.dart';
 
- void showDialog_Skin(BuildContext context) {
+ void showDialog_Skin(BuildContext context, selectedElement) {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -29,19 +30,28 @@ import 'package:flutter/material.dart';
                   ),
                 ),
                 SizedBox(height: 10),
-                Image.asset(
-                  'assets/images/present.jpg',
-                  width: 250,
-                  height: 250,
-                  fit: BoxFit.cover,
+                Container(
+                  child: Cube(
+                    onSceneCreated: (Scene scene) {
+                      scene.world.add(Object(
+                        fileName: 'assets/models/' +
+                            selectedElement +
+                            '.obj',
+                        scale: Vector3(15.0, 15.0, 15.0),
+                        rotation: Vector3(270.0, 180.0, 0.0),
+                        position: Vector3(-0.9, -4.0, 0.0),
+                      ));
+                    },
+                  )
                 ),
-                SizedBox(height: 20),
-                Text(
-                  'このスキンに変更しますか?',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
+                // Text(selectedElement),
+                // SizedBox(height: 20),
+                // Text(
+                //   'このスキンに変更しますか?',
+                //   style: TextStyle(
+                //     decoration: TextDecoration.underline,
+                //   ),
+                // ),
                 SizedBox(height: 10),
                 Column(
                   children: [
