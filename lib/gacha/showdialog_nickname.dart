@@ -1,6 +1,6 @@
   import 'package:flutter/material.dart';
 
-  void showDialog_nickname(BuildContext context, selectedElement) {
+  void showDialogNickname(BuildContext context, selectedElement) {
     showDialog<void>(
       context: context,
       barrierDismissible: false,

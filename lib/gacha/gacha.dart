@@ -79,11 +79,11 @@ class GachaPageState extends State<GachaPage> {
     void generateRandomString() {
       print('リスト生成'+gachaProvider.gachaTicket.toString());
       List<String> elements = 
+          // gachaProvider.notHaveNickNameIdList
           //gachaProvider.notHaveNickNameIdList +
-          //gachaProvider.notHaveNickNameIdList +
-          gachaProvider.notHaveCharacterIdList ;
+          // gachaProvider.notHaveCharacterIdList ;
           //gachaProvider.notHaveBackgroundIdList +
-          //gachaProvider.notHaveBackgroundIdList;
+          gachaProvider.notHaveBackgroundIdList;
       print('y'+y.toString());
       print(gachaProvider.notHaveBackgroundIdList);
       print(gachaProvider.notHaveNickNameIdList);
@@ -112,15 +112,15 @@ class GachaPageState extends State<GachaPage> {
       print(elements);
       if (selectedElement.startsWith('b')) {
         gachaProvider.setNotHaveBackgroundIdList(userProvider.userId, selectedElement);
-        showDialog_background(context, selectedElement);
+        showDialogBackground(context, selectedElement);
       } else if (selectedElement.startsWith('n')) {
         gachaProvider.setNotHaveNickNameIdList(
             userProvider.userId, selectedElement);
-        showDialog_nickname(context, selectedElement);
+        showDialogNickname(context, selectedElement);
       }else{
         gachaProvider.setNotHaveCharacterIdList(
             userProvider.userId, selectedElement);
-        showDialog_Skin(context, selectedElement);
+        showDialogSkin(context, selectedElement);
       }
     }
 
