@@ -76,6 +76,7 @@ class GachaPageState extends State<GachaPage> {
     int x = achieveProvider.paperNum;
     // int x = 10;
     int y = gachaProvider.gachaTicket;
+    // int y = 10;
 
     // gachaProvider.setGachaTicket(userProvider.userId, 1);
     void generateRandomString() {

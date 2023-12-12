@@ -141,6 +141,8 @@ flutter:
     - assets/images/kirakira.jpg
     - assets/images/kirakira.png
 
+    - lib/data/nick_name.json
+
     # - gs://hackumeijo2023.appspot.com/m0.obj
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

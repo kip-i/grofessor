@@ -1,12 +1,23 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:grofessor/_state.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart';
 
-  void showDialogNickname(BuildContext context, selectedElement) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final gachaProvider = Provider.of<GachaProvider>(context, listen: false);
-    final nickNameProvider = Provider.of<NickNameProvider>(context, listen: false);
-    int index = int.parse(selectedElement.substring(1));
+Future<Map<String, dynamic>> loadNicknameData() async {
+  String jsonString = await rootBundle.loadString('lib/data/nick_name.json');
+  return jsonDecode(jsonString);
+}
+
+void showDialogNickname(BuildContext context, selectedElement) {
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+  final gachaProvider = Provider.of<GachaProvider>(context, listen: false);
+  final nickNameProvider = Provider.of<NickNameProvider>(context, listen: false);
+  // int index = int.parse(selectedElement.substring(1));
+  // String nickName = gachaProvider.allNickNameList[index];
+  loadNicknameData().then((nicknames) {
+    String nickName = nicknames[selectedElement];
+
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -36,11 +47,11 @@ import 'package:provider/provider.dart';
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Container(
-                   color: Colors.lightBlue, // 水色の背景色
+                   color: const Color.fromRGBO(3, 169, 244, 1), // 水色の背景色
                    padding: const EdgeInsets.all(8), // パディングを追加
                    child: Text(
                       //  'ああああああ',
-                        gachaProvider.allNickNameList[index],
+                        nickName,
                         style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -73,7 +84,7 @@ import 'package:provider/provider.dart';
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        nickNameProvider.setNickName(userProvider.userId, selectedElement, gachaProvider.allNickNameList[index]);
+                        nickNameProvider.setNickName(userProvider.userId, selectedElement, nickName);
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
@@ -107,4 +118,5 @@ import 'package:provider/provider.dart';
         );
       },
     );
- }
+ });
+}
