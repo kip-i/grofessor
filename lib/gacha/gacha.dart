@@ -65,6 +65,7 @@ class GachaPageState extends State<GachaPage> {
   
   String randomString =
       'Tap the button to generate random string'; // ランダムな文字列を表示するための変数
+  int y = 100;    //debug
 
   @override
   Widget build(BuildContext context) {
@@ -72,16 +73,15 @@ class GachaPageState extends State<GachaPage> {
     final achieveProvider = Provider.of<AchieveProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     int x = achieveProvider.paperNum;
-    int y = gachaProvider.gachaTicket;
-    // Debug用
-    y = 100;
+    // y = gachaProvider.gachaTicket;
+
     gachaProvider.setGachaTicket(userProvider.userId, 1);
     void generateRandomString() {
       print('リスト生成'+gachaProvider.gachaTicket.toString());
       List<String> elements = 
-          // gachaProvider.notHaveNickNameIdList
+          // gachaProvider.notHaveNickNameIdList;
           //gachaProvider.notHaveNickNameIdList +
-          // gachaProvider.notHaveCharacterIdList ;
+          // gachaProvider.notHaveCharacterIdList +
           //gachaProvider.notHaveBackgroundIdList +
           gachaProvider.notHaveBackgroundIdList;
       print('y'+y.toString());
