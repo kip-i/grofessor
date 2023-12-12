@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:grofessor/state.dart';
+import 'package:provider/provider.dart';
+
+import '../_state.dart';
 import '../const/color.dart';
 
 class BackgroundTab extends StatefulWidget {
@@ -8,27 +12,16 @@ class BackgroundTab extends StatefulWidget {
 }
 
 class _BackgroundTabState extends State<BackgroundTab> {
-  int selectedIndex = 0;
-  final int background_num = 30; // background_numが変わる場合、適宜調整してください
-
-  // 仮の関数：画像名のリストを返す
-  List<String> getImageNames() {
-    return [
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png',
-      'assets/backgrounds/fuji.png'
-    ];
-  }
+  late int selectedIndex;
+  final int background_num = 5; // background_numが変わる場合、適宜調整してください
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    final backgroundProvider = Provider.of<BackgroundProvider>(context);
+    final haveItemProvider = Provider.of<HaveItemProvider>(context);
+    selectedIndex = haveItemProvider.haveBackgroundIdList
+        .indexOf(backgroundProvider.backgroundId);
     return GridView.builder(
       shrinkWrap: true, // スクロール可能にする
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -39,13 +32,16 @@ class _BackgroundTabState extends State<BackgroundTab> {
       ),
       itemCount: background_num,
       itemBuilder: (context, index) {
-        if (index < getImageNames().length) {
+        if (index < haveItemProvider.haveBackgroundIdList.length) {
           // インデックスがリストの範囲内の場合
           return GestureDetector(
             onTap: () {
               setState(() {
                 selectedIndex = index;
               });
+              backgroundProvider.setBackground(userProvider.userId,
+                  haveItemProvider.haveBackgroundIdList[index]);
+              print(backgroundProvider.backgroundId);
             },
             child: SizedBox(
               child: Card(
@@ -60,7 +56,9 @@ class _BackgroundTabState extends State<BackgroundTab> {
                     children: <Widget>[
                       Expanded(
                         child: Image.asset(
-                          getImageNames()[index],
+                          'assets/backgrounds/' +
+                              haveItemProvider.haveBackgroundIdList[index] +
+                              '.png',
                           fit: BoxFit.contain, // 画像をカードに合わせて拡大・縮小
                         ),
                       ),
@@ -78,11 +76,11 @@ class _BackgroundTabState extends State<BackgroundTab> {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Container(
-              padding: EdgeInsets.all(16),
-              child: Center(
-                child: Text('No Image'),
-              ),
-            ),
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+              image: AssetImage('assets/hatena/background_hatena.png'),
+              fit: BoxFit.cover,
+            ))),
           );
         }
       },

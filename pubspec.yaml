@@ -40,6 +40,15 @@ dependencies:
   cloud_firestore: ^4.13.2
   firebase_storage: ^11.5.2
   http: ^1.1.0
+  stop_watch_timer: ^3.0.2
+  hooks_riverpod: ^2.4.9
+  freezed_annotation: ^2.4.1
+  state_notifier: ^1.0.0
+  freezed: ^2.4.5
+  riverpod: ^2.4.9
+  flutter_riverpod: ^2.4.9
+  screen_brightness: ^0.2.2+1
+  # https://pub.dev/packages/flutter_cube/install
   # https://pub.dev/packages/flutter_cube
   flutter_cube: ^0.1.1
 
@@ -62,6 +71,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  build_runner: ^2.4.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -77,16 +87,14 @@ flutter:
   assets:
     - user_data/user.json
     # モデル
-    - assets/models/v4.obj
-    - assets/models/v4.mtl
-    - assets/models/v4.obj
-    - assets/models/v4.mtl
     - assets/models/m0.obj
     - assets/models/m0.mtl
     - assets/models/m1.obj
     - assets/models/m1.mtl
     - assets/models/m2.obj
     - assets/models/m2.mtl
+    - assets/models/w0.obj
+    - assets/models/w0.mtl
     - assets/models/w1.obj
     - assets/models/w1.mtl
     - assets/models/w2.obj
@@ -95,7 +103,42 @@ flutter:
     # 背景
     - assets/backgrounds/b0.png
     - assets/backgrounds/b1.png
-    - assets/backgrounds/fuji.png
+    - assets/backgrounds/b2.png
+    - assets/backgrounds/b3.png
+    - assets/backgrounds/b4.png
+    - assets/backgrounds/b5.png
+    - assets/backgrounds/b6.png
+    - assets/backgrounds/b7.png
+    - assets/backgrounds/b8.png
+    - assets/backgrounds/b9.png
+    - assets/backgrounds/b10.png
+    - assets/backgrounds/b11.png
+    - assets/backgrounds/b12.png
+    - assets/backgrounds/b13.png
+    - assets/backgrounds/b14.png
+    - assets/backgrounds/b15.png
+    - assets/backgrounds/b16.png
+    - assets/backgrounds/b17.png
+    - assets/backgrounds/b18.png
+    - assets/backgrounds/b19.png
+    - assets/backgrounds/b20.png
+    - assets/backgrounds/b21.png
+    - assets/backgrounds/b22.png
+    - assets/backgrounds/b23.png
+    - assets/backgrounds/b24.png
+    - assets/backgrounds/b25.png
+    - assets/backgrounds/b26.png
+    - assets/backgrounds/b27.png
+    - assets/backgrounds/b28.png
+    - assets/backgrounds/b29.png
+
+    # はてな
+    - assets/hatena/background_hatena.png
+    - assets/hatena/model_hatena.png
+
+    # はてな
+    - assets/hatena/background_hatena.png
+    - assets/hatena/model_hatena.png
 
     # - gs://hackumeijo2023.appspot.com/m0.obj
   #   - images/a_dot_burr.jpeg

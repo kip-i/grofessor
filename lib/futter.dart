@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '_state.dart';
 import 'home/home_selector.dart';
 import 'home/home_default.dart';
 import 'home/home_during_time.dart';
@@ -32,7 +33,7 @@ class NavigationExample extends StatefulWidget {
 }
 
 class _NavigationExampleState extends State<NavigationExample> {
-  int _currentPageIndex = 0;
+  int _currentPageIndex = 2;
 
   final List<Widget> _pages = <Widget>[
     // ここを自身のウィジェットに変更したらいい
@@ -46,7 +47,8 @@ class _NavigationExampleState extends State<NavigationExample> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final dataProvider = Provider.of<DataProvider>(context);
+    final rankingProvider = Provider.of<RankingProvider>(context);
+    print('ページ：futter.dart');
     return Scaffold(
       body: IndexedStack(
         index: _currentPageIndex,
@@ -65,7 +67,7 @@ class _NavigationExampleState extends State<NavigationExample> {
               (index) => _buildIconButton(
                 index,
                 index == _currentPageIndex,
-                dataProvider,
+                rankingProvider,
               ),
             ),
           ),
@@ -74,7 +76,7 @@ class _NavigationExampleState extends State<NavigationExample> {
     );
   }
 
-  Widget _buildIconButton(int index, bool isSelected, DataProvider dataProvider) {
+  Widget _buildIconButton(int index, bool isSelected, RankingProvider rankingProvider) {
     IconData icon;
     String label;
 
@@ -108,7 +110,7 @@ class _NavigationExampleState extends State<NavigationExample> {
         onTap: () async {
           if (index == 4) {
             // Todo: 日時取得
-            await dataProvider.setRanking();
+            await rankingProvider.setRanking();
             debugPrint('ランキング!!!');
           }
           setState(() {

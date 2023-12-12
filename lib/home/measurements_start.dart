@@ -1,53 +1,49 @@
 import 'package:flutter/material.dart';
-
 import '../const/color.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../sample_provider.dart';
+import '../sample_screen.dart';
 
-class MeasurementsStart extends StatelessWidget {
+class MeasurementsStart extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(sampleScreenProvider.notifier); // コントローラーを取得
+
     return Container(
       width: 160.0, // 幅を指定
       height: 70.0, // 高さを指定
-      // decoration: BoxDecoration(
-      //   border: Border.all(
-      //     color: blackbordFrameColor,
-      //     width: 4.0,
-      //   ),
-      //   borderRadius: BorderRadius.circular(8.0), // 角を丸くする
-      // ),
-      // decoration: BoxDecoration(
-      //   border: Border(bottom: BorderSide(color: blackbordFrameColor, width: 4.0)),),
       child: ElevatedButton(
-        onPressed: () {
-          // ボタンが押された時の処理を追加
-        },
-        style: ElevatedButton.styleFrom(
-          primary: blackbordColor, // ボタンの背景色
-          onPrimary: blackbordWhiteColor, // テキストの色
-          padding: EdgeInsets.all(6.0), // ボタンの内側の余白
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          Icon(
-            Icons.timer,
-            size: 43.0,
-            color:  blackbordWhiteColor,
+          onPressed: () {
+            controller.startTimer();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SampleScreen()),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: blackbordColor, // ボタンの背景色
+            foregroundColor: blackbordWhiteColor, // テキストの色
+            padding: EdgeInsets.all(6.0), // ボタンの内側の余白
           ),
-          Container(
-            margin: EdgeInsets.all(4.0), 
-            child: Text(
-              '計測開始',
-              style: TextStyle(
-                fontSize: 20.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.timer,
+                size: 43.0,
+                color: blackbordWhiteColor,
               ),
-            ),
-          ),
-        ]
-        ,)
-        
-      
-      ),
+              Container(
+                margin: EdgeInsets.all(4.0),
+                child: Text(
+                  '執筆開始',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
