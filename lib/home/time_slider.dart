@@ -7,7 +7,7 @@ class TimeSlider extends StatefulWidget {
 }
 
 class _TimeSliderState extends State<TimeSlider> {
-  double _value = 0; // 初期値
+  double _value = 25; // 初期値
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +43,9 @@ class _TimeSliderState extends State<TimeSlider> {
                 _value = newValue.toInt().toDouble();
               });
             },
-            min: 0,
+            min: 5,
             max: 90,
-            divisions: 18, // 分割数
+            divisions: 17, // 分割数
             label: '${_value.round()}分', // スライダーの上に表示される値
             activeColor: Color.fromARGB(255, 226, 228, 226), // 値の色
           ),
