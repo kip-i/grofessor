@@ -1,6 +1,16 @@
   import 'package:flutter/material.dart';
+  import 'dart:convert';
+  import 'package:flutter/services.dart';
+
+  Future<Map<String, dynamic>> loadNicknameData() async {
+  String jsonString = await rootBundle.loadString('lib/data/nick_name.json');
+  return jsonDecode(jsonString);
+}
 
   void showDialogNickname(BuildContext context, selectedElement) {
+    loadNicknameData().then((nicknames) {
+    String nickname = nicknames[selectedElement];
+
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -30,10 +40,10 @@
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Container(
-                   color: Colors.lightBlue, // 水色の背景色
+                   color: const Color.fromRGBO(3, 169, 244, 1), // 水色の背景色
                    padding: const EdgeInsets.all(8), // パディングを追加
-                   child: const Text(
-                       'ああああああ',
+                   child: Text(
+                        nickname,
                         style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -42,18 +52,6 @@
                        ),
                       ),
                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Container(
-                  color: Colors.lightBlue, // 水色の背景色
-                  padding: const EdgeInsets.all(8), // パディングを追加
-                  child: const Text(
-                    'いいいいいい',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 const Text(
                   'この二つ名に変更しますか?',
@@ -99,4 +97,5 @@
         );
       },
     );
- }
+ });
+}
