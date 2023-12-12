@@ -30,7 +30,7 @@ import 'package:flutter/material.dart';
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Image.asset(
-                  'assets/images/$selectedElement.png',
+                  'assets/backgrounds/$selectedElement.png',
                   width: 140,
                   height: 250,
                   fit: BoxFit.cover,
