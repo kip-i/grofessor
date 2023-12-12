@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cube/flutter_cube.dart';
+import 'package:grofessor/_state.dart';
+import 'package:provider/provider.dart';
 
- void showDialogSkin(BuildContext context, selectedElement) {
+void showDialogSkin(BuildContext context, selectedElement) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final characterProvider = Provider.of<CharacterProvider>(context, listen: false);
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -58,6 +62,7 @@ import 'package:flutter_cube/flutter_cube.dart';
                   children: [
                     ElevatedButton(
                       onPressed: () {
+                        characterProvider.setCharacter(userProvider.userId, selectedElement);
                         Navigator.pop(context);
                       },
                         style: ElevatedButton.styleFrom(

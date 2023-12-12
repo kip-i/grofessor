@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../_state.dart';
 
  void showDialogBackground(BuildContext context, String selectedElement) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final backgroundProvider = Provider.of<BackgroundProvider>(context, listen: false);
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -47,6 +52,7 @@ import 'package:flutter/material.dart';
                   children: [
                     ElevatedButton(
                       onPressed: () {
+                        backgroundProvider.setBackground(userProvider.userId, selectedElement);
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(

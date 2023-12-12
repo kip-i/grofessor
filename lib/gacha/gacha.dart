@@ -65,25 +65,29 @@ class GachaPageState extends State<GachaPage> {
   
   String randomString =
       'Tap the button to generate random string'; // ランダムな文字列を表示するための変数
-  int y = 100;    //debug
+  // int y = 100;    //debug
 
   @override
   Widget build(BuildContext context) {
-    final gachaProvider = Provider.of<GachaProvider>(context);
-    final achieveProvider = Provider.of<AchieveProvider>(context);
-    final userProvider = Provider.of<UserProvider>(context);
+    final gachaProvider = Provider.of<GachaProvider>(context,listen: false);
+    final achieveProvider = Provider.of<AchieveProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final haveItemProvider = Provider.of<HaveItemProvider>(context, listen: false);
     int x = achieveProvider.paperNum;
-    // y = gachaProvider.gachaTicket;
+    // int x = 10;
+    int y = gachaProvider.gachaTicket;
 
-    gachaProvider.setGachaTicket(userProvider.userId, 1);
+    // gachaProvider.setGachaTicket(userProvider.userId, 1);
     void generateRandomString() {
       print('リスト生成'+gachaProvider.gachaTicket.toString());
       List<String> elements = 
           // gachaProvider.notHaveNickNameIdList;
-          //gachaProvider.notHaveNickNameIdList +
-          // gachaProvider.notHaveCharacterIdList +
-          //gachaProvider.notHaveBackgroundIdList +
+          gachaProvider.notHaveNickNameIdList +
+          gachaProvider.notHaveCharacterIdList +
           gachaProvider.notHaveBackgroundIdList;
+          // gachaProvider.notHaveBackgroundIdList;
+          // gachaProvider.notHaveCharacterIdList;
+          // gachaProvider.notHaveNickNameIdList;
       print('y'+y.toString());
       print(gachaProvider.notHaveBackgroundIdList);
       print(gachaProvider.notHaveNickNameIdList);
@@ -102,7 +106,7 @@ class GachaPageState extends State<GachaPage> {
       print('引く前'+ gachaProvider.gachaTicket.toString());
       setState(() {
         randomString = selectedElement;
-        y = y - 1; // ガチャを引いたら'y'の値を1減らす
+        // y = y - 1; // ガチャを引いたら'y'の値を1減らす
         gachaProvider.setGachaTicket(userProvider.userId, -1);
       });
       print('引く後' + gachaProvider.gachaTicket.toString());
@@ -110,14 +114,17 @@ class GachaPageState extends State<GachaPage> {
       print(elements);
       if (selectedElement.startsWith('b')) {
         gachaProvider.setNotHaveBackgroundIdList(userProvider.userId, selectedElement);
+        haveItemProvider.setHaveBackgroundIdList(userProvider.userId, selectedElement);
         showDialogBackground(context, selectedElement);
       } else if (selectedElement.startsWith('n')) {
         gachaProvider.setNotHaveNickNameIdList(
             userProvider.userId, selectedElement);
+        haveItemProvider.setHaveNickNameIdList(userProvider.userId, selectedElement);
         showDialogNickname(context, selectedElement);
       }else{
         gachaProvider.setNotHaveCharacterIdList(
             userProvider.userId, selectedElement);
+        haveItemProvider.setHaveCharacterIdList(userProvider.userId, selectedElement);
         showDialogSkin(context, selectedElement);
       }
     }
@@ -219,7 +226,7 @@ class GachaPageState extends State<GachaPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                '引けるの数  :  $y ',
+                '引ける数  :  $y ',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -232,7 +239,7 @@ class GachaPageState extends State<GachaPage> {
           left: 50,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            controller: _scrollController1,
+            // controller: _scrollController1,
             child: Row(
               children: [
                 Container(
@@ -287,7 +294,7 @@ class GachaPageState extends State<GachaPage> {
                           ),
                         ],
                       ),
-                      if (i + 1 <= achieveProvider.paperNum)
+                      if (i + 1 <= x)
                         Positioned(
                           top: 38,
                           right: 40,

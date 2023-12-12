@@ -1,6 +1,12 @@
   import 'package:flutter/material.dart';
+import 'package:grofessor/_state.dart';
+import 'package:provider/provider.dart';
 
   void showDialogNickname(BuildContext context, selectedElement) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final gachaProvider = Provider.of<GachaProvider>(context, listen: false);
+    final nickNameProvider = Provider.of<NickNameProvider>(context, listen: false);
+    int index = int.parse(selectedElement.substring(1));
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -32,8 +38,9 @@
                 Container(
                    color: Colors.lightBlue, // 水色の背景色
                    padding: const EdgeInsets.all(8), // パディングを追加
-                   child: const Text(
-                       'ああああああ',
+                   child: Text(
+                      //  'ああああああ',
+                        gachaProvider.allNickNameList[index],
                         style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -42,19 +49,19 @@
                        ),
                       ),
                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Container(
-                  color: Colors.lightBlue, // 水色の背景色
-                  padding: const EdgeInsets.all(8), // パディングを追加
-                  child: const Text(
-                    'いいいいいい',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                // Container(
+                //   color: Colors.lightBlue, // 水色の背景色
+                //   padding: const EdgeInsets.all(8), // パディングを追加
+                //   child: const Text(
+                //     'いいいいいい',
+                //     style: TextStyle(
+                //       fontSize: 15,
+                //       fontWeight: FontWeight.bold,
+                //       color: Colors.black,
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 const Text(
                   'この二つ名に変更しますか?',
                   style: TextStyle(
@@ -66,6 +73,7 @@
                   children: [
                     ElevatedButton(
                       onPressed: () {
+                        nickNameProvider.setNickName(userProvider.userId, selectedElement, gachaProvider.allNickNameList[index]);
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
