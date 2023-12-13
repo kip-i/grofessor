@@ -46,9 +46,9 @@ class classProvider extends ChangeNotifier {
   List<List<bool>> classFlagList = []; // 6*6
   List<List<int>> classTimeList = []; // 6*4
 
-  List<List<String>> paperNumRanking = []; // 10*4
-  List<List<String>> sumTimeRanking = []; // 10*4
-  List<List<String>> meanTimeRanking = []; // 10*4
+  List<List<dynamic>> paperNumRanking = []; // 10*4
+  List<List<dynamic>> sumTimeRanking = []; // 10*4
+  List<List<dynamic>> meanTimeRanking = []; // 10*4
 
   void getData() async {
     final prefs = await SharedPreferences.getInstance();

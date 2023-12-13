@@ -7,6 +7,7 @@ import 'firebase_service.dart';
 
 class UserProvider extends ChangeNotifier {
   bool login = false;
+  String msg = '';
   // bool get isLogin => login;
   String userId = '';
   String userName = '';
@@ -19,6 +20,7 @@ class UserProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     userName = prefs.getString('userName') ?? '';
     List<String> tmp = await AuthService().signIn(userName);
+    // msg = tmp[1];
     if (tmp[1] == "Success") {
       login = true;
       userId = tmp[0];
@@ -32,6 +34,7 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> initUser(String _userName, String _gender) async {
     List<String> tmp = await AuthService().createUser(_userName, _gender);
+    msg = tmp[1];
     if (tmp[1] == "Success") {
       login = true;
       userId = tmp[0];
@@ -44,6 +47,8 @@ class UserProvider extends ChangeNotifier {
       prefs.setString('userName', userName);
     } else {
       login = false;
+      // msg = tmp[1];
+      // print(msg);
       notifyListeners();
     }
   }
@@ -175,6 +180,7 @@ class GachaProvider extends ChangeNotifier {
   List<String> notHaveNickNameIdList = []; // n1,n2
   List<String> notHaveCharacterIdList = []; // (m or w)1,(m or w)2
   List<String> notHaveBackgroundIdList = []; // b1,b2
+  List<String> allNickNameList = [];
 
   Future<void> init(String _gender) async {
     gachaTicket = 0;
@@ -190,9 +196,12 @@ class GachaProvider extends ChangeNotifier {
     notHaveBackgroundIdList = await FirebaseService().getAllBackgroundId();
     notHaveBackgroundIdList.remove('b0');
 
-    print(notHaveNickNameIdList);
-    print(notHaveCharacterIdList);
-    print(notHaveBackgroundIdList);
+    allNickNameList = await FirebaseService().getAllNickName();
+
+    // print(notHaveNickNameIdList);
+    // print(notHaveCharacterIdList);
+    // print(notHaveBackgroundIdList);
+    // print(notHaveNickNameList);
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -200,6 +209,7 @@ class GachaProvider extends ChangeNotifier {
     prefs.setStringList('notHaveNickNameList', notHaveNickNameIdList);
     prefs.setStringList('notHaveCharacterList', notHaveCharacterIdList);
     prefs.setStringList('notHaveBackgroundList', notHaveBackgroundIdList);
+    prefs.setStringList('allNickNameList', allNickNameList);
 
     // notifyListeners();
   }
@@ -212,6 +222,10 @@ class GachaProvider extends ChangeNotifier {
         prefs.getStringList('notHaveCharacterIdList') ?? [];
     notHaveBackgroundIdList =
         prefs.getStringList('notHaveBackgroundIdList') ?? [];
+    allNickNameList = prefs.getStringList('allNickNameList') ?? [];
+
+    // print(notHaveNickNameList);
+
     notifyListeners(); // Add this line
   }
 
@@ -280,7 +294,7 @@ class AchieveProvider extends ChangeNotifier {
     paperNum = 0;
     sumTime = 0;
     thisTime = 0;
-    needTime = 0;
+    needTime = await FirebaseService().getNeedTime(paperNum);
     achieveNum = 0;
     meanTime = 0.0;
     penalty = false;
@@ -529,7 +543,7 @@ class ClassProvider extends ChangeNotifier {
       String _userId, List<int> _classTimeList, int row) async {
     classTimeList[row][0] = _classTimeList[0];
     classTimeList[row][1] = _classTimeList[1];
-    // noclassTtifyListeners();
+    // notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
     List<String> tmp = classTimeList
@@ -573,7 +587,7 @@ class RankingProvider extends ChangeNotifier {
     // paperNumRanking = [];
     // sumTimeRanking = [];
     // meanTimeRanking = [];
-    setRanking();
+    await setRanking();
 
     // notifyListeners();
   }
@@ -593,6 +607,8 @@ class RankingProvider extends ChangeNotifier {
 
   Future<void> setRanking() async {
     List<List<dynamic>> tmp = await FirebaseService().getRanking();
+
+    print('ランキング：' + tmp.toString());
     paperNumRanking = [];
     sumTimeRanking = [];
     meanTimeRanking = [];

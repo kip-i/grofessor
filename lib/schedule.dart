@@ -63,27 +63,27 @@ class _MyDataTableState extends State<MyDataTable> {
       columns: [
         DataColumn(label: Text('')),
         DataColumn(
-            label: Text(' 月',
+            label: Text('  月',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 火',
+            label: Text('  火',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 水',
+            label: Text('  水',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 木',
+            label: Text('  木',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 金',
+            label: Text('  金',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text(' 土',
+            label: Text('  土',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
       ],

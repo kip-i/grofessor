@@ -40,6 +40,7 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
+      print('アプリがバックグラウンドに移動しました');
       // アプリがバックグラウンドに移動したときにタイマーを停止
       saveTime(_stopwatch.elapsed.inMilliseconds);
       setNavigationToResult();
@@ -56,9 +57,13 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
   }
 
   void stopDuration() {
+    saveTime(_stopwatch.elapsed.inMilliseconds);
+    setNavigationToResult();
     _stopwatch.stop();
     _timer.cancel();
     state = state.copyWith(totalDuration: _stopwatch.elapsed);
+    navigatorKey.currentState
+        ?.pushReplacement(MaterialPageRoute(builder: (context) => MyApp()));
   }
 
   void resetDuration() {

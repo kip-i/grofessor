@@ -16,13 +16,9 @@ class _ModelTabState extends State<ModelTab> {
 
   @override
   Widget build(BuildContext context) {
-    // final dataProvider = Provider.of<DataProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final characterProvider = Provider.of<CharacterProvider>(context);
     final haveItemProvider = Provider.of<HaveItemProvider>(context);
-    // dataProvider.getCharacterId();
-    // selectedIndex =
-    //     dataProvider.haveCharacterIdList.indexOf(dataProvider.characterId);
     selectedIndex = haveItemProvider.haveCharacterIdList
         .indexOf(characterProvider.characterId); // ここでエラーが出る
     return GridView.builder(
@@ -35,7 +31,6 @@ class _ModelTabState extends State<ModelTab> {
       ),
       itemCount: model_num,
       itemBuilder: (context, index) {
-        // if (index < dataProvider.haveCharacterIdList.length) {
         if (index < haveItemProvider.haveCharacterIdList.length) {
           // 画像が存在する場合
           return GestureDetector(
@@ -43,9 +38,6 @@ class _ModelTabState extends State<ModelTab> {
               setState(() {
                 selectedIndex = index;
               });
-              // dataProvider
-              //     .setCharacterId(dataProvider.haveCharacterIdList[index]);
-              // print(dataProvider.characterId);
               characterProvider.setCharacter(userProvider.userId,
                   haveItemProvider.haveCharacterIdList[index]);
               print(characterProvider.characterId);
@@ -68,7 +60,6 @@ class _ModelTabState extends State<ModelTab> {
                             onSceneCreated: (Scene scene) {
                               scene.world.add(Object(
                                 fileName: 'assets/models/' +
-                                    // dataProvider.haveCharacterIdList[index] +
                                     haveItemProvider
                                         .haveCharacterIdList[index] +
                                     '.obj',

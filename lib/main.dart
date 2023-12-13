@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:grofessor/_state.dart';
+import 'package:grofessor/home/home_state.dart';
+import 'package:grofessor/test_home.dart';
 import 'firebase_service.dart';
 import 'sample_screen_controller.dart';
 import 'sample_provider.dart';
@@ -52,6 +54,7 @@ void main() async {
   RankingProvider rankingProvider = RankingProvider();
   await rankingProvider.getRanking();
   // await nickNameProvider.getNickName();
+  HomeProvider homeProvider = HomeProvider();
 
   // print(await FirebaseService().getAllNickNameId());
 
@@ -93,6 +96,9 @@ void main() async {
         ),
         ChangeNotifierProvider<RankingProvider>.value(
           value: rankingProvider,
+        ),
+        ChangeNotifierProvider<HomeProvider>.value(
+          value: homeProvider,
         ),
       ],
       child: riverpod.ProviderScope(child: MyApp()),

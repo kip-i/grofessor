@@ -148,7 +148,11 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('gacha').get().then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveNickNameList'] as List<String>;
+      //List<String> notHaveList = data?['notHaveNickNameList'] as List<String>;
+      final notHaveDynamiteList = data?['notHaveNickNameList'];
+      List<String> notHaveList = (notHaveDynamiteList as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
       notHaveList.remove(nickNameId);
       await userCollection.doc('gacha').update({
         'notHaveNickNameList': notHaveList,
@@ -162,7 +166,11 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('gacha').get().then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveCharacterList'] as List<String>;
+      //List<String> notHaveList = data?['notHaveCharacterList'] as List<String>;
+      final notHaveDynamiteList = data?['notHaveCharacterList'];
+      List<String> notHaveList = (notHaveDynamiteList as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
       notHaveList.remove(characterId);
       await userCollection.doc('gacha').update({
         'notHaveCharacterList': notHaveList,
@@ -177,7 +185,12 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('gacha').get().then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> notHaveList = data?['notHaveBackgroundList'] as List<String>;
+      final notHaveDynamiteList = data?['notHaveBackgroundList'];
+      List<String> notHaveList = (notHaveDynamiteList as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ??[];
+
+      //List<String> notHaveList = data?['notHaveBackgroundList'] as List<String>;
       notHaveList.remove(backgroundId);
       await userCollection.doc('gacha').update({
         'notHaveBackgroundList': notHaveList,
@@ -189,9 +202,12 @@ class FirebaseService {
 
   // 3種類のランキングを取得
   Future<List<List<dynamic>>> getRanking() async {
-    DateTime now = DateTime.now();
+    // DateTime now = DateTime.now();
+    DateTime now = DateTime.now().toUtc().add(const Duration(hours: 9));
+    // now = now.add(Duration(hours: 9));
     DateTime nextUpdateTime = await getRankingUpdateTime();
     if (now.isAfter(nextUpdateTime)) {
+      print('ランキング更新');
       return await updateRanking('userId', nextUpdateTime, now)
           .then((value) async {
         List<List> pRanking = await getPaperNumRanking();
@@ -824,6 +840,10 @@ class FirebaseService {
   Future<void> updatePaperNumRanking(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('userData');
+    // FirebaseFirestore.instance
+    //     .collection('test')
+    //     .doc('testData')
+    //     .collection('testData');
     List<List<String>> ranking = [];
     await userCollection
         .orderBy('paperNum', descending: true)
@@ -840,6 +860,10 @@ class FirebaseService {
         ];
         ranking.add(tmp);
       });
+      for (int i = ranking.length; i < 10; i++) {
+        ranking.add(['', '', '']);
+      }
+      print('ランキング１：' + ranking.toString());
       await _rootCollection
           .doc('rankings')
           .collection('rankings')
@@ -863,6 +887,10 @@ class FirebaseService {
   Future<void> updateSumTimeRanking(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('userData');
+    // FirebaseFirestore.instance
+    //     .collection('test')
+    //     .doc('testData')
+    //     .collection('testData');
     List<List<String>> ranking = [];
     await userCollection
         .orderBy('sumTime', descending: true)
@@ -879,6 +907,9 @@ class FirebaseService {
         ];
         ranking.add(tmp);
       });
+      for (int i = ranking.length; i < 10; i++) {
+        ranking.add(['', '', '']);
+      }
       await _rootCollection
           .doc('rankings')
           .collection('rankings')
@@ -902,6 +933,10 @@ class FirebaseService {
   Future<void> updateMeanTimeRanking(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('rankings').collection('userData');
+    // FirebaseFirestore.instance
+    //     .collection('test')
+    //     .doc('testData')
+    //     .collection('testData');
     List<List<String>> ranking = [];
     await userCollection
         .orderBy('meanTime', descending: true)
@@ -918,6 +953,9 @@ class FirebaseService {
         ];
         ranking.add(tmp);
       });
+      for (int i = ranking.length; i < 10; i++) {
+        ranking.add(['', '', '']);
+      }
       await _rootCollection
           .doc('rankings')
           .collection('rankings')
