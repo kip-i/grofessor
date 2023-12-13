@@ -49,11 +49,12 @@ class _HomeSelector extends State<HomeSelector> {
     // classTime = [[9, 0, 10, 30], [10, 40, 12, 10], [13, 0, 14, 30], [14, 40, 16, 10], [16, 20, 17, 50], [18, 0, 19, 30], [19, 40, 21, 10]];
 
     _timer = Timer.periodic(
-      // Duration(minutes: 1), (Timer timer) {
       Duration(minutes: 1), (Timer timer) {
-        DateTime now = DateTime.now();
+      // Duration(seconds: 1), (Timer timer) {
+        // DateTime now = DateTime.now();
+        DateTime now = DateTime.now().toUtc().add(const Duration(hours: 9));
 
-        int hour = now.hour+9;
+        int hour = now.hour;
         int minute = now.minute;
         print('$hour:$minute');
 
