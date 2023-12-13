@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../_state.dart';
 import 'name_button.dart';
 import 'setting_button.dart';
 import 'experience_bar.dart';
@@ -9,32 +10,26 @@ import 'time_slider.dart';
 import 'instruction_bar.dart';
 import '../futter.dart';
 import 'package:provider/provider.dart';
-import '../_state.dart';
-import 'measurements_start.dart';
 import '../const/color.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
+import 'package:grofessor/sample_screen_controller.dart';
+import 'package:grofessor/sample_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class HomeDuringTime extends StatefulWidget {
   final bool result;
   const HomeDuringTime({Key? key, required this.result}) : super(key: key);
 
   @override
-  State<HomeDuringTime> createState() => _HomeDuringTime(result: result);
+  State<HomeDuringTime> createState() =>
+      _HomeDuringTime(result: result);
 }
 
 class _HomeDuringTime extends State<HomeDuringTime> {
   final bool result;
 
   _HomeDuringTime({required this.result});
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    // resultがtrueならダイアログを表示
-    if (result) {
-      _showStartDialog();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,11 +75,26 @@ class _HomeDuringTime extends State<HomeDuringTime> {
   }
 
   Future<void> _showStartDialog() async {
+    final SharedPreferences pref =
+        await SharedPreferences.getInstance(); // SharedPreferencesのインスタンスを取得
+    pref.setBool('isSetNavigationToResult', false);
+    final achieveProvider =
+        Provider.of<AchieveProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final _userId = userProvider.userId;
+    final _paperNum = achieveProvider.paperNum;
+    final int? _time = pref.getInt('time');
+    final int time = _time!;
+    print('userId: $_userId , paperNum: $_paperNum , time: $_time');
+    achieveProvider.setAchieve(_userId, _paperNum, time, false);  
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       showDialog<void>(
         context: context,
         builder: (BuildContext context) {
-          final achieveProvider = Provider.of<AchieveProvider>(context);
+          String timeString = formatMilliseconds(_time ?? 0);
+          final controller = context.read<SampleScreenController>();
+          debugPrint('contr');
+          final userProvider =Provider.of<UserProvider>(context, listen: false);
           return AlertDialog(
             title: Text('結果',
                 style: TextStyle(
@@ -92,14 +102,16 @@ class _HomeDuringTime extends State<HomeDuringTime> {
                   color: Colors.white,
                 )),
             content:
-                Text("集中時間は" + achieveProvider.achieveNum.toString() + "でした！",
+                // Text("集中時間は" + achieveProvider.achieveNum.toString() + "でした！",
+                Text("集中時間は" + _time.toString() + "でした！",
                     style: TextStyle(
                       fontSize: 24.0,
                       color: Colors.white,
                     )),
             actions: <Widget>[
               TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  await achieveProvider.setAchieve(_userId, await _time, 1,false);
                   Navigator.of(context).pop();
                 },
                 child: Text(
@@ -119,5 +131,16 @@ class _HomeDuringTime extends State<HomeDuringTime> {
       );
     });
   }
+    String formatMilliseconds(int milliseconds) {
+    int seconds = (milliseconds / 1000).floor();
+    int hours = (seconds / 3600).floor();
+    int minutes = ((seconds % 3600) / 60).floor();
+    seconds = (seconds % 60).floor();
 
+    String hoursStr = (hours % 24).toString().padLeft(2, '0');
+    String minutesStr = minutes.toString().padLeft(2, '0');
+    String secondsStr = seconds.toString().padLeft(2, '0');
+
+    return '$hoursStr:$minutesStr:$secondsStr';
+  }
 }

@@ -56,8 +56,9 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     });
   }
 
-  void stopDuration() {
-    saveTime(_stopwatch.elapsed.inMilliseconds);
+  void stopDuration(int seconds) {
+    debugPrint('stopDuration: $seconds');
+    saveTime(seconds);
     setNavigationToResult();
     _stopwatch.stop();
     _timer.cancel();

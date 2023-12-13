@@ -11,6 +11,11 @@ import 'instruction_bar.dart';
 import '../futter.dart';
 import 'package:provider/provider.dart';
 import '../const/color.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
+import 'package:grofessor/sample_screen_controller.dart';
+import 'package:grofessor/sample_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class HomeDefault extends StatefulWidget {
   final bool result;
@@ -85,11 +90,22 @@ class _HomeDefaultState extends State<HomeDefault> {
   }
 
   Future<void> _showStartDialog() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance(); // SharedPreferencesのインスタンスを取得
+    pref.setBool('isSetNavigationToResult', false);
+    final achieveProvider = Provider.of<AchieveProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final _userId = userProvider.userId;
+    final _paperNum = achieveProvider.paperNum;
+    final int ? _time = pref.getInt('time');
+    final int time = _time!;
+    print('userId: $_userId , paperNum: $_paperNum , time: $_time');
+    achieveProvider.setAchieve(_userId, _paperNum, time, false);
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       showDialog<void>(
         context: context,
         builder: (BuildContext context) {
-          final achieveProvider = Provider.of<AchieveProvider>(context);
+          String timeString = formatMilliseconds(_time ?? 0);
+          final userProvider = Provider.of<UserProvider>(context, listen: false);
           return AlertDialog(
             title: Text('結果',
                 style: TextStyle(
@@ -97,8 +113,7 @@ class _HomeDefaultState extends State<HomeDefault> {
                   color: Colors.white,
                 )
             ),
-            content: Text("集中時間は"
-                + achieveProvider.achieveNum.toString()
+            content: Text("今回の測定時間は" +timeString
                 + "でした！",
                 style: TextStyle(
                   fontSize: 24.0,
@@ -125,5 +140,17 @@ class _HomeDefaultState extends State<HomeDefault> {
         },
       );
     });
+  }
+  String formatMilliseconds(int milliseconds) {
+    int seconds = (milliseconds / 1000).floor();
+    int hours = (seconds / 3600).floor();
+    int minutes = ((seconds % 3600) / 60).floor();
+    seconds = (seconds % 60).floor();
+
+    String hoursStr = (hours % 24).toString().padLeft(2, '0');
+    String minutesStr = minutes.toString().padLeft(2, '0');
+    String secondsStr = seconds.toString().padLeft(2, '0');
+
+    return '$hoursStr:$minutesStr:$secondsStr';
   }
 }
