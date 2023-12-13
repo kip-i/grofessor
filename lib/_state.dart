@@ -90,8 +90,8 @@ class NickNameProvider extends ChangeNotifier {
     prefs.setString('nickNameId', nickNameId);
     prefs.setString('nickName', nickName);
 
-    // await FirebaseService().updateNickNameId(_userId, nickNameId);
-    // await FirebaseService().updateNickName(_userId, nickName);
+    await FirebaseService().updateNickNameId(_userId, nickNameId);
+    await FirebaseService().updateNickName(_userId, nickName);
 
     notifyListeners();
   }
@@ -133,7 +133,7 @@ class CharacterProvider extends ChangeNotifier {
     prefs.setString('characterId', characterId);
     prefs.setString('characterPath', characterPath);
 
-    // await FirebaseService().updateCharacter(_userId, characterId);
+    await FirebaseService().updateCharacter(_userId, characterId);
 
     notifyListeners();
   }
@@ -172,7 +172,7 @@ class BackgroundProvider extends ChangeNotifier {
     prefs.setString('backgroundId', backgroundId);
     prefs.setString('backgroundPath', backgroundPath);
 
-    // await FirebaseService().updateBackgroundId(_userId, _backgroundId);
+    await FirebaseService().updateBackgroundId(_userId, _backgroundId);
 
     notifyListeners();
   }
