@@ -45,6 +45,7 @@ class _HomeSelector extends State<HomeSelector> {
     // homeProvider.getDuring();
     final classProvider = Provider.of<ClassProvider>(context);
     List<List<int>> classTime = classProvider.classTimeList;
+    List<List<bool>> classFlagList = classProvider.classFlagList;
 
     // classTime = [[9, 0, 10, 30], [10, 40, 12, 10], [13, 0, 14, 30], [14, 40, 16, 10], [16, 20, 17, 50], [18, 0, 19, 30], [19, 40, 21, 10]];
 
@@ -53,7 +54,9 @@ class _HomeSelector extends State<HomeSelector> {
       // Duration(seconds: 1), (Timer timer) {
         // DateTime now = DateTime.now();
         DateTime now = DateTime.now().toUtc().add(const Duration(hours: 9));
-
+        // 曜日を取得
+        int dayOfWeek = now.weekday;
+        
         int hour = now.hour;
         int minute = now.minute;
         print('$hour:$minute');
@@ -63,8 +66,10 @@ class _HomeSelector extends State<HomeSelector> {
         for (int i = 0; i < classTime.length; i++) {
           if (hour > classTime[i][0] || (hour == classTime[i][0] && minute >= classTime[i][1])) {
             if (hour < classTime[i][2] || (hour == classTime[i][2] && minute < classTime[i][3])) {
-              currentPeriod = i + 1; // 時間割は1から始まると仮定
-              break;
+              if (classFlagList[dayOfWeek - 1][i] == true) {
+                currentPeriod = i + 1; // 時間割は1から始まると仮定
+                break;
+              }
             }
           }
         }
