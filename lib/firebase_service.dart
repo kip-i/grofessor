@@ -203,6 +203,7 @@ class FirebaseService {
   // 3種類のランキングを取得
   Future<List<List<dynamic>>> getRanking() async {
     DateTime now = DateTime.now();
+    now = now.add(Duration(hours: 9));
     DateTime nextUpdateTime = await getRankingUpdateTime();
     if (now.isAfter(nextUpdateTime)) {
       print('ランキング更新');
