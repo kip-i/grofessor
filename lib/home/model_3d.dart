@@ -9,6 +9,7 @@ class Model3D extends StatelessWidget {
     final characterProvider = Provider.of<CharacterProvider>(context);
     return Container(
       child: Cube(
+        key: ValueKey(characterProvider.characterId),
         onSceneCreated: (Scene scene) {
           scene.world.add(Object(
             fileName: 'assets/models/'+characterProvider.characterId+'.obj',
