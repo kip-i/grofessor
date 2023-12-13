@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:grofessor/_state.dart';
+import 'package:provider/provider.dart';
 
-class YourApp extends StatelessWidget {
-  const YourApp({Key? key}) : super(key: key);
+import 'state.dart';
+
+class Schedule extends StatelessWidget {
+  const Schedule({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final classProvider = Provider.of<ClassProvider>(context);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -48,6 +53,10 @@ class _MyDataTableState extends State<MyDataTable> {
 
   @override
   Widget build(BuildContext context) {
+    final classProvider = Provider.of<ClassProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    //dataProvider.getClassFlagList();
+    final now = DateTime.now();
     return DataTable(
       dataRowMaxHeight: 190.0,
       decoration: BoxDecoration(color: Color.fromARGB(255, 195, 199, 195)),
@@ -89,8 +98,8 @@ class _MyDataTableState extends State<MyDataTable> {
               return DataCell(
                 InkWell(
                   onTap: () {
-                    _showTimeSettingBottomSheet(
-                        context, rowIndex, startCellIndex + 1);
+                    _showTimeSettingBottomSheet(context, rowIndex,
+                        startCellIndex + 1, classProvider, userProvider, now);
                   },
                   child: Container(
                     padding: EdgeInsets.all(8.0),
@@ -102,14 +111,18 @@ class _MyDataTableState extends State<MyDataTable> {
                                 color: Color.fromARGB(255, 10, 98, 11),
                                 fontSize: 40)),
                         Text(
-                          _leftColumnStartTimes[rowIndex].isNotEmpty
-                              ? ' ${_leftColumnStartTimes[rowIndex]}'
+                          //   _leftColumnStartTimes[rowIndex].isNotEmpty
+                          classProvider.classTimeList != []
+                              // ? ' ${_leftColumnStartTimes[rowIndex]}'
+                              ? ' ${classProvider.classTimeList[rowIndex][0].toString().padLeft(2, "0")}時${classProvider.classTimeList[rowIndex][1].toString().padLeft(2, "0")}分'
                               : '開始時刻',
                           style: TextStyle(fontSize: 25),
                         ),
                         Text(
-                          _leftColumnEndTimes[rowIndex].isNotEmpty
-                              ? '~ ${_leftColumnEndTimes[rowIndex]}'
+                          //_leftColumnEndTimes[rowIndex].isNotEmpty
+                          classProvider.classTimeList != []
+                              // ? '~ ${_leftColumnEndTimes[rowIndex]}'
+                              ? '~ ${classProvider.classTimeList[rowIndex][2].toString().padLeft(2, "0")}時${classProvider.classTimeList[rowIndex][3].toString().padLeft(2, "0")}分'
                               : '終了時刻',
                           style: TextStyle(fontSize: 25),
                         ),
@@ -124,11 +137,14 @@ class _MyDataTableState extends State<MyDataTable> {
                 Transform.scale(
                   scale: 2.0,
                   child: Checkbox(
-                    value: _isSelected[index],
+                    // value: _isSelected[index],
+                    value: classProvider.classFlagList[rowIndex][cellIndex - 1],
                     onChanged: (bool? value) {
-                      setState(() {
-                        _isSelected[index] = value!;
-                      });
+                      // setState(() {
+                      // _isSelected[index] = value!;
+                      //});
+                      classProvider.setClassFlagList(
+                          userProvider.userId, rowIndex, cellIndex - 1);
                     },
                   ),
                 ),
@@ -141,19 +157,22 @@ class _MyDataTableState extends State<MyDataTable> {
   }
 
   void _showTimeSettingBottomSheet(
-      BuildContext context, int rowIndex, int cellIndex) {
+      BuildContext context,
+      int rowIndex,
+      int cellIndex,
+      ClassProvider classProvider,
+      UserProvider userProvider,
+      DateTime now) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
         return Container(
-          height:
-              MediaQuery.of(context).copyWith().size.height / 2, //スマホ画面の何分割か
-
+          height: MediaQuery.of(context).copyWith().size.height / 2,
           child: Column(
             children: [
               Container(
-                child: const Text(
-                  '限目',
+                child: Text(
+                  '${rowIndex + 1}限目',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 25,
@@ -169,14 +188,18 @@ class _MyDataTableState extends State<MyDataTable> {
               Expanded(
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.time,
-                  initialDateTime: DateTime.now(),
+                  initialDateTime: DateTime(
+                      now.year,
+                      now.month,
+                      now.day,
+                      classProvider.classTimeList[rowIndex][0],
+                      classProvider.classTimeList[rowIndex][1]),
                   onDateTimeChanged: (DateTime dateTime) {
-                    setState(() {
-                      TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                      _leftColumnStartTimes[rowIndex] =
-                          '${time.hour}:${time.minute}';
-                    });
+                    TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                    classProvider.setClassStartTimeList(userProvider.userId,
+                        [time.hour, time.minute], rowIndex);
                   },
+                  use24hFormat: true, // Set this to true for 24-hour format
                 ),
               ),
               Container(
@@ -187,14 +210,18 @@ class _MyDataTableState extends State<MyDataTable> {
               Expanded(
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.time,
-                  initialDateTime: DateTime.now(),
+                  initialDateTime: DateTime(
+                      now.year,
+                      now.month,
+                      now.day,
+                      classProvider.classTimeList[rowIndex][2],
+                      classProvider.classTimeList[rowIndex][3]),
                   onDateTimeChanged: (DateTime dateTime) {
-                    setState(() {
-                      TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
-                      _leftColumnEndTimes[rowIndex] =
-                          '${time.hour}:${time.minute}';
-                    });
+                    TimeOfDay time = TimeOfDay.fromDateTime(dateTime);
+                    classProvider.setClassFinishTimeList(userProvider.userId,
+                        [time.hour, time.minute], rowIndex);
                   },
+                  use24hFormat: true, // Set this to true for 24-hour format
                 ),
               ),
             ],

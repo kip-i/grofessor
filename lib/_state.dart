@@ -287,7 +287,7 @@ class AchieveProvider extends ChangeNotifier {
   int thisTime = 0;
   int needTime = 0;
   int achieveNum = 0;
-  double meanTime = 0;
+  double meanTime = 0.0;
   bool penalty = false;
 
   Future<void> init() async {

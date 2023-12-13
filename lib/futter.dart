@@ -8,6 +8,7 @@ import 'ranking.dart';
 import 'package:provider/provider.dart';
 import 'state.dart';
 import 'gacha/gacha.dart';
+import 'schedule.dart';
 
 void main() => runApp(const NavigationBarApp());
 
@@ -38,7 +39,7 @@ class _NavigationExampleState extends State<NavigationExample> {
 
   final List<Widget> _pages = <Widget>[
     // ここを自身のウィジェットに変更したらいい
-    HomeDefault(),
+    Schedule(),//時間割
     DressUp(),
     HomeSelector(),
     GachaPage(),

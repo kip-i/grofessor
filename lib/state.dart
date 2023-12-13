@@ -7,7 +7,7 @@ import 'firebase_service.dart';
 
 // final counterProvider = ChangeNotifierProvider((ref) => DataProvider());
 
-class DataProvider extends ChangeNotifier {
+class classProvider extends ChangeNotifier {
   bool login = false;
   // bool get isLogin => login;
   String userId = '';
