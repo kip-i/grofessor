@@ -50,7 +50,7 @@ class _HomeSelector extends State<HomeSelector> {
 
     _timer = Timer.periodic(
       // Duration(minutes: 1), (Timer timer) {
-      Duration(seconds: 1), (Timer timer) {
+      Duration(minutes: 1), (Timer timer) {
         DateTime now = DateTime.now();
 
         int hour = now.hour+9;
