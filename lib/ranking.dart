@@ -77,44 +77,31 @@ class _RankingState extends State<Ranking> {
     List<List<dynamic>> paperNumRanking = rankingProvider.paperNumRanking;
     List<List<dynamic>> sumTimeRanking = rankingProvider.sumTimeRanking;
     List<List<dynamic>> meanTimeRanking = rankingProvider.meanTimeRanking;
-    
-    
-  if (rankingType == 'numberOfPapers') {
-    players = List.generate(paperNumRanking.length, (i) {
-      if(paperNumRanking[i][0] != ''){
+      
+    List<List<dynamic>> ranking = [];
+    List<List<dynamic>> tmp = [];
+    if (rankingType == 'numberOfPapers') {
+      tmp = paperNumRanking;
+    } else if (rankingType == 'totalStudyTime') {
+      tmp = sumTimeRanking;
+    } else if (rankingType == 'averageStudyTime') {
+      tmp = meanTimeRanking;
+    }
+    for(int i=0;i<tmp.length;i++){
+      if(tmp[i][0] != ''){
+        ranking.add(tmp[i]);
+      }
+    }
+    players = List.generate(ranking.length, (i) {
         return Player(
-          paperNumRanking[i][0], // userName
-          paperNumRanking[i][1], // nickName
-          paperNumRanking[i][2], // numberOfPapers
+          ranking[i][0], // userName
+          ranking[i][1], // nickName
+          ranking[i][2], // numberOfPapers
           i + 1 // rank
         );
-      }
-    });
-  } else if (rankingType == 'totalStudyTime') {
-    players = List.generate(sumTimeRanking.length, (i) {
-      if(sumTimeRanking[i][0] != ''){
-        return Player(
-          sumTimeRanking[i][0], // userName
-          sumTimeRanking[i][1], // nickName
-          sumTimeRanking[i][2], // numberOfPapers
-          i + 1 // rank
-        );
-      }
-    });
-  } else if (rankingType == 'averageStudyTime') {
-    players = List.generate(meanTimeRanking.length, (i) {
-      if(meanTimeRanking[i][0] != ''){
-        
-        return Player(
-          meanTimeRanking[i][0], // userName
-          meanTimeRanking[i][1], // nickName
-          meanTimeRanking[i][2], // numberOfPapers
-          i + 1 // rank
-        );
-      }
-      return null;
-    });
-  }
+      });
+
+
     return Column(
       children: players.take(players.length).map((players) {
         String displayText;
@@ -123,21 +110,33 @@ class _RankingState extends State<Ranking> {
               ' ${players.rank}位     ${players.userName}     ${players.score}枚';
         } else if (rankingType == 'totalStudyTime') {
           displayText =
-              ' ${players.rank}位     ${players.userName}     ${players.score}分';
+              ' ${players.rank}位     ${players.userName}     ${int.parse(players.score)~/3600}：${(int.parse(players.score)%3600)~/60}：${int.parse(players.score)%3600}';
         } else if (rankingType == 'averageStudyTime') {
           displayText =
-              ' ${players.rank}位     ${players.userName}     ${players.score}分';
+              ' ${players.rank}位     ${players.userName}     ${int.parse(players.score)~/3600}：${(int.parse(players.score)%3600)~/60}：${int.parse(players.score)%3600}';
         } else {
           displayText = ' ${players.rank}位     ${players.userName}';
         }
+        
         return ListTile(
-          title: Text(
-            displayText,
-            style: const TextStyle(
-              fontSize: 25,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
+          title: Column(
+            children:[
+              Text(
+                '${players.nickName}',
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              Text(
+                displayText,
+                style: const TextStyle(
+                  fontSize: 25,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ]
+          )
         );
       }).toList(),
     );
@@ -162,7 +161,7 @@ class _RankingState extends State<Ranking> {
       children: [
         ListTile(
           title: const Text(
-            'あなたの結果は',
+            '現在のあなたの記録は',
             style: TextStyle(
               fontSize: 25,
               fontStyle: FontStyle.italic,
