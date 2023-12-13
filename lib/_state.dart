@@ -371,18 +371,17 @@ class HaveItemProvider extends ChangeNotifier {
     haveNickNameIdList = ['n0'];
     haveNickNameList = ['研究生'];
     // haveCharacterIdList = ['${_gender}0'];
-    haveCharacterIdList = ['${_gender}0', '${_gender}1'];
+    haveCharacterIdList = ['${_gender}0'];
     // haveCharacterPathList = ['assets/models/${_gender}0.obj'];
     haveCharacterPathList = [
       'assets/models/${_gender}0.obj',
       'assets/models/${_gender}0.obj'
     ];
     // haveBackgroundIdList = ['b0'];
-    haveBackgroundIdList = ['b0', 'b1'];
+    haveBackgroundIdList = ['b0'];
     // haveBackgroundPathList = ['assets/backgrounds/b0.png'];
     haveBackgroundPathList = [
       'assets/backgrounds/b0.png',
-      'assets/backgrounds/b1.png'
     ];
     totalNickNameNum = await FirebaseService().getTotalNickNameNum();
     totalCharacterNum = await FirebaseService().getTotalCharacterNum();
