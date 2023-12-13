@@ -6,9 +6,11 @@ import 'dart:async';
 import 'package:provider/provider.dart';
 
 
+
 import 'home_default.dart';
 import 'home_during_time.dart';
 import '../_state.dart';
+import 'result_dialogs.dart';
 
 class HomeSelector extends StatefulWidget {
   const HomeSelector({Key? key});
@@ -114,7 +116,7 @@ class _HomeSelector extends State<HomeSelector> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       // 非同期でSharedPreferencesを取得
-      // dataが0がdefault、1がduringTime、2がresult
+      // dataが0がdefault(n) 、1がduringTime(n)、2がdefault(r)、3がduringTime(r)、
       future: getResultMode(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -123,12 +125,15 @@ class _HomeSelector extends State<HomeSelector> {
         } else if (snapshot.hasError) {
           // エラーがある場合はエラーメッセージを表示
           return Text('Error: ${snapshot.error}');
-        } else if (snapshot.data == 2) {
-          return HomeDefault();
+        } else if (snapshot.data == 3) {
+          return HomeDuringTime(result: true,);
+        }
+        else if (snapshot.data == 2) {
+          return HomeDefault(result: true);
         } else if (snapshot.data == 1) {
-          return HomeDuringTime();
+          return HomeDuringTime(result: false,);
         } else {
-          return HomeDefault();
+          return HomeDefault(result: false);
         }
       },
     );
@@ -140,19 +145,31 @@ class _HomeSelector extends State<HomeSelector> {
     final prefs = await SharedPreferences.getInstance();
     // SharedPreferencesからisSetNavigationToResultを取得
     final resultFlag = prefs.getBool('isSetNavigationToResult');
+    final during = prefs.getBool('during');
+    int ans = 0;
     print('resultFlag: ' + resultFlag.toString());
-    if (resultFlag == null || resultFlag == false) {
+    if (resultFlag == true) {
       // isSetNavigationToResultがnullの場合はfalseを返す
-      final during = prefs.getBool('during');
-      print('during: ' + during.toString());
-      if (during == true) {
-        return 1;
-      } else {
-        return 0;
-      }
+      ans += 2;
     }
+    print('during: ' + during.toString());
+    if (during == true) {
+      ans += 1;
+    } 
     // resultFlagがnullの場合はfalseを返す
-    return 2;
+    return ans;
+  }
+  getDuring() async {
+    final prefs = await SharedPreferences.getInstance();
+    final during = prefs.getBool('during');
+    print('during: ' + during.toString());
+    return during ?? false;
+  }
+  getResult() async {
+    final prefs = await SharedPreferences.getInstance();
+    final result = prefs.getBool('isSetNavigationToResult');
+    print('result: ' + result.toString());
+    return result ?? false;
   }
 
   // checkDuringTime() {
@@ -163,6 +180,6 @@ class _HomeSelector extends State<HomeSelector> {
     
     
   // }
-  
+
 }
 
