@@ -328,7 +328,8 @@ class AchieveProvider extends ChangeNotifier {
   }
 
   Future<void> setAchieve(
-      String _userId, int _paperNum, int _time, bool _penalty) async {
+    // String _userId, int _paperNum, int _time, bool _penalty) async {
+      String _userId, int _time, bool _penalty) async {
     sumTime = sumTime + _time;
     thisTime = thisTime + _time;
     if (thisTime >= needTime) {

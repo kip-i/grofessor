@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grofessor/sample_screen_controller.dart';
 
 import 'name_button.dart';
 import 'setting_button.dart';
@@ -85,6 +86,10 @@ class _HomeDuringTime extends State<HomeDuringTime> {
         context: context,
         builder: (BuildContext context) {
           final achieveProvider = Provider.of<AchieveProvider>(context);
+          final controller = ref.read(sampleScreenProvider.notifier);
+          final _time = controller.getTime();
+          final userProvider = Provider.of<UserProvider>(context, listen: false);
+          final _userId = userProvider.userId;
           return AlertDialog(
             title: Text('結果',
                 style: TextStyle(
@@ -92,14 +97,16 @@ class _HomeDuringTime extends State<HomeDuringTime> {
                   color: Colors.white,
                 )),
             content:
-                Text("集中時間は" + achieveProvider.achieveNum.toString() + "でした！",
+                // Text("集中時間は" + achieveProvider.achieveNum.toString() + "でした！",
+                Text("集中時間は" + _time.toString() + "でした！",
                     style: TextStyle(
                       fontSize: 24.0,
                       color: Colors.white,
                     )),
             actions: <Widget>[
               TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  await achieveProvider.setAchieve(_userId, await _time, false);
                   Navigator.of(context).pop();
                 },
                 child: Text(
