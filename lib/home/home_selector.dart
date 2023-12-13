@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'home_default.dart';
 import 'home_during_time.dart';
 import '../_state.dart';
-import 'result_dialogs.dart';
 
 class HomeSelector extends StatefulWidget {
   const HomeSelector({Key? key});
