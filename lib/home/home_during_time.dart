@@ -11,15 +11,31 @@ import '../futter.dart';
 import 'package:provider/provider.dart';
 import '../_state.dart';
 import 'measurements_start.dart';
+import '../const/color.dart';
 
 class HomeDuringTime extends StatefulWidget {
-  const HomeDuringTime({super.key});
+  final bool result;
+  const HomeDuringTime({Key? key, required this.result}) : super(key: key);
 
   @override
-  State<HomeDuringTime> createState() => _HomeDuringTime();
+  State<HomeDuringTime> createState() => _HomeDuringTime(result: result);
 }
 
 class _HomeDuringTime extends State<HomeDuringTime> {
+  final bool result;
+
+  _HomeDuringTime({required this.result});
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // resultがtrueならダイアログを表示
+    if (result) {
+      _showStartDialog();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final backgroundProvider = Provider.of<BackgroundProvider>(context);
@@ -62,4 +78,46 @@ class _HomeDuringTime extends State<HomeDuringTime> {
       ],
     ));
   }
+
+  Future<void> _showStartDialog() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          final achieveProvider = Provider.of<AchieveProvider>(context);
+          return AlertDialog(
+            title: Text('結果',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  color: Colors.white,
+                )),
+            content:
+                Text("集中時間は" + achieveProvider.achieveNum.toString() + "でした！",
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      color: Colors.white,
+                    )),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "閉じる",
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
+                ),
+              ),
+            ],
+            contentPadding: EdgeInsets.all(25.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+              side: BorderSide(width: 10.0, color: blackbordFrameColor),
+            ),
+            backgroundColor: blackbordColor,
+          );
+        },
+      );
+    });
+  }
+
 }
