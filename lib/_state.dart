@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -87,8 +90,8 @@ class NickNameProvider extends ChangeNotifier {
     prefs.setString('nickNameId', nickNameId);
     prefs.setString('nickName', nickName);
 
-    await FirebaseService().updateNickNameId(_userId, nickNameId);
-    await FirebaseService().updateNickName(_userId, nickName);
+    // await FirebaseService().updateNickNameId(_userId, nickNameId);
+    // await FirebaseService().updateNickName(_userId, nickName);
 
     notifyListeners();
   }
@@ -130,7 +133,7 @@ class CharacterProvider extends ChangeNotifier {
     prefs.setString('characterId', characterId);
     prefs.setString('characterPath', characterPath);
 
-    await FirebaseService().updateCharacter(_userId, characterId);
+    // await FirebaseService().updateCharacter(_userId, characterId);
 
     notifyListeners();
   }
@@ -169,7 +172,7 @@ class BackgroundProvider extends ChangeNotifier {
     prefs.setString('backgroundId', backgroundId);
     prefs.setString('backgroundPath', backgroundPath);
 
-    await FirebaseService().updateBackgroundId(_userId, _backgroundId);
+    // await FirebaseService().updateBackgroundId(_userId, _backgroundId);
 
     notifyListeners();
   }
@@ -418,7 +421,11 @@ class HaveItemProvider extends ChangeNotifier {
 
   Future<void> setHaveNickNameIdList(String _userId, String _nickNameId) async {
     haveNickNameIdList.add(_nickNameId);
-    String _nickName = await FirebaseService().getNickName(_nickNameId);
+    // String _nickName = await FirebaseService().getNickName(_nickNameId);
+    String jsonString = await rootBundle.loadString('lib/data/nick_name.json');
+    Map<String, dynamic> jsonData = jsonDecode(jsonString);
+    // _nickNameIdに対応するnickNameを取得
+    String _nickName = jsonData[_nickNameId];
     haveNickNameList.add(_nickName);
     // notifyListeners();
 
@@ -476,12 +483,12 @@ class ClassProvider extends ChangeNotifier {
       [false, false, false, false, false, false],
     ];
     classTimeList = [
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
+      [9, 10, 10, 40],
+      [10, 50, 12, 20],
+      [13, 10, 14, 40],
+      [14, 50, 16, 20],
+      [16, 30, 18, 0],
+      [18, 10, 19, 40],
     ];
 
     final prefs = await SharedPreferences.getInstance();

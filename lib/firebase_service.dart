@@ -104,7 +104,9 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('nickName').get().then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> haveList = data?['haveList'] as List<String>;
+      List<String> haveList = (data?['haveList'] as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
       haveList.add(nickNameId);
       await userCollection.doc('nickName').update({
         'haveList': haveList,
@@ -118,7 +120,9 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('character').get().then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> haveList = data?['haveList'] as List<String>;
+      List<String> haveList = (data?['haveList'] as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
       haveList.add(characterId);
       await userCollection.doc('character').update({
         'haveList': haveList,
@@ -132,7 +136,9 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     await userCollection.doc('background').get().then((value) async {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      List<String> haveList = data?['haveList'] as List<String>;
+      List<String> haveList = (data?['haveList'] as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
       haveList.add(backgroundId);
       await userCollection.doc('background').update({
         'haveList': haveList,
@@ -523,7 +529,10 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     return await userCollection.doc('nickName').get().then((value) {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      return data?['haveList'] as List<String>;
+      // return data?['haveList'] as List<String>;
+      return (data?['haveList'] as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
     });
     // return ['error'];
   }
@@ -534,7 +543,10 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     return await userCollection.doc('character').get().then((value) {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      return data?['haveList'] as List<String>;
+      // return data?['haveList'] as List<String>;
+      return (data?['haveList'] as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
     });
     // return ['error'];
   }
@@ -545,7 +557,10 @@ class FirebaseService {
         _rootCollection.doc('users').collection(userId);
     return await userCollection.doc('background').get().then((value) {
       Map<String, dynamic>? data = value.data() as Map<String, dynamic>?;
-      return data?['haveList'] as List<String>;
+      // return data?['haveList'] as List<String>;
+      return (data?['haveList'] as List<dynamic>?)
+              ?.map((item) => item is String ? item.toString() : '')
+              .toList() ?? [];
     });
     // return ['error'];
   }
