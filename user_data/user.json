@@ -1,0 +1,182 @@
+[
+  {
+    "userName": "user001",
+    "nickName": "taro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 5,
+    "totalStudyTime": 100,
+    "averageStudyTime": 1
+  },
+  {
+    "userName": "user002",
+    "nickName": "jiro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 10,
+    "totalStudyTime": 200,
+    "averageStudyTime": 3
+  },
+  {
+    "userName": "user003",
+    "nickName": "saburo",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 15,
+    "totalStudyTime": 300,
+    "averageStudyTime": 5
+  },
+  {
+    "userName": "user004",
+    "nickName": "siro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 20,
+    "totalStudyTime": 400,
+    "averageStudyTime": 7
+  },
+  {
+    "userName": "user005",
+    "nickName": "goro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 25,
+    "totalStudyTime": 500,
+    "averageStudyTime": 9
+  },
+  {
+    "userName": "user006",
+    "nickName": "rokuro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 30,
+    "totalStudyTime": 600,
+    "averageStudyTime": 11
+  },
+  {
+    "userName": "user007",
+    "nickName": "shichiro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 35,
+    "totalStudyTime": 700,
+    "averageStudyTime": 13
+  },
+  {
+    "userName": "user008",
+    "nickName": "hachiro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 40,
+    "totalStudyTime": 800,
+    "averageStudyTime": 15
+  },
+  {
+    "userName": "user009",
+    "nickName": "kuro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 45,
+    "totalStudyTime": 900,
+    "averageStudyTime": 17
+  },
+  {
+    "userName": "user010",
+    "nickName": "juro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 50,
+    "totalStudyTime": 1000,
+    "averageStudyTime": 19
+  },
+  {
+    "userName": "user011",
+    "nickName": "zyuro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 55,
+    "totalStudyTime": 1100,
+    "averageStudyTime": 2
+  },
+  {
+    "userName": "user012",
+    "nickName": "doro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 60,
+    "totalStudyTime": 1200,
+    "averageStudyTime": 4
+  },
+  {
+    "userName": "user013",
+    "nickName": "toro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 65,
+    "totalStudyTime": 1300,
+    "averageStudyTime": 6
+  },
+  {
+    "userName": "user014",
+    "nickName": "noro",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 70,
+    "totalStudyTime": 1400,
+    "averageStudyTime": 8
+  },
+  {
+    "userName": "user015",
+    "nickName": "munemu",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 75,
+    "totalStudyTime": 1500,
+    "averageStudyTime": 10
+  },
+  {
+    "userName": "user016",
+    "nickName": "shomei",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 80,
+    "totalStudyTime": 1600,
+    "averageStudyTime": 12
+  },
+  {
+    "userName": "user017",
+    "nickName": "dotchi",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 85,
+    "totalStudyTime": 1700,
+    "averageStudyTime": 14
+  },
+  {
+    "userName": "user018",
+    "nickName": "kotchi",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 90,
+    "totalStudyTime": 1800,
+    "averageStudyTime": 16
+  },
+  {
+    "userName": "user019",
+    "nickName": "zotchi",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 95,
+    "totalStudyTime": 1900,
+    "averageStudyTime": 18
+  },
+  {
+    "userName": "user020",
+    "nickName": "gotchi",
+    "characterPath": "./assets/models/m0.obj",
+    "backgroundPath": "./assets/backgrounds/b0.png",
+    "numberOfPapers": 100,
+    "totalStudyTime": 2000,
+    "averageStudyTime": 20
+  }
+]

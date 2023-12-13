@@ -40,6 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
     print('ページ：' + userProvider.msg);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('教授育成中'),
         backgroundColor: Colors.green,
@@ -86,7 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
               // },
               inputFormatters: [
                 // 最大20文字まで
-                LengthLimitingTextInputFormatter(20),
+                LengthLimitingTextInputFormatter(8),
                 // 半角英数字のみ許可
                 // FilteringTextInputFormatter.allow(
                 //   RegExp(r'[a-zA-Z0-9]'),
@@ -148,8 +149,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       print('アバター1が選択されました');
                     },
                     child: Container(
-                      width: 150,
-                      height: 150,
+                      width: MediaQuery.of(context).size.width/2-20,
+                      height: MediaQuery.of(context).size.width/2-20,
                       decoration: BoxDecoration(
                         color: _isSelected1 ? Colors.green : null,
                         borderRadius: BorderRadius.circular(20),
@@ -189,8 +190,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       print('アバター2が選択されました');
                     },
                     child: Container(
-                      width: 150,
-                      height: 150,
+                      width: MediaQuery.of(context).size.width/2-20,
+                      height: MediaQuery.of(context).size.width/2-20,
                       decoration: BoxDecoration(
                         color: _isSelected2 ? Colors.green : null,
                         borderRadius: BorderRadius.circular(20),

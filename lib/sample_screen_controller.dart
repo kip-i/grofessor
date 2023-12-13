@@ -40,6 +40,7 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
+      print('アプリがバックグラウンドに移動しました');
       // アプリがバックグラウンドに移動したときにタイマーを停止
       saveTime(_stopwatch.elapsed.inMilliseconds);
       setNavigationToResult();
