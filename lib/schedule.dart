@@ -138,13 +138,15 @@ class _MyDataTableState extends State<MyDataTable> {
                   scale: 2.0,
                   child: Checkbox(
                     // value: _isSelected[index],
-                    value: classProvider.classFlagList[rowIndex][cellIndex - 1],
+                    // value: classProvider.classFlagList[rowIndex][cellIndex - 1],
+                    value: classProvider.classFlagList[cellIndex - 1][rowIndex],
                     onChanged: (bool? value) {
                       // setState(() {
                       // _isSelected[index] = value!;
                       //});
                       classProvider.setClassFlagList(
-                          userProvider.userId, rowIndex, cellIndex - 1);
+                          // userProvider.userId, rowIndex, cellIndex - 1);
+                          userProvider.userId, cellIndex - 1, rowIndex);
                     },
                   ),
                 ),
