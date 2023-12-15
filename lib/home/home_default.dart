@@ -142,7 +142,8 @@ class _HomeDefaultState extends State<HomeDefault> {
     });
   }
   String formatMilliseconds(int milliseconds) {
-    int seconds = (milliseconds / 1000).floor();
+    // int seconds = (milliseconds / 1000).floor();
+    int seconds = milliseconds;
     int hours = (seconds / 3600).floor();
     int minutes = ((seconds % 3600) / 60).floor();
     seconds = (seconds % 60).floor();
