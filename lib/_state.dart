@@ -90,8 +90,8 @@ class NickNameProvider extends ChangeNotifier {
     prefs.setString('nickNameId', nickNameId);
     prefs.setString('nickName', nickName);
 
-    // await FirebaseService().updateNickNameId(_userId, nickNameId);
-    // await FirebaseService().updateNickName(_userId, nickName);
+    await FirebaseService().updateNickNameId(_userId, nickNameId);
+    await FirebaseService().updateNickName(_userId, nickName);
 
     notifyListeners();
   }
@@ -133,7 +133,7 @@ class CharacterProvider extends ChangeNotifier {
     prefs.setString('characterId', characterId);
     prefs.setString('characterPath', characterPath);
 
-    // await FirebaseService().updateCharacter(_userId, characterId);
+    await FirebaseService().updateCharacter(_userId, characterId);
 
     notifyListeners();
   }
@@ -172,7 +172,7 @@ class BackgroundProvider extends ChangeNotifier {
     prefs.setString('backgroundId', backgroundId);
     prefs.setString('backgroundPath', backgroundPath);
 
-    // await FirebaseService().updateBackgroundId(_userId, _backgroundId);
+    await FirebaseService().updateBackgroundId(_userId, _backgroundId);
 
     notifyListeners();
   }
@@ -371,18 +371,17 @@ class HaveItemProvider extends ChangeNotifier {
     haveNickNameIdList = ['n0'];
     haveNickNameList = ['研究生'];
     // haveCharacterIdList = ['${_gender}0'];
-    haveCharacterIdList = ['${_gender}0', '${_gender}1'];
+    haveCharacterIdList = ['${_gender}0'];
     // haveCharacterPathList = ['assets/models/${_gender}0.obj'];
     haveCharacterPathList = [
       'assets/models/${_gender}0.obj',
       'assets/models/${_gender}0.obj'
     ];
     // haveBackgroundIdList = ['b0'];
-    haveBackgroundIdList = ['b0', 'b1'];
+    haveBackgroundIdList = ['b0'];
     // haveBackgroundPathList = ['assets/backgrounds/b0.png'];
     haveBackgroundPathList = [
       'assets/backgrounds/b0.png',
-      'assets/backgrounds/b1.png'
     ];
     totalNickNameNum = await FirebaseService().getTotalNickNameNum();
     totalCharacterNum = await FirebaseService().getTotalCharacterNum();
