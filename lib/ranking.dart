@@ -115,7 +115,7 @@ class _RankingState extends State<Ranking> {
         displayText = '${(achieveProvider.sumTime)~/3600}：${((achieveProvider.sumTime)%3600)~/60}：${(achieveProvider.sumTime)%60}';
         break;
       case 'averageStudyTime':
-        displayText = '${(achieveProvider.meanTime)~/3600}：${((achieveProvider.meanTime)%3600)~/60}：${(achieveProvider.meanTime)%60.floor()}';
+        displayText = '${(achieveProvider.meanTime)~/3600}：${((achieveProvider.meanTime)%3600)~/60}：${((achieveProvider.meanTime)%60).floor()}';
         break;
       default:
         displayText = '${userProvider.userName}';
