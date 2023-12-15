@@ -32,6 +32,16 @@ class _HomeDuringTime extends State<HomeDuringTime> {
   _HomeDuringTime({required this.result});
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // resultがtrueならダイアログを表示
+    if (result) {
+      _showStartDialog();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final backgroundProvider = Provider.of<BackgroundProvider>(context);
     return Scaffold(
@@ -92,7 +102,7 @@ class _HomeDuringTime extends State<HomeDuringTime> {
         context: context,
         builder: (BuildContext context) {
           String timeString = formatMilliseconds(_time ?? 0);
-          final controller = context.read<SampleScreenController>();
+          // final controller = context.read<SampleScreenController>();
           debugPrint('contr');
           final userProvider =Provider.of<UserProvider>(context, listen: false);
           return AlertDialog(
@@ -103,7 +113,7 @@ class _HomeDuringTime extends State<HomeDuringTime> {
                 )),
             content:
                 // Text("集中時間は" + achieveProvider.achieveNum.toString() + "でした！",
-                Text("集中時間は" + _time.toString() + "でした！",
+                Text("集中時間は" + timeString + "でした！",
                     style: TextStyle(
                       fontSize: 24.0,
                       color: Colors.white,
