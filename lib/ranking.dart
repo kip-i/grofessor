@@ -17,12 +17,6 @@ class Player {
     this.score,
     this.rank);
 
-  // factory Player.fromJson(Map<String, dynamic> json) {
-  //   return Player(
-  //       json['nickName'],
-  //       json['numberOfPapers'],
-  //       0);
-  // }
 }
 
 class Ranking extends StatefulWidget {
@@ -36,42 +30,11 @@ class _RankingState extends State<Ranking> {
   List<Player> players = [];
   String rankingType = 'numberOfPapers';
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _updateJsonData();
-  // }
-
-  // Future<void> _updateJsonData() async {
-  //   String loadData = await rootBundle.loadString('user_data/user.json');
-  //   List<dynamic> jsonData = jsonDecode(loadData);
-  //   players = jsonData.map((item) => Player.fromJson(item)).toList();
-  //   changeRankingType(rankingType);
-  //   setState(() {});
-  // }
-
   void changeRankingType(String type) {
     setState(() {
       rankingType = type;
-      // players.sort((a, b) => getValue(b).compareTo(getValue(a)));
-      // for (int i = 0; i < players.length; i++) {
-      //   players[i].rank = i + 1;
-      // }
     });
   }
-
-  // int getValue(Player player) {
-  //   switch (rankingType) {
-  //     case 'numberOfPapers':
-  //       return player.numberOfPapers;
-  //     case 'totalStudyTime':
-  //       return player.totalStudyTime;
-  //     case 'averageStudyTime':
-  //       return player.averageStudyTime;
-  //     default:
-  //       return 0;
-  //   }
-  // }
 
   Widget _buildPlayerList(rankingProvider) {
     List<List<dynamic>> paperNumRanking = rankingProvider.paperNumRanking;
@@ -110,10 +73,10 @@ class _RankingState extends State<Ranking> {
               ' ${players.rank}位     ${players.userName}     ${players.score}枚';
         } else if (rankingType == 'totalStudyTime') {
           displayText =
-              ' ${players.rank}位     ${players.userName}     ${int.parse(players.score)~/3600}：${(int.parse(players.score)%3600)~/60}：${int.parse(players.score)%3600}';
+              ' ${players.rank}位     ${players.userName}     ${int.parse(players.score)~/3600}：${(int.parse(players.score)%3600)~/60}：${int.parse(players.score)%60}';
         } else if (rankingType == 'averageStudyTime') {
           displayText =
-              ' ${players.rank}位     ${players.userName}     ${int.parse(players.score)~/3600}：${(int.parse(players.score)%3600)~/60}：${int.parse(players.score)%3600}';
+              ' ${players.rank}位     ${players.userName}     ${double.parse(players.score).toInt()~/3600}：${(double.parse(players.score).toInt()%3600)~/60}：${double.parse(players.score).toInt()%60}';
         } else {
           displayText = ' ${players.rank}位     ${players.userName}';
         }
@@ -146,16 +109,16 @@ class _RankingState extends State<Ranking> {
     String displayText;
     switch (rankingType) {
       case 'numberOfPapers':
-        displayText = ' ${achieveProvider.paperNum}枚';
+        displayText = '${achieveProvider.paperNum}枚';
         break;
       case 'totalStudyTime':
-        displayText = ' ${achieveProvider.sumTime}分';
+        displayText = '${(achieveProvider.sumTime)~/3600}：${((achieveProvider.sumTime)%3600)~/60}：${(achieveProvider.sumTime)%60}';
         break;
       case 'averageStudyTime':
-        displayText = ' ${achieveProvider.meanTime}分';
+        displayText = '${(achieveProvider.meanTime)~/3600}：${((achieveProvider.meanTime)%3600)~/60}：${((achieveProvider.meanTime)%60).floor()}';
         break;
       default:
-        displayText = ' ${userProvider.userName}';
+        displayText = '${userProvider.userName}';
     }
     return Column(
       children: [
@@ -207,7 +170,7 @@ class _RankingState extends State<Ranking> {
                     color: rankingType == 'numberOfPapers'
                         ? Colors.white
                         : Colors.black,
-                    fontStyle: FontStyle.italic),
+                      ),
               ),
             ),
           ),
@@ -232,7 +195,7 @@ class _RankingState extends State<Ranking> {
                     color: rankingType == 'totalStudyTime'
                         ? Colors.white
                         : Colors.black,
-                    fontStyle: FontStyle.italic),
+                    ),
               ),
             ),
           ),
@@ -257,7 +220,7 @@ class _RankingState extends State<Ranking> {
                     color: rankingType == 'averageStudyTime'
                         ? Colors.white
                         : Colors.black,
-                    fontStyle: FontStyle.italic),
+                    ),
               ),
             ),
           ),
