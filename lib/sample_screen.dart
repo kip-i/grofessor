@@ -26,32 +26,41 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(sampleScreenProvider); // 状態を監視
     Duration totalDuration = state.totalDuration;
-    int hours = totalDuration.inHours;
-    int minutes = (totalDuration.inMinutes % 60);
-    int seconds = (totalDuration.inSeconds % 60);
+    String hours = (totalDuration.inHours).toString();
+    String minutes = (totalDuration.inMinutes % 60).toString();
+    String seconds = (totalDuration.inSeconds % 60).toString();
+    if (hours.length == 1) {
+      hours = '0$hours';
+    }
+    if (minutes.length == 1) {
+      minutes = '0$minutes';
+    }
+    if (seconds.length == 1) {
+      seconds = '0$seconds';
+    }
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 49, 48, 48),
-        body: Stack(
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '経過時間: $hours:$minutes:$seconds',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 187, 187, 187),
-                    ),
+      backgroundColor: const Color.fromARGB(255, 49, 48, 48),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '経過時間: $hours:$minutes:$seconds',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 187, 187, 187),
                   ),
-                  // ストップボタン
-                  ElevatedButton(
-                    onPressed: () {
-                      isButtonPressed = false;
-                      ref.read(sampleScreenProvider.notifier).stopDuration(
-                          totalDuration
-                              .inMilliseconds); // stopDurationメソッドを呼び出し
+                ),
+                // ストップボタン
+                ElevatedButton(
+                  onPressed: () {
+                    isButtonPressed = false;
+                    ref.read(sampleScreenProvider.notifier).stopDuration(
+                      totalDuration
+                      .inMilliseconds); // stopDurationメソッドを呼び出し
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: blackbordColor,
@@ -59,16 +68,17 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       '終了',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ));
+          ),
+        ],
+      )
+    );
   }
 }
