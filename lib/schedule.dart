@@ -14,10 +14,12 @@ class Schedule extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 80.0,
           centerTitle: false,
           backgroundColor: Colors.white.withOpacity(0.0),
           elevation: 0.0,
-          title: Text(
+          title: const Padding(padding: EdgeInsets.only(top: 20.0),
+          child: Text(
             '時間割表',
             style: TextStyle(
               color: Color.fromARGB(255, 10, 98, 11),
@@ -25,6 +27,7 @@ class Schedule extends StatelessWidget {
               fontSize: 33.0,
             ),
           ),
+        ),
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -59,15 +62,15 @@ class _MyDataTableState extends State<MyDataTable> {
     final now = DateTime.now();
     return DataTable(
       dataRowMaxHeight: 190.0,
-      decoration: BoxDecoration(color: Color.fromARGB(255, 195, 199, 195)),
-      columns: [
+      decoration: const BoxDecoration(color: Color.fromARGB(255, 195, 199, 195)),
+      columns: const [
         DataColumn(label: Text('')),
         DataColumn(
-            label: Text('  月',
+            label: Text(' 月',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  火',
+            label: Text(' 火',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
@@ -75,15 +78,15 @@ class _MyDataTableState extends State<MyDataTable> {
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  木',
+            label: Text(' 木',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  金',
+            label: Text(' 金',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
         DataColumn(
-            label: Text('  土',
+            label: Text(' 土',
                 style: TextStyle(
                     color: Color.fromARGB(255, 10, 98, 11), fontSize: 29))),
       ],
@@ -107,7 +110,7 @@ class _MyDataTableState extends State<MyDataTable> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('${rowIndex + 1}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Color.fromARGB(255, 10, 98, 11),
                                 fontSize: 40)),
                         Text(
@@ -116,7 +119,7 @@ class _MyDataTableState extends State<MyDataTable> {
                               // ? ' ${_leftColumnStartTimes[rowIndex]}'
                               ? ' ${classProvider.classTimeList[rowIndex][0].toString().padLeft(2, "0")}時${classProvider.classTimeList[rowIndex][1].toString().padLeft(2, "0")}分'
                               : '開始時刻',
-                          style: TextStyle(fontSize: 25),
+                          style: const TextStyle(fontSize: 25),
                         ),
                         Text(
                           //_leftColumnEndTimes[rowIndex].isNotEmpty
@@ -124,7 +127,7 @@ class _MyDataTableState extends State<MyDataTable> {
                               // ? '~ ${_leftColumnEndTimes[rowIndex]}'
                               ? '~ ${classProvider.classTimeList[rowIndex][2].toString().padLeft(2, "0")}時${classProvider.classTimeList[rowIndex][3].toString().padLeft(2, "0")}分'
                               : '終了時刻',
-                          style: TextStyle(fontSize: 25),
+                          style: const TextStyle(fontSize: 25),
                         ),
                       ],
                     ),
@@ -135,8 +138,10 @@ class _MyDataTableState extends State<MyDataTable> {
               int index = startCellIndex + cellIndex - 1;
               return DataCell(
                 Transform.scale(
-                  scale: 2.0,
+                  scale: 4.0,
                   child: Checkbox(
+                    fillColor: MaterialStateProperty.resolveWith((states) => Colors.transparent),
+                    checkColor: Colors.green,
                     // value: _isSelected[index],
                     // value: classProvider.classFlagList[rowIndex][cellIndex - 1],
                     value: classProvider.classFlagList[cellIndex - 1][rowIndex],
@@ -172,16 +177,32 @@ class _MyDataTableState extends State<MyDataTable> {
           height: MediaQuery.of(context).copyWith().size.height / 2,
           child: Column(
             children: [
-              Container(
-                child: Text(
-                  '${rowIndex + 1}限目',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Color.fromARGB(255, 10, 98, 11),
-                  ),
-                ),
-              ),
+              Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+        Container(
+      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 2 - 30),
+      child: Text(
+        '${rowIndex + 1}限目',
+        textAlign: TextAlign.left,
+        style: const TextStyle(
+          fontSize: 25,
+          color: Color.fromARGB(255, 10, 98, 11),
+        ),
+      ),
+    ),
+    IconButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      icon: const Icon(
+        Icons.close,
+        size: 25,
+        color: Colors.black,
+      )
+    ),
+  ],
+),
               Container(
                   child: const Text(
                 "開始時刻",
