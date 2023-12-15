@@ -104,7 +104,7 @@ class NameButton extends StatelessWidget {
           title: Column(
             children: [
               Text(
-                "二つ名を変更",
+                "称号を変更",
                 style: TextStyle(color: Colors.white),
               ),
               Divider(color: blackbordWhiteColor, thickness: 4.0), // 横線を引く
@@ -174,7 +174,7 @@ class NameButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // タップされたときの処理を追加
-        print('選択された二つ名: $x, $id, $userId');
+        print('選択された称号: $x, $id, $userId');
         nickNameProvider.setNickName(userId, id, x);
         Navigator.of(context).pop();
       },

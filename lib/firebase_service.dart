@@ -98,7 +98,7 @@ class FirebaseService {
     });
   }
 
-  // 獲得済みの二つ名IDリストに追加
+  // 獲得済みの称号IDリストに追加
   Future<void> addHaveNickName(String userId, String nickNameId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('users').collection(userId);
@@ -148,7 +148,7 @@ class FirebaseService {
 
 //=== 削除 ==========================================================================================================//
 
-  // 未獲得の二つ名IDリストから削除
+  // 未獲得の称号IDリストから削除
   Future<void> deleteNotHaveNickName(String userId, String nickNameId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('users').collection(userId);
@@ -314,7 +314,7 @@ class FirebaseService {
     });
   }
 
-  // 二つ名本体を取得
+  // 称号本体を取得
   Future<String> getNickName(String nickNameId) async {
     return await _rootCollection
         .doc('nickNames')
@@ -328,7 +328,7 @@ class FirebaseService {
     // return 'error';
   }
 
-  // 二つ名の総数を取得
+  // 称号の総数を取得
   Future<int> getTotalNickNameNum() async {
     return await _rootCollection
         .doc('nickNames')
@@ -341,7 +341,7 @@ class FirebaseService {
     // return -1;
   }
 
-  // 二つ名IDを全て取得
+  // 称号IDを全て取得
   Future<List<String>> getAllNickNameId() async {
     return await _rootCollection
         .doc('nickNames')
@@ -357,7 +357,7 @@ class FirebaseService {
     // return ['error'];
   }
 
-  // 二つ名を全て取得
+  // 称号を全て取得
   Future<List<String>> getAllNickName() async {
     return await _rootCollection
         .doc('nickNames')
@@ -523,7 +523,7 @@ class FirebaseService {
     // return -1;
   }
 
-  // 獲得済みの二つ名IDリストを取得
+  // 獲得済みの称号IDリストを取得
   Future<List<String>> getHaveNickNameList(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('users').collection(userId);
@@ -633,7 +633,7 @@ class FirebaseService {
     // return {'error': 'error'};
   }
 
-  // ユーザのガチャ情報を取得
+  // ユーザのごほうび情報を取得
   Future<Map<String, dynamic>?> getUserGacha(String userId) async {
     final CollectionReference userCollection =
         _rootCollection.doc('users').collection(userId);
@@ -726,7 +726,7 @@ class FirebaseService {
     });
   }
 
-  // ガチャチケットの更新
+  // ごほうびチケットの更新
   Future<void> updateGachaTicket(String userId, int num) async {
     final CollectionReference userCollection =
         _rootCollection.doc('users').collection(userId);
