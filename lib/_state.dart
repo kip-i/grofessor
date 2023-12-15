@@ -333,8 +333,8 @@ class AchieveProvider extends ChangeNotifier {
     thisTime = thisTime + _time;
     if (thisTime >= needTime) {
       paperNum = paperNum + 1;
-      needTime = await FirebaseService().getNeedTime(paperNum);
       thisTime = thisTime - needTime;
+      needTime = await FirebaseService().getNeedTime(paperNum);
     }
     achieveNum = achieveNum + 1;
     meanTime = sumTime / achieveNum;

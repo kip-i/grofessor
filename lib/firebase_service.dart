@@ -775,7 +775,7 @@ class FirebaseService {
 
   // 達成時間などの更新
   Future<void> updateAchieve(String userId, bool penalty, int time) async {
-    await getUserInfo(userId).then((value) async {
+    await getUserAchieve(userId).then((value) async {
       final CollectionReference userCollection =
           _rootCollection.doc('users').collection(userId);
 
