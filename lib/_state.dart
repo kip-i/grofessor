@@ -90,8 +90,8 @@ class NickNameProvider extends ChangeNotifier {
     prefs.setString('nickNameId', nickNameId);
     prefs.setString('nickName', nickName);
 
-    await FirebaseService().updateNickNameId(_userId, nickNameId);
-    await FirebaseService().updateNickName(_userId, nickName);
+    // await FirebaseService().updateNickNameId(_userId, nickNameId);
+    // await FirebaseService().updateNickName(_userId, nickName);
 
     notifyListeners();
   }
@@ -133,7 +133,7 @@ class CharacterProvider extends ChangeNotifier {
     prefs.setString('characterId', characterId);
     prefs.setString('characterPath', characterPath);
 
-    await FirebaseService().updateCharacter(_userId, characterId);
+    // await FirebaseService().updateCharacter(_userId, characterId);
 
     notifyListeners();
   }
@@ -172,7 +172,7 @@ class BackgroundProvider extends ChangeNotifier {
     prefs.setString('backgroundId', backgroundId);
     prefs.setString('backgroundPath', backgroundPath);
 
-    await FirebaseService().updateBackgroundId(_userId, _backgroundId);
+    // await FirebaseService().updateBackgroundId(_userId, _backgroundId);
 
     notifyListeners();
   }
@@ -183,7 +183,7 @@ class GachaProvider extends ChangeNotifier {
   List<String> notHaveNickNameIdList = []; // n1,n2
   List<String> notHaveCharacterIdList = []; // (m or w)1,(m or w)2
   List<String> notHaveBackgroundIdList = []; // b1,b2
-  List<String> allNickNameList = [];
+  // List<String> allNickNameList = [];
 
   Future<void> init(String _gender) async {
     gachaTicket = 0;
@@ -199,7 +199,7 @@ class GachaProvider extends ChangeNotifier {
     notHaveBackgroundIdList = await FirebaseService().getAllBackgroundId();
     notHaveBackgroundIdList.remove('b0');
 
-    allNickNameList = await FirebaseService().getAllNickName();
+    // allNickNameList = await FirebaseService().getAllNickName();
 
     // print(notHaveNickNameIdList);
     // print(notHaveCharacterIdList);
@@ -212,7 +212,7 @@ class GachaProvider extends ChangeNotifier {
     prefs.setStringList('notHaveNickNameList', notHaveNickNameIdList);
     prefs.setStringList('notHaveCharacterList', notHaveCharacterIdList);
     prefs.setStringList('notHaveBackgroundList', notHaveBackgroundIdList);
-    prefs.setStringList('allNickNameList', allNickNameList);
+    // prefs.setStringList('allNickNameList', allNickNameList);
 
     // notifyListeners();
   }
@@ -225,7 +225,7 @@ class GachaProvider extends ChangeNotifier {
         prefs.getStringList('notHaveCharacterIdList') ?? [];
     notHaveBackgroundIdList =
         prefs.getStringList('notHaveBackgroundIdList') ?? [];
-    allNickNameList = prefs.getStringList('allNickNameList') ?? [];
+    // allNickNameList = prefs.getStringList('allNickNameList') ?? [];
 
     // print(notHaveNickNameList);
 

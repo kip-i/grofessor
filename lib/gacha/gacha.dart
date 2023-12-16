@@ -70,12 +70,14 @@ class GachaPageState extends State<GachaPage> {
   @override
   Widget build(BuildContext context) {
     final gachaProvider = Provider.of<GachaProvider>(context,listen: false);
-    final achieveProvider = Provider.of<AchieveProvider>(context, listen: false);
+    final achieveProvider = Provider.of<AchieveProvider>(context);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final haveItemProvider = Provider.of<HaveItemProvider>(context, listen: false);
     int x = achieveProvider.paperNum;
+    print('ガチャ画面X：'+x.toString());
     // int x = 10;
     int y = gachaProvider.gachaTicket;
+    print('ガチャ画面Y：'+y.toString());
     // int y = 10;
 
     // gachaProvider.setGachaTicket(userProvider.userId, 1);
@@ -209,6 +211,7 @@ class GachaPageState extends State<GachaPage> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 '論文の数  :  $x',
+                // '論文の数  :  ${achieveProvider.paperNum}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -295,6 +298,7 @@ class GachaPageState extends State<GachaPage> {
                           ),
                         ],
                       ),
+                      // if (i + 1 <= achieveProvider.paperNum)
                       if (i + 1 <= x)
                         Positioned(
                           top: 38,

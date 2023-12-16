@@ -13,7 +13,7 @@ class BackgroundTab extends StatefulWidget {
 
 class _BackgroundTabState extends State<BackgroundTab> {
   late int selectedIndex;
-  final int background_num = 5; // background_numが変わる場合、適宜調整してください
+  final int background_num = 30; // background_numが変わる場合、適宜調整してください
 
   @override
   Widget build(BuildContext context) {
