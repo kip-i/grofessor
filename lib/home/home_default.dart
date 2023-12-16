@@ -29,6 +29,7 @@ class HomeDefault extends StatefulWidget {
 
 class _HomeDefaultState extends State<HomeDefault> {
   final bool result;
+  bool flag = false;
 
   _HomeDefaultState({required this.result});
 
@@ -37,9 +38,17 @@ class _HomeDefaultState extends State<HomeDefault> {
     super.didChangeDependencies();
 
     // resultがtrueならダイアログを表示
-    if (result) {
+    print('didChangeDependencies!!!!!!!!!!!!!!!!!!!!!!!!!FLAG: $flag');
+    if (!flag && result) {
+      print('didChangeDependencies!!!!!!!!!!!!!!!!!!!!!!!!!: $result');
+      flag = true;
       _showStartDialog();
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -91,17 +100,30 @@ class _HomeDefaultState extends State<HomeDefault> {
   }
 
   Future<void> _showStartDialog() async {
+    print('showStartDialog!!!!!!!!!!!!!!!!!!!!!!!!!: $result');
+    if(result == false){
+      return;
+    }
+
     final SharedPreferences pref = await SharedPreferences.getInstance(); // SharedPreferencesのインスタンスを取得
     pref.setBool('isSetNavigationToResult', false);
+    print(pref.getBool('isSetNavigationToResult'));
+
     final achieveProvider = Provider.of<AchieveProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final gachaProvider = Provider.of<GachaProvider>(context, listen: false);
     final _userId = userProvider.userId;
     final _paperNum = achieveProvider.paperNum;
     final int ? _time = pref.getInt('time');
+    pref.setInt('time', 0);
     final int time = _time!;
     final double _value = pref.getDouble('sliderValue') ?? 25;
     print('userId: $_userId , paperNum: $_paperNum , time: $_time');
-    achieveProvider.setAchieve(_userId, _paperNum, time, false);
+    await achieveProvider.setAchieve(_userId, _paperNum, time, false);
+    if(achieveProvider.paperNum > _paperNum && achieveProvider.paperNum % 3 == 0){
+      await gachaProvider.setGachaTicket(_userId, 1);
+    }
+
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       showDialog<void>(
         context: context,

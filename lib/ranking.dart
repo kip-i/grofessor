@@ -4,6 +4,7 @@ import '_state.dart';
 import 'state.dart';
 import './home/name_button.dart';
 import './home/experience_bar.dart';
+import './const/color.dart';
 
 class Player {
   String userName;
@@ -43,6 +44,11 @@ class _RankingState extends State<Ranking> {
       
     List<List<dynamic>> ranking = [];
     List<List<dynamic>> tmp = [];
+
+    const Color gold = Color.fromARGB(255, 230, 180, 34);
+    const Color silver = Color.fromARGB(255, 189, 195, 201);
+    const Color bronze = Color.fromARGB(255, 184, 115, 51);
+
     if (rankingType == 'numberOfPapers') {
       tmp = paperNumRanking;
     } else if (rankingType == 'totalStudyTime') {
@@ -82,24 +88,45 @@ class _RankingState extends State<Ranking> {
         }
         
         return ListTile(
-          title: Column(
-            children:[
-              Text(
-                '${players.nickName}',
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontStyle: FontStyle.italic,
+          title: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3), // changes position of shadow
                 ),
-              ),
-              Text(
-                displayText,
-                style: const TextStyle(
-                  fontSize: 25,
-                  fontStyle: FontStyle.italic,
+              ],
+            ),
+            child: Column(
+              children: [
+                Text(
+                  players.nickName,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic,
+                    color: players.rank == 1 ? gold : 
+                           players.rank == 2 ? silver : 
+                           players.rank == 3 ? bronze :
+                   Colors.black,
+                  ),
                 ),
-              ),
-            ]
-          )
+                Text(
+                  displayText,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontStyle: FontStyle.italic,
+                    color: players.rank == 1 ? gold : 
+                           players.rank == 2 ? silver : 
+                           players.rank == 3 ? bronze :
+                   Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       }).toList(),
     );
@@ -136,6 +163,7 @@ class _RankingState extends State<Ranking> {
             style: const TextStyle(
               fontSize: 25,
               fontStyle: FontStyle.italic,
+              color: Colors.black,
             ),
             textAlign: TextAlign.center,
           ),
@@ -157,7 +185,7 @@ class _RankingState extends State<Ranking> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: rankingType == 'numberOfPapers'
-                    ? Colors.blue
+                    ? selectedColor
                     : Colors.white,
                 side: const BorderSide(
                   color: Colors.black,
@@ -182,7 +210,7 @@ class _RankingState extends State<Ranking> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: rankingType == 'totalStudyTime'
-                    ? Colors.blue
+                    ? selectedColor
                     : Colors.white,
                 side: const BorderSide(
                   color: Colors.black,
@@ -207,7 +235,7 @@ class _RankingState extends State<Ranking> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: rankingType == 'averageStudyTime'
-                    ? Colors.blue
+                    ? selectedColor
                     : Colors.white,
                 side: const BorderSide(
                   color: Colors.black,
@@ -243,7 +271,6 @@ class _RankingState extends State<Ranking> {
             top: 30, // 上からの位置を指定します
             left: 16, // 左からの位置を指定します
             child: SizedBox(
-              width: 200, // ここに希望の幅を設定します
               child: Column(
                 children: [NameButton(), ExperienceBar()],
               ),

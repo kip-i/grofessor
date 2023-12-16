@@ -89,6 +89,7 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? time = await getTime();
     if (time > 0) {
+      print('あああああああああああああああああ: $time');
       prefs.setBool('isSetNavigationToResult', true);
     } else {
       prefs.setBool('isSetNavigationToResult', false);
