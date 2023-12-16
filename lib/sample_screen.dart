@@ -50,8 +50,9 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
                     onPressed: () {
                       isButtonPressed = false;
                       ref.read(sampleScreenProvider.notifier).stopDuration(
-                          totalDuration
-                              .inMilliseconds); // stopDurationメソッドを呼び出し
+                          // totalDuration
+                          //     .inMilliseconds); // stopDurationメソッドを呼び出し
+                          totalDuration.inSeconds); // stopDurationメソッドを呼び出し
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: blackbordColor,
