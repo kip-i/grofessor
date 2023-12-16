@@ -194,10 +194,12 @@ class GachaProvider extends ChangeNotifier {
     // notHaveCharacterIdList = ['${_gender}2'];
     notHaveCharacterIdList = await FirebaseService().getAllCharacterId(_gender);
     notHaveCharacterIdList.remove('${_gender}0');
+    notHaveCharacterIdList.remove('${_gender}1');
     // notHaveBackgroundIdList = ['b1', 'b2'];
     // notHaveBackgroundIdList = ['b2'];
     notHaveBackgroundIdList = await FirebaseService().getAllBackgroundId();
     notHaveBackgroundIdList.remove('b0');
+    notHaveBackgroundIdList.remove('b1');
 
     // allNickNameList = await FirebaseService().getAllNickName();
 
@@ -371,17 +373,18 @@ class HaveItemProvider extends ChangeNotifier {
     haveNickNameIdList = ['n0'];
     haveNickNameList = ['研究生'];
     // haveCharacterIdList = ['${_gender}0'];
-    haveCharacterIdList = ['${_gender}0'];
+    haveCharacterIdList = ['${_gender}0','${_gender}1'];
     // haveCharacterPathList = ['assets/models/${_gender}0.obj'];
     haveCharacterPathList = [
       'assets/models/${_gender}0.obj',
-      'assets/models/${_gender}0.obj'
+      'assets/models/${_gender}1.obj'
     ];
     // haveBackgroundIdList = ['b0'];
-    haveBackgroundIdList = ['b0'];
+    haveBackgroundIdList = ['b0','b1'];
     // haveBackgroundPathList = ['assets/backgrounds/b0.png'];
     haveBackgroundPathList = [
       'assets/backgrounds/b0.png',
+      'assets/backgrounds/b1.png',
     ];
     totalNickNameNum = await FirebaseService().getTotalNickNameNum();
     totalCharacterNum = await FirebaseService().getTotalCharacterNum();
