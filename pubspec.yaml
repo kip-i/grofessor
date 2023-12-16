@@ -136,7 +136,7 @@ flutter:
     - assets/hatena/background_hatena.png
     - assets/hatena/model_hatena.png
 
-    #ガチャ画面
+    #ごほうび画面
     - assets/images/present.jpg
     - assets/images/present.png
     - assets/images/b0.jpg

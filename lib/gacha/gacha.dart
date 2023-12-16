@@ -61,7 +61,7 @@ class GachaPageState extends State<GachaPage> {
   ScrollController _scrollController1 = ScrollController();
 
   //int x = 10; // 現在の提出論文数が分かる
-  //int y = 20; // 現在の引けるガチャの数が分かる
+  //int y = 20; // 現在の引けるごほうびの数が分かる
   
   String randomString =
       'Tap the button to generate random string'; // ランダムな文字列を表示するための変数
@@ -98,7 +98,7 @@ class GachaPageState extends State<GachaPage> {
 
       if (elements.isEmpty || y <= 0) {
         setState(() {
-          randomString = 'もう出ないよ'; // 全ての要素が表示されたらガチャが引けなくなる
+          randomString = 'もう出ないよ'; // 全ての要素が表示されたらごほうびが引けなくなる
         });
         return;
       }      
@@ -109,11 +109,11 @@ class GachaPageState extends State<GachaPage> {
       print('引く前'+ gachaProvider.gachaTicket.toString());
       setState(() {
         randomString = selectedElement;
-        // y = y - 1; // ガチャを引いたら'y'の値を1減らす
+        // y = y - 1; // ごほうびを引いたら'y'の値を1減らす
         gachaProvider.setGachaTicket(userProvider.userId, -1);
       });
       print('引く後' + gachaProvider.gachaTicket.toString());
-      print('ガチャ排出：'+selectedElement.toString());
+      print('ごほうび排出：'+selectedElement.toString());
       print(elements);
       if (selectedElement.startsWith('b')) {
         gachaProvider.setNotHaveBackgroundIdList(userProvider.userId, selectedElement);
@@ -188,7 +188,7 @@ class GachaPageState extends State<GachaPage> {
               ),
               child: const Center(
                 child: Text(
-                  'ガチャを引く',
+                  'ごほうびを引く',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,

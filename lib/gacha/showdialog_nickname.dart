@@ -38,7 +38,7 @@ void showDialogNickname(BuildContext context, selectedElement) {
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 const Text(
-                  '二つ名をゲット！！',
+                  '称号をゲット！！',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -74,7 +74,7 @@ void showDialogNickname(BuildContext context, selectedElement) {
                 // ),
                 // SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 const Text(
-                  'この二つ名に変更しますか?',
+                  'この称号に変更しますか?',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                   ),

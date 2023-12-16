@@ -13,7 +13,7 @@ class _GachaPageState extends State<GachaPage> {
   ScrollController _scrollController1 = ScrollController();
 
   //int x = 10; // 現在の提出論文数が分かる
-  //int y = 20; // 現在の引けるガチャの数が分かる
+  //int y = 20; // 現在の引けるごほうびの数が分かる
   
 
   String randomString =
@@ -32,7 +32,7 @@ class _GachaPageState extends State<GachaPage> {
           gachaProvider.notHaveBackgroundIdList;
       if (elements.isEmpty || y <= 0) {
         setState(() {
-          randomString = 'もう出ないよ'; // 全ての要素が表示されたらガチャが引けなくなる
+          randomString = 'もう出ないよ'; // 全ての要素が表示されたらごほうびが引けなくなる
         });
         return;
       }
@@ -43,7 +43,7 @@ class _GachaPageState extends State<GachaPage> {
 
       setState(() {
         randomString = selectedElement;
-        y = y - 1; // ガチャを引いたら'y'の値を1減らす
+        y = y - 1; // ごほうびを引いたら'y'の値を1減らす
       });
       print(selectedElement);
       print(elements);
@@ -111,7 +111,7 @@ class _GachaPageState extends State<GachaPage> {
                     ),
                     child: Center(
                       child: Text(
-                        'ガチャを引く',
+                        'ごほうびを引く',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16,
@@ -146,7 +146,7 @@ class _GachaPageState extends State<GachaPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '引けるガチャの数  :  $y ',
+                      '引けるごほうびの数  :  $y ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -452,7 +452,7 @@ mixin dataProvider {
               children: [
                 SizedBox(height: 5),
                 Text(
-                  '二つ名をゲット！！',
+                  '称号をゲット！！',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -487,7 +487,7 @@ mixin dataProvider {
 ),
                 SizedBox(height: 20),
                 Text(
-                  'この二つ名に変更しますか?',
+                  'この称号に変更しますか?',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                   ),

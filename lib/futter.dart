@@ -104,7 +104,7 @@ class _NavigationExampleState extends State<NavigationExample> {
         break;
       case 3:
         icon = Icons.card_giftcard;
-        label = 'ガチャ';
+        label = 'ごほうび';
         break;
       case 4:
         icon = Icons.leaderboard;
