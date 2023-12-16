@@ -16,6 +16,7 @@ import 'package:grofessor/sample_screen_controller.dart';
 import 'package:grofessor/sample_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'time_slider.dart';
 
 class HomeDefault extends StatefulWidget {
   final bool result;
@@ -116,6 +117,7 @@ class _HomeDefaultState extends State<HomeDefault> {
     final int ? _time = pref.getInt('time');
     pref.setInt('time', 0);
     final int time = _time!;
+    final double _value = pref.getDouble('sliderValue') ?? 25;
     print('userId: $_userId , paperNum: $_paperNum , time: $_time');
     await achieveProvider.setAchieve(_userId, _paperNum, time, false);
     if(achieveProvider.paperNum > _paperNum && achieveProvider.paperNum % 3 == 0){
@@ -129,24 +131,34 @@ class _HomeDefaultState extends State<HomeDefault> {
           String timeString = formatMilliseconds(_time ?? 0);
           final userProvider = Provider.of<UserProvider>(context, listen: false);
           return AlertDialog(
-            title: Text('結果',
+            title: const Text('結果',
                 style: TextStyle(
                   fontSize: 24.0,
                   color: Colors.white,
                 )
             ),
-            content: Text("今回の測定時間は" +timeString
-                + "でした！",
-                style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.white,
-                )),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('今回の測定時間は$timeStringでした！',
+                    style: const TextStyle(
+                      fontSize: 24.0,
+                      color: Colors.white,
+                    )
+                ),
+                Text('目標の測定時間は${_value.toString()}分でした！',
+                    style: const TextStyle(
+                      fontSize: 24.0,
+                      color: Colors.white,
+                    ))
+              ],
+            ),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text(
+                child: const Text(
                   "閉じる",
                   style: TextStyle(fontSize: 20.0, color: Colors.white),
                 ),
@@ -155,7 +167,7 @@ class _HomeDefaultState extends State<HomeDefault> {
             contentPadding: EdgeInsets.all(25.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.0),
-              side: BorderSide(width: 10.0, color: blackbordFrameColor),
+              side: const BorderSide(width: 10.0, color: blackbordFrameColor),
             ),
             backgroundColor: blackbordColor,
           );
