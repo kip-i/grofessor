@@ -59,20 +59,21 @@ class _SampleScreenState extends ConsumerState<SampleScreen> {
                   onPressed: () {
                     isButtonPressed = false;
                     ref.read(sampleScreenProvider.notifier).stopDuration(
-                      totalDuration
-                      .inMilliseconds); // stopDurationメソッドを呼び出し
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: blackbordColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                        // totalDuration
+                        //     .inMilliseconds); // stopDurationメソッドを呼び出し
+                        totalDuration.inSeconds); // stopDurationメソッドを呼び出し
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: blackbordColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Text(
-                      '終了',
-                      style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
+                  ),
+                  child: const Text(
+                    '終了',
+                    style:
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),

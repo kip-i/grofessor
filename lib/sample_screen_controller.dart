@@ -42,7 +42,8 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
         state == AppLifecycleState.detached) {
       print('アプリがバックグラウンドに移動しました');
       // アプリがバックグラウンドに移動したときにタイマーを停止
-      saveTime(_stopwatch.elapsed.inMilliseconds);
+      // saveTime(_stopwatch.elapsed.inMilliseconds);
+      saveTime(_stopwatch.elapsed.inSeconds);
       setNavigationToResult();
       _stopwatch.stop();
       _timer.cancel();
@@ -88,6 +89,7 @@ class SampleScreenController extends StateNotifier<SampleScreenState>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? time = await getTime();
     if (time > 0) {
+      print('あああああああああああああああああ: $time');
       prefs.setBool('isSetNavigationToResult', true);
     } else {
       prefs.setBool('isSetNavigationToResult', false);
