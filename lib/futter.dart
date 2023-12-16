@@ -4,6 +4,7 @@ import 'home/home_selector.dart';
 import 'home/home_default.dart';
 import 'home/home_during_time.dart';
 import 'dress_up/dress_up.dart';
+import 'home/home_state.dart';
 import 'ranking.dart';
 import 'package:provider/provider.dart';
 import 'state.dart';
@@ -50,6 +51,10 @@ class _NavigationExampleState extends State<NavigationExample> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final rankingProvider = Provider.of<RankingProvider>(context);
+
+    final homeProvider = Provider.of<HomeProvider>(context);
+    final classProvider = Provider.of<ClassProvider>(context);
+
     print('ページ：futter.dart');
     return Scaffold(
       body: IndexedStack(
@@ -70,6 +75,8 @@ class _NavigationExampleState extends State<NavigationExample> {
                 index,
                 index == _currentPageIndex,
                 rankingProvider,
+                homeProvider,
+                classProvider,
               ),
             ),
           ),
@@ -78,7 +85,7 @@ class _NavigationExampleState extends State<NavigationExample> {
     );
   }
 
-  Widget _buildIconButton(int index, bool isSelected, RankingProvider rankingProvider) {
+  Widget _buildIconButton(int index, bool isSelected, RankingProvider rankingProvider, HomeProvider homeProvider, ClassProvider classProvider) {
     IconData icon;
     String label;
 
@@ -114,6 +121,11 @@ class _NavigationExampleState extends State<NavigationExample> {
             // Todo: 日時取得
             await rankingProvider.setRanking();
             debugPrint('ランキング!!!');
+          }
+          if (index == 2) {
+            // Todo: 日時取得
+            await update(homeProvider, classProvider);
+            print('ホーム!!!');
           }
           setState(() {
             _currentPageIndex = index;
@@ -157,4 +169,45 @@ class _NavigationExampleState extends State<NavigationExample> {
       ),
     );
   }
+
+
+  Future<void> update(homeProvider, classProvider) async {
+    List<List<int>> classTime = classProvider.classTimeList;
+    List<List<bool>> classFlagList = classProvider.classFlagList;
+
+    DateTime now = DateTime.now().toUtc().add(const Duration(hours: 9));
+    DateTime before = now.add(const Duration(minutes: 3));
+    // 曜日を取得
+    int dayOfWeek = now.weekday;
+    
+    int nowHour = now.hour;
+    int nowMinute = now.minute;
+    int tmpHour = before.hour;
+    int tmpMinute = before.minute;
+    print('$tmpHour:$tmpMinute');
+    print('$nowHour:$nowMinute');
+
+    // 現在の時刻がどの時間割に該当するかを判断
+    int currentPeriod = -1;
+    for (int i = 0; i < classTime.length; i++) {
+      if (tmpHour > classTime[i][0] || (tmpHour == classTime[i][0] && tmpMinute >= classTime[i][1])) {
+        if (nowHour < classTime[i][2] || (nowHour == classTime[i][2] && nowMinute < classTime[i][3])) {
+          if (classFlagList[dayOfWeek - 1][i] == true) {
+            currentPeriod = i + 1; // 時間割は1から始まると仮定
+            break;
+          }
+        }
+      }
+    }
+
+    // 授業中かどうかを判断
+    if (currentPeriod != -1) {
+      print('現在は $currentPeriod 限目の授業中です。');
+      homeProvider.setDuring(true);
+    } else {
+      print('現在は授業時間外です。');
+      homeProvider.setDuring(false);
+    }
+  }
+
 }

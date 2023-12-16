@@ -55,18 +55,22 @@ class _HomeSelector extends State<HomeSelector> {
       // Duration(seconds: 1), (Timer timer) {
         // DateTime now = DateTime.now();
         DateTime now = DateTime.now().toUtc().add(const Duration(hours: 9));
+        DateTime before = now.add(const Duration(minutes: 3));
         // 曜日を取得
         int dayOfWeek = now.weekday;
         
-        int hour = now.hour;
-        int minute = now.minute;
-        print('$hour:$minute');
+        int nowHour = now.hour;
+        int nowMinute = now.minute;
+        int tmpHour = before.hour;
+        int tmpMinute = before.minute;
+        print('$tmpHour:$tmpMinute');
+        print('$nowHour:$nowMinute');
 
         // 現在の時刻がどの時間割に該当するかを判断
         int currentPeriod = -1;
         for (int i = 0; i < classTime.length; i++) {
-          if (hour > classTime[i][0] || (hour == classTime[i][0] && minute >= classTime[i][1])) {
-            if (hour < classTime[i][2] || (hour == classTime[i][2] && minute < classTime[i][3])) {
+          if (tmpHour > classTime[i][0] || (tmpHour == classTime[i][0] && tmpMinute >= classTime[i][1])) {
+            if (nowHour < classTime[i][2] || (nowHour == classTime[i][2] && nowMinute < classTime[i][3])) {
               if (classFlagList[dayOfWeek - 1][i] == true) {
                 currentPeriod = i + 1; // 時間割は1から始まると仮定
                 break;
