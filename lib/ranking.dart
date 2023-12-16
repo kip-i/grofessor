@@ -271,7 +271,6 @@ class _RankingState extends State<Ranking> {
             top: 30, // 上からの位置を指定します
             left: 16, // 左からの位置を指定します
             child: SizedBox(
-              width: 200, // ここに希望の幅を設定します
               child: Column(
                 children: [NameButton(), ExperienceBar()],
               ),
